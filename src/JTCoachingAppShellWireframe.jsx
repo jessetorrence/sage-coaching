@@ -3999,68 +3999,161 @@ function T15PrepFullPage({ client, onClose }) {
 }
 
 // ============ SESSION NOTES EDITOR PAGE ============
+// V6: "Tears Moment" Notes Editor with 6-section template + transcript drilldown
 function SessionNotesEditorPage({ sessionId, client, onClose }) {
-  const [showModifyTooltip, setShowModifyTooltip] = React.useState(false);
   const [showAIOptions, setShowAIOptions] = React.useState(false);
+  const [transcriptDrawerOpen, setTranscriptDrawerOpen] = React.useState(false);
+  const [activeTranscriptSection, setActiveTranscriptSection] = React.useState(null);
+  const [showHighlightPopover, setShowHighlightPopover] = React.useState(false);
+  const [highlightPosition, setHighlightPosition] = React.useState({ x: 0, y: 0 });
+  const [sectionStatuses, setSectionStatuses] = React.useState({
+    recap: "ai-drafted",
+    insights: "ai-drafted",
+    inquiries: "ai-drafted",
+    invitations: "ai-drafted",
+    resources: "ai-drafted",
+    nextSteps: "ai-drafted"
+  });
+  const [noteStatus, setNoteStatus] = React.useState("draft"); // draft | approved | sent
+
+  const openTranscriptDrawer = (section) => {
+    setActiveTranscriptSection(section);
+    setTranscriptDrawerOpen(true);
+  };
+
+  const handleRewrite = (style) => {
+    // Simulate AI rewrite - in real app this would call AI
+    setShowHighlightPopover(false);
+    // Would update the section content here
+  };
+
+  const markAsEdited = (section) => {
+    setSectionStatuses(prev => ({ ...prev, [section]: "coach-edited" }));
+  };
+
+  const handleSendToClient = () => {
+    // Require approval click first
+    if (noteStatus === "draft") {
+      setNoteStatus("approved");
+      return;
+    }
+    // After approval, actually send
+    setNoteStatus("sent");
+    Object.keys(sectionStatuses).forEach(section => {
+      setSectionStatuses(prev => ({ ...prev, [section]: "sent" }));
+    });
+  };
+
+  // Status indicator component
+  const StatusBadge = ({ status }) => {
+    const configs = {
+      "ai-drafted": { label: "AI drafted", bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200", icon: "✨" },
+      "coach-edited": { label: "Coach edited", bg: "bg-teal-50", text: "text-teal-700", border: "border-teal-200", icon: "✓" },
+      "sent": { label: "Sent", bg: "bg-green-50", text: "text-green-700", border: "border-green-200", icon: "📤" }
+    };
+    const c = configs[status] || configs["ai-drafted"];
+    return (
+      <span className={`inline-flex items-center gap-1 px-2 py-0.5 ${c.bg} ${c.text} border ${c.border} rounded-full text-xs font-medium`}>
+        <span>{c.icon}</span> {c.label}
+      </span>
+    );
+  };
+
+  // Source button for transcript drilldown
+  const SourceButton = ({ section }) => (
+    <button
+      onClick={() => openTranscriptDrawer(section)}
+      className="inline-flex items-center gap-1 px-2 py-1 text-xs text-violet-600 hover:text-violet-700 hover:bg-violet-50 rounded transition-colors"
+      title="View source in transcript"
+    >
+      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      Source
+    </button>
+  );
 
   return (
-    <div className="h-full overflow-auto bg-gray-100">
+    <div className="h-full overflow-auto bg-stone-100">
       {/* Header */}
-      <div className="bg-gray-900 border-b shadow-lg sticky top-0 z-10">
+      <div className="bg-stone-900 border-b shadow-lg sticky top-0 z-10">
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
             <button
               onClick={onClose}
-              className="flex items-center gap-2 text-gray-300 hover:text-white"
+              className="flex items-center gap-2 text-stone-300 hover:text-white"
             >
               ← Back to {client.name}
             </button>
             <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-500">Auto-saved 2 min ago</span>
-              <button className="px-4 py-2 border border-gray-600 text-gray-300 rounded hover:bg-gray-800">
+              <span className="text-xs text-stone-500">Auto-saved 2 min ago</span>
+              <button className="px-4 py-2 border border-stone-600 text-stone-300 rounded-lg hover:bg-stone-800">
                 Save Draft
               </button>
-              <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 shadow font-medium">
-                Send to Client
+              <button
+                onClick={handleSendToClient}
+                className={`px-4 py-2 rounded-lg font-medium shadow transition-colors ${
+                  noteStatus === "draft"
+                    ? "bg-amber-500 hover:bg-amber-600 text-white"
+                    : noteStatus === "approved"
+                    ? "bg-green-600 hover:bg-green-700 text-white"
+                    : "bg-stone-600 text-stone-300 cursor-default"
+                }`}
+              >
+                {noteStatus === "draft" ? "Approve & Review" : noteStatus === "approved" ? "Send to Client →" : "Sent ✓"}
               </button>
             </div>
           </div>
           <div className="flex items-center gap-4 mb-3">
             <div className="flex-1">
               <h1 className="text-xl font-bold text-white">Session {sessionId} - Coaching Session Summary</h1>
-              <p className="text-gray-400 text-sm">{client.name} · {new Date(client.lastSession).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+              <p className="text-stone-400 text-sm">{client.name} · {new Date(client.lastSession).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
             </div>
             <div className="flex items-center gap-2 text-xs">
-              <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded">Draft</span>
-              <span className="text-gray-500">|</span>
-              <button className="text-gray-400 hover:text-white">View Transcript</button>
+              <span className={`px-2 py-1 rounded ${
+                noteStatus === "draft" ? "bg-yellow-500/20 text-yellow-300" :
+                noteStatus === "approved" ? "bg-blue-500/20 text-blue-300" :
+                "bg-green-500/20 text-green-300"
+              }`}>
+                {noteStatus === "draft" ? "Draft" : noteStatus === "approved" ? "Approved" : "Sent"}
+              </span>
+              <span className="text-stone-500">|</span>
+              <button
+                onClick={() => openTranscriptDrawer("recap")}
+                className="text-stone-400 hover:text-white flex items-center gap-1"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                View Transcript
+              </button>
             </div>
           </div>
 
           {/* Word Processor-Style Toolbar */}
-          <div className="bg-gray-800 rounded-lg p-2 flex items-center gap-1 flex-wrap">
-            <select className="bg-gray-700 text-white text-sm px-2 py-1 rounded border-none">
+          <div className="bg-stone-800 rounded-lg p-2 flex items-center gap-1 flex-wrap">
+            <select className="bg-stone-700 text-white text-sm px-2 py-1 rounded border-none">
               <option>Normal</option>
               <option>Heading 1</option>
               <option>Heading 2</option>
             </select>
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white font-bold" title="Bold">B</button>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white italic" title="Italic">I</button>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white underline" title="Underline">U</button>
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white" title="Bulleted List">• List</button>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white" title="Numbered List">1. List</button>
-            <div className="w-px h-6 bg-gray-600 mx-1"></div>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white" title="Insert Link">🔗</button>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white" title="Undo">↶</button>
-            <button className="p-1.5 hover:bg-gray-700 rounded text-white" title="Redo">↷</button>
-            <div className="w-px h-6 bg-gray-600 mx-2"></div>
+            <div className="w-px h-6 bg-stone-600 mx-1"></div>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white font-bold" title="Bold">B</button>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white italic" title="Italic">I</button>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white underline" title="Underline">U</button>
+            <div className="w-px h-6 bg-stone-600 mx-1"></div>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white" title="Bulleted List">• List</button>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white" title="Numbered List">1. List</button>
+            <div className="w-px h-6 bg-stone-600 mx-1"></div>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white" title="Insert Link">🔗</button>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white" title="Undo">↶</button>
+            <button className="p-1.5 hover:bg-stone-700 rounded text-white" title="Redo">↷</button>
+            <div className="w-px h-6 bg-stone-600 mx-2"></div>
             {/* AI Assist Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setShowAIOptions(!showAIOptions)}
-                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded text-white text-sm flex items-center gap-2"
+                className="px-3 py-1.5 bg-violet-600 hover:bg-violet-700 rounded text-white text-sm flex items-center gap-2"
               >
                 ✨ AI Assist
                 <svg className={`w-4 h-4 transition-transform ${showAIOptions ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -4068,168 +4161,245 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
                 </svg>
               </button>
               {showAIOptions && (
-                <div className="absolute top-full left-0 mt-1 w-72 bg-gray-900 rounded-lg shadow-xl border border-gray-700 overflow-hidden z-50">
-                  <div className="p-2 border-b border-gray-700 text-xs text-gray-400 uppercase">AI Writing Assistance</div>
-                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-gray-800 flex items-start gap-3">
-                    <span className="text-lg">📝</span>
+                <div className="absolute top-full left-0 mt-1 w-72 bg-stone-900 rounded-lg shadow-xl border border-stone-700 overflow-hidden z-50">
+                  <div className="p-2 border-b border-stone-700 text-xs text-stone-400 uppercase">AI Writing Assistance</div>
+                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-stone-800 flex items-start gap-3">
+                    <span className="text-lg">💫</span>
+                    <div>
+                      <div className="font-medium">Make it softer</div>
+                      <div className="text-xs text-stone-400">Gentler, more compassionate language</div>
+                    </div>
+                  </button>
+                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-stone-800 flex items-start gap-3">
+                    <span className="text-lg">✂️</span>
                     <div>
                       <div className="font-medium">Make it shorter</div>
-                      <div className="text-xs text-gray-400">Condense while preserving key insights</div>
+                      <div className="text-xs text-stone-400">Condense while preserving key insights</div>
                     </div>
                   </button>
-                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-gray-800 flex items-start gap-3">
-                    <span className="text-lg">🎨</span>
+                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-stone-800 flex items-start gap-3">
+                    <span className="text-lg">📊</span>
                     <div>
-                      <div className="font-medium">Change tone</div>
-                      <div className="text-xs text-gray-400">More formal, casual, warm, or direct</div>
+                      <div className="font-medium">Add evidence</div>
+                      <div className="text-xs text-stone-400">Include specific examples from session</div>
                     </div>
                   </button>
-                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-gray-800 flex items-start gap-3">
-                    <span className="text-lg">💬</span>
+                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-stone-800 flex items-start gap-3">
+                    <span className="text-lg">🔀</span>
                     <div>
-                      <div className="font-medium">Draft difficult conversation</div>
-                      <div className="text-xs text-gray-400">NVC-style scripts for sensitive topics</div>
+                      <div className="font-medium">Give me options</div>
+                      <div className="text-xs text-stone-400">Show alternative phrasings</div>
                     </div>
                   </button>
-                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-gray-800 flex items-start gap-3">
+                  <button className="w-full px-4 py-3 text-left text-sm text-white hover:bg-stone-800 flex items-start gap-3">
                     <span className="text-lg">🔄</span>
                     <div>
                       <div className="font-medium">Regenerate from transcript</div>
-                      <div className="text-xs text-gray-400">Create a fresh draft from scratch</div>
+                      <div className="text-xs text-stone-400">Create a fresh draft from scratch</div>
                     </div>
                   </button>
-                  <div className="p-2 border-t border-gray-700">
-                    <button className="w-full px-3 py-2 text-left text-sm text-purple-400 hover:text-purple-300 flex items-center gap-2">
+                  <div className="p-2 border-t border-stone-700">
+                    <button className="w-full px-3 py-2 text-left text-sm text-violet-400 hover:text-violet-300 flex items-center gap-2">
                       <span>⚙️</span> Modify default template...
                     </button>
                   </div>
                 </div>
               )}
             </div>
+            <div className="flex-1"></div>
+            {/* Highlight-to-edit hint */}
+            <span className="text-xs text-stone-500 hidden lg:block">
+              💡 Highlight text to rewrite with AI
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Editor Content - Full width editing experience */}
+      {/* Editor Content - V6 6-Section Template */}
       <div className="max-w-5xl mx-auto p-6">
         {/* Editing Instructions Banner */}
-        <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-6 flex items-center gap-4">
-          <div className="text-2xl">✏️</div>
+        <div className="bg-gradient-to-r from-violet-50 to-teal-50 border border-violet-200 rounded-xl p-4 mb-6 flex items-center gap-4">
+          <div className="text-2xl">✨</div>
           <div className="flex-1">
-            <div className="font-medium text-teal-900">Edit directly in the fields below</div>
-            <div className="text-sm text-teal-700">Click any text to edit. Use the toolbar for formatting. Your changes auto-save.</div>
+            <div className="font-medium text-stone-800">AI-drafted notes ready for your review</div>
+            <div className="text-sm text-stone-600">Click "Source" to see the transcript moment. Highlight text to rewrite. Your edits auto-save.</div>
           </div>
-          <button className="px-3 py-1 text-sm border border-teal-300 text-teal-700 rounded hover:bg-teal-100">
+          <button className="px-3 py-1 text-sm border border-violet-300 text-violet-700 rounded-lg hover:bg-violet-100">
             Hide tip
           </button>
         </div>
 
-        {/* Main Editor Card */}
-        <div className="bg-white rounded-xl shadow-xl overflow-hidden">
+        {/* Main Editor Card - V6 6-Section Template */}
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* AI Source Badge */}
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 px-6 py-3 border-b flex items-center justify-between">
+          <div className="bg-gradient-to-r from-violet-50 to-blue-50 px-6 py-3 border-b flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-purple-500 rounded flex items-center justify-center">
+              <div className="w-6 h-6 bg-violet-500 rounded flex items-center justify-center">
                 <span className="text-white text-xs font-bold">AI</span>
               </div>
               <div className="text-sm">
-                <span className="text-gray-700">Draft generated from </span>
-                <button className="text-purple-600 hover:underline font-medium">T-15 prep</button>
-                <span className="text-gray-700"> + </span>
-                <button className="text-purple-600 hover:underline font-medium">session transcript</button>
+                <span className="text-stone-700">Draft generated from </span>
+                <button className="text-violet-600 hover:underline font-medium">T-15 prep</button>
+                <span className="text-stone-700"> + </span>
+                <button
+                  onClick={() => openTranscriptDrawer("recap")}
+                  className="text-violet-600 hover:underline font-medium"
+                >
+                  session transcript
+                </button>
               </div>
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-stone-500">
               Generated Jan 15, 2026 at 3:42 PM
             </div>
           </div>
 
-          {/* Session Summary */}
-          <div className="border-b border-gray-100">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">Session Summary</h3>
-              <button className="text-xs text-purple-600 hover:text-purple-700 flex items-center gap-1">
-                ✨ Improve with AI
-              </button>
+          {/* SECTION 1: Recap */}
+          <div className="border-b border-stone-100">
+            <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">1. Session Recap</h3>
+                <StatusBadge status={sectionStatuses.recap} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SourceButton section="recap" />
+                <button className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-1">
+                  ✨ Improve
+                </button>
+              </div>
             </div>
             <div className="p-6">
               <textarea
-                className="w-full text-lg leading-relaxed border-2 border-transparent hover:border-gray-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
+                className="w-full text-lg leading-relaxed border-2 border-transparent hover:border-stone-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
                 rows="4"
+                onChange={() => markAsEdited("recap")}
                 defaultValue="We explored your challenges with delegation and team building. You shared that you're feeling overwhelmed by the pace of growth and struggling to let go of control. Through our conversation, you recognized that your perfectionism is creating a bottleneck and preventing your team from developing."
               />
             </div>
           </div>
 
-          {/* Key Insights */}
-          <div className="border-b border-gray-100">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">Key Insights & Breakthroughs</h3>
-              <button className="text-xs text-purple-600 hover:text-purple-700 flex items-center gap-1">
-                ✨ Improve with AI
-              </button>
+          {/* SECTION 2: Insights */}
+          <div className="border-b border-stone-100">
+            <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">2. Key Insights</h3>
+                <StatusBadge status={sectionStatuses.insights} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SourceButton section="insights" />
+                <button className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-1">
+                  ✨ Improve
+                </button>
+              </div>
             </div>
             <div className="p-6">
               <textarea
-                className="w-full leading-relaxed border-2 border-transparent hover:border-gray-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
+                className="w-full leading-relaxed border-2 border-transparent hover:border-stone-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
                 rows="6"
+                onChange={() => markAsEdited("insights")}
                 defaultValue={`• You realized that by "saving time" doing it yourself, you're actually losing time in the long run\n• Your fear of being seen as incompetent is driving micromanagement\n• The question "What would it look like if this was working beautifully?" helped you envision a different way\n• You connected your leadership challenges to deeper patterns around trust and control`}
               />
             </div>
           </div>
 
-          {/* Commitments & Next Steps */}
-          <div className="border-b border-gray-100">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">Your Commitments & Next Steps</h3>
-              <button className="text-xs text-purple-600 hover:text-purple-700 flex items-center gap-1">
-                ✨ Improve with AI
-              </button>
+          {/* SECTION 3: Inquiries (≤5) */}
+          <div className="border-b border-stone-100">
+            <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">3. Inquiries for Reflection</h3>
+                <span className="text-xs text-stone-400">(up to 5)</span>
+                <StatusBadge status={sectionStatuses.inquiries} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SourceButton section="inquiries" />
+                <button className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-1">
+                  ✨ Improve
+                </button>
+              </div>
             </div>
             <div className="p-6">
               <textarea
-                className="w-full leading-relaxed border-2 border-transparent hover:border-gray-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
+                className="w-full leading-relaxed border-2 border-transparent hover:border-stone-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
                 rows="5"
-                defaultValue={`1. Schedule 1-on-1s with each direct report this week\n2. Identify 3 decisions you can delegate completely\n3. Practice the "5-minute rule" - if something takes < 5 min to explain, delegate it\n4. Read Chapter 3 of "Crucial Conversations"\n5. Journal on the question: "What am I afraid will happen if I let go?"`}
+                onChange={() => markAsEdited("inquiries")}
+                defaultValue={`• What would change if you fully trusted your team's capabilities?\n• How might delegation become an act of generosity rather than loss of control?\n• What story are you telling yourself about what it means to need help?\n• Where else in your life do you notice this pattern of holding on?\n• What would "letting go beautifully" look like for you?`}
               />
             </div>
           </div>
 
-          {/* Inquiries for Reflection */}
-          <div className="border-b border-gray-100">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">Inquiries for Reflection</h3>
-              <button className="text-xs text-purple-600 hover:text-purple-700 flex items-center gap-1">
-                ✨ Improve with AI
-              </button>
+          {/* SECTION 4: Invitations to Action */}
+          <div className="border-b border-stone-100">
+            <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">4. Invitations to Action</h3>
+                <StatusBadge status={sectionStatuses.invitations} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SourceButton section="invitations" />
+                <button className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-1">
+                  ✨ Improve
+                </button>
+              </div>
             </div>
             <div className="p-6">
               <textarea
-                className="w-full leading-relaxed border-2 border-transparent hover:border-gray-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
-                rows="4"
-                defaultValue={`• What would change if you fully trusted your team's capabilities?\n• How might delegation become an act of generosity rather than loss of control?\n• What story are you telling yourself about what it means to need help?`}
+                className="w-full leading-relaxed border-2 border-transparent hover:border-stone-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
+                rows="5"
+                onChange={() => markAsEdited("invitations")}
+                defaultValue={`1. Schedule 1-on-1s with each direct report this week\n2. Identify 3 decisions you can delegate completely\n3. Practice the "5-minute rule" - if something takes < 5 min to explain, delegate it\n4. Journal on the question: "What am I afraid will happen if I let go?"`}
               />
             </div>
           </div>
 
-          {/* Resources Shared */}
-          <div className="border-b border-gray-100">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-gray-600 uppercase tracking-wide">Resources Shared</h3>
-              <button className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
-                + Add resource
-              </button>
+          {/* SECTION 5: Resources */}
+          <div className="border-b border-stone-100">
+            <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">5. Resources Shared</h3>
+                <StatusBadge status={sectionStatuses.resources} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SourceButton section="resources" />
+                <button className="text-xs text-stone-500 hover:text-stone-700 flex items-center gap-1">
+                  + Add resource
+                </button>
+              </div>
             </div>
             <div className="p-6">
               <textarea
-                className="w-full leading-relaxed border-2 border-transparent hover:border-gray-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
+                className="w-full leading-relaxed border-2 border-transparent hover:border-stone-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
                 rows="3"
-                defaultValue={`• Leadership Assessment Framework (attached)\n• "Crucial Conversations" by Patterson et al.\n• Article: "The Art of Delegation for Perfectionists"`}
+                onChange={() => markAsEdited("resources")}
+                defaultValue={`• "Crucial Conversations" by Patterson et al. - Chapter 3\n• Leadership Assessment Framework (attached)\n• Article: "The Art of Delegation for Perfectionists"`}
               />
             </div>
           </div>
 
-          {/* Coach's Private Notes */}
+          {/* SECTION 6: Next Steps */}
+          <div className="border-b border-stone-100">
+            <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">6. Next Steps</h3>
+                <StatusBadge status={sectionStatuses.nextSteps} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SourceButton section="nextSteps" />
+                <button className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-1">
+                  ✨ Improve
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <textarea
+                className="w-full leading-relaxed border-2 border-transparent hover:border-stone-200 focus:border-teal-400 rounded-lg p-3 -m-3 focus:outline-none resize-none transition-colors"
+                rows="3"
+                onChange={() => markAsEdited("nextSteps")}
+                defaultValue={`• Next session: Thursday, January 22nd at 2:00 PM\n• Bring: Reflections from delegation experiments\n• Focus area: Building trust with your team`}
+              />
+            </div>
+          </div>
+
+          {/* Coach's Private Notes (not in 6-section template, but useful) */}
           <div className="bg-amber-50/50">
             <div className="px-6 py-4 bg-amber-100/50 border-b border-amber-200/50 flex items-center gap-3">
               <span className="text-lg">🔒</span>
@@ -4251,20 +4421,142 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
         <div className="flex gap-4 mt-6 pb-8">
           <button
             onClick={onClose}
-            className="px-6 py-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-50 font-medium shadow"
+            className="px-6 py-3 bg-white border-2 border-stone-300 rounded-xl hover:bg-stone-50 font-medium shadow"
           >
             Save & Close
           </button>
           <div className="flex-1"></div>
-          <button className="px-6 py-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-50 font-medium shadow flex items-center gap-2">
+          <button className="px-6 py-3 bg-white border-2 border-stone-300 rounded-xl hover:bg-stone-50 font-medium shadow flex items-center gap-2">
             👁️ Preview as Client
           </button>
-          <button className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold shadow-lg flex items-center gap-2">
-            Send to Client →
+          <button
+            onClick={handleSendToClient}
+            className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 transition-colors ${
+              noteStatus === "draft"
+                ? "bg-amber-500 hover:bg-amber-600 text-white"
+                : noteStatus === "approved"
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : "bg-stone-400 text-white cursor-default"
+            }`}
+          >
+            {noteStatus === "draft" ? "Approve & Review" : noteStatus === "approved" ? "Send to Client →" : "Sent ✓"}
           </button>
         </div>
       </div>
+
+      {/* Transcript Drawer */}
+      {transcriptDrawerOpen && (
+        <TranscriptDrawerInline
+          isOpen={transcriptDrawerOpen}
+          onClose={() => setTranscriptDrawerOpen(false)}
+          section={activeTranscriptSection}
+        />
+      )}
+
+      {/* Highlight Edit Popover - would show on text selection */}
+      {showHighlightPopover && (
+        <div
+          className="fixed z-50 bg-white rounded-xl shadow-xl border border-stone-200 overflow-hidden"
+          style={{ top: highlightPosition.y, left: highlightPosition.x }}
+        >
+          <div className="px-3 py-2 bg-stone-50 border-b border-stone-200 flex items-center justify-between">
+            <span className="text-xs font-medium text-stone-600">Rewrite with AI</span>
+            <button onClick={() => setShowHighlightPopover(false)} className="text-stone-400 hover:text-stone-600">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="p-1">
+            {[
+              { key: "softer", label: "Softer", icon: "💫" },
+              { key: "shorter", label: "Shorter", icon: "✂️" },
+              { key: "evidence", label: "Add evidence", icon: "📊" },
+              { key: "options", label: "Give options", icon: "🔀" },
+            ].map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => handleRewrite(opt.key)}
+                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-violet-50 rounded-lg transition-colors text-left"
+              >
+                <span>{opt.icon}</span>
+                <span className="text-sm font-medium text-stone-800">{opt.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+
+// Inline Transcript Drawer (simplified version for the notes editor)
+function TranscriptDrawerInline({ isOpen, onClose, section }) {
+  const demoTranscripts = {
+    recap: { timestamp: "00:03:24", speaker: "Client", text: "I've been feeling overwhelmed lately. The team is growing, and I just can't seem to let go of things.", context: "Opening reflection" },
+    insights: { timestamp: "00:18:47", speaker: "Client", text: "Oh... I never thought about it that way. By trying to save time doing it myself, I'm actually costing myself more time.", context: "Key breakthrough" },
+    inquiries: { timestamp: "00:24:15", speaker: "Coach", text: "What would it look like if this was working beautifully?", context: "Generative question" },
+    invitations: { timestamp: "00:38:22", speaker: "Client", text: "I think I could start with the smaller decisions. What if I identified three things this week?", context: "Client commitment" },
+    resources: { timestamp: "00:42:10", speaker: "Coach", text: "There's a book I often recommend - Crucial Conversations. Specifically Chapter 3.", context: "Resource shared" },
+    nextSteps: { timestamp: "00:45:30", speaker: "Client", text: "So by our next session, I'll have done the 1-on-1s and identified those three decisions.", context: "Commitment summary" }
+  };
+  const t = demoTranscripts[section] || demoTranscripts.recap;
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
+      <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl z-50 overflow-hidden flex flex-col">
+        <div className="bg-gradient-to-r from-violet-600 to-purple-600 px-6 py-4 text-white">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold">Transcript Source</h3>
+            <button onClick={onClose} className="p-1 hover:bg-white/20 rounded">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <p className="text-sm text-violet-200">See where this insight came from</p>
+        </div>
+        <div className="flex-1 overflow-auto p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-sm font-mono font-medium">{t.timestamp}</span>
+            <span className="text-sm text-stone-500">{t.context}</span>
+          </div>
+          <div className="bg-stone-50 rounded-xl p-5 border border-stone-200 mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${t.speaker === "Coach" ? "bg-teal-100 text-teal-700" : "bg-blue-100 text-blue-700"}`}>
+                {t.speaker === "Coach" ? "C" : "Cl"}
+              </div>
+              <span className="font-medium text-stone-800">{t.speaker}</span>
+            </div>
+            <p className="text-stone-700 leading-relaxed italic">"{t.text}"</p>
+          </div>
+          <h4 className="text-sm font-semibold text-stone-500 uppercase tracking-wide mb-4">Surrounding Context</h4>
+          <div className="space-y-3">
+            <div className="bg-stone-50/50 rounded-lg p-4 border border-stone-100">
+              <div className="text-xs text-stone-400 mb-1"><span className="font-mono">Before</span> · Coach</div>
+              <p className="text-sm text-stone-600">"Tell me more about what's been on your mind."</p>
+            </div>
+            <div className="bg-violet-50 rounded-lg p-4 border-2 border-violet-200">
+              <div className="text-xs text-violet-600 font-medium mb-1"><span className="font-mono">{t.timestamp}</span> · {t.speaker} · <span className="bg-violet-200 px-1 rounded">Source</span></div>
+              <p className="text-sm text-stone-700">"{t.text}"</p>
+            </div>
+            <div className="bg-stone-50/50 rounded-lg p-4 border border-stone-100">
+              <div className="text-xs text-stone-400 mb-1"><span className="font-mono">After</span> · Coach</div>
+              <p className="text-sm text-stone-600">"That sounds really challenging. What feels most pressing?"</p>
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-stone-200 p-4 bg-stone-50">
+          <div className="flex items-center gap-3">
+            <button className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 text-sm font-medium">Jump to Full Transcript</button>
+            <button onClick={onClose} className="px-4 py-2 border border-stone-300 rounded-lg hover:bg-white text-sm">Close</button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
