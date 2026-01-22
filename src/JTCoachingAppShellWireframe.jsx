@@ -977,9 +977,11 @@ function AllActionsAllDomainsPage({ onBack }) {
 
 // ============ CLIENTS PAGE (Master-Detail) ============
 function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSession }) {
-  const [activeTab, setActiveTab] = React.useState("Profile");
+  // V6: Overview is the default/first tab
+  const [activeTab, setActiveTab] = React.useState("Overview");
 
-  const tabs = ["Profile", "Goals & Progress", "Session Notes", "T-15 Prep", "24/7 Companion", "Client Resources"];
+  // V6 Client Tab Ordering (7 tabs - LOCKED)
+  const tabs = ["Overview", "Journey / Goals", "Notes History", "T-15 Prep", "24/7 Companion", "Profile Details", "Resources"];
 
   return (
     <div className="flex h-full">
@@ -1070,14 +1072,15 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSessi
           </div>
         </div>
 
-        {/* Tab Content */}
+        {/* Tab Content - V6 ordering */}
         <div className="flex-1 overflow-auto p-8">
-          {activeTab === "Profile" && <ClientProfileTab client={selectedClient} />}
-          {activeTab === "Goals & Progress" && <ClientGoalsTab client={selectedClient} />}
-          {activeTab === "Session Notes" && <ClientSessionNotesTab client={selectedClient} onOpenSession={onOpenSession} />}
+          {activeTab === "Overview" && <ClientOverviewTab client={selectedClient} onOpenT15={onOpenT15} setActiveTab={setActiveTab} />}
+          {activeTab === "Journey / Goals" && <ClientGoalsTab client={selectedClient} />}
+          {activeTab === "Notes History" && <ClientSessionNotesTab client={selectedClient} onOpenSession={onOpenSession} />}
           {activeTab === "T-15 Prep" && <ClientT15PrepTab client={selectedClient} onOpenT15={onOpenT15} />}
           {activeTab === "24/7 Companion" && <ClientCompanionTab client={selectedClient} />}
-          {activeTab === "Client Resources" && <ClientResourcesTab client={selectedClient} />}
+          {activeTab === "Profile Details" && <ClientProfileTab client={selectedClient} />}
+          {activeTab === "Resources" && <ClientResourcesTab client={selectedClient} />}
         </div>
       </div>
     </div>
@@ -1085,6 +1088,141 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSessi
 }
 
 // ============ CLIENT TAB COMPONENTS ============
+
+// V6: NEW Overview Tab - First tab, scannable, warm, non-clinical
+function ClientOverviewTab({ client, onOpenT15, setActiveTab }) {
+  return (
+    <div className="max-w-4xl">
+      {/* Identity Snapshot */}
+      <div className="flex items-start gap-6 mb-8">
+        <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-blue-500 rounded-2xl flex items-center justify-center text-3xl text-white shadow-lg">
+          {client.name.charAt(0)}
+        </div>
+        <div className="flex-1">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-1">{client.name}</h2>
+          <p className="text-gray-600 mb-2">{client.role} at {client.company}</p>
+          <div className="flex items-center gap-3">
+            <VisibilityBadge label="Shared with coach" variant="shared" />
+            <span className="text-sm text-gray-500">Client since {client.startDate || "Jan 2025"}</span>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-gray-500">Next session</p>
+          <p className="font-semibold text-gray-900">{client.nextSession || "Tomorrow, 2:00 PM"}</p>
+        </div>
+      </div>
+
+      {/* What's Alive Now */}
+      <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-6 mb-6">
+        <h3 className="font-semibold text-amber-900 mb-3 flex items-center gap-2">
+          <span className="text-lg">🔥</span> What's Alive Now
+        </h3>
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm text-amber-700 font-medium">Current Focus</p>
+            <p className="text-gray-800">{client.focus || "Navigating leadership transition while maintaining work-life balance"}</p>
+          </div>
+          <div>
+            <p className="text-sm text-amber-700 font-medium">Key Obstacle</p>
+            <p className="text-gray-800">{client.obstacle || "Tendency to overcommit and difficulty delegating"}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Pattern Emerging */}
+      <div className="bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-200 rounded-xl p-6 mb-6">
+        <h3 className="font-semibold text-violet-900 mb-3 flex items-center gap-2">
+          <span className="text-lg">🔮</span> Pattern Emerging
+          <span className="text-xs font-normal text-violet-600 bg-violet-100 px-2 py-0.5 rounded-full">Gentle observation</span>
+        </h3>
+        <p className="text-gray-800 italic">
+          "{client.pattern || "When facing high-stakes decisions, tends to seek external validation rather than trusting internal compass. This pattern has shown up in 4 of the last 6 sessions."}"
+        </p>
+      </div>
+
+      {/* Momentum: Wins + Commitments */}
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        {/* Recent Wins */}
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+          <h3 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
+            <span className="text-lg">🎉</span> Recent Wins
+          </h3>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 mt-1">✓</span>
+              <span className="text-gray-800">Set first boundary with direct report</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 mt-1">✓</span>
+              <span className="text-gray-800">Completed difficult conversation with CEO</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 mt-1">✓</span>
+              <span className="text-gray-800">Took first real vacation in 2 years</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Active Commitments */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <span className="text-lg">🎯</span> Active Commitments
+          </h3>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="w-4 h-4 border-2 border-gray-300 rounded mt-1"></span>
+              <span className="text-gray-800">Have delegation conversation with Sarah by Friday</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-4 h-4 border-2 border-gray-300 rounded mt-1"></span>
+              <span className="text-gray-800">Journal 10 minutes each morning</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-4 h-4 border-2 border-amber-400 bg-amber-50 rounded mt-1"></span>
+              <span className="text-gray-800">Schedule quarterly review with mentor <span className="text-amber-600 text-sm">(overdue)</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Quick Actions - Right rail content moved to bottom for mobile */}
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+        <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => onOpenT15 && onOpenT15(client)}
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
+          >
+            <span>📋</span> Open T-15 Prep
+          </button>
+          <button
+            onClick={() => setActiveTab("Notes History")}
+            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
+          >
+            <span>📝</span> Latest Note
+          </button>
+          <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+            <ApprovalRequiredBadge size="sm" />
+            <span>Draft Check-in</span>
+          </button>
+          <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+            <span>💬</span> Ask {AGENT_NAME}
+          </button>
+        </div>
+      </div>
+
+      {/* Trust/Consent Strip */}
+      <div className="mt-6 p-4 bg-stone-50 border border-stone-200 rounded-lg">
+        <div className="flex items-center gap-2 text-sm text-stone-600">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span>This overview contains information {client.name.split(' ')[0]} has chosen to share with you. Some details may be private to their companion conversations.</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ClientProfileTab({ client }) {
   const [showLaunchQuestionnaire, setShowLaunchQuestionnaire] = React.useState(false);
