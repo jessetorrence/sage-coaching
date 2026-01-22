@@ -4,6 +4,7 @@ import logo from "./assets/logo.jpg";
 import { PRODUCT_NAME, AGENT_NAME, LOCKED_PHRASES, TRUST_BULLETS, PRICING } from "./lib/regenesisV6Copy";
 import TrustStrip, { TrustBlock } from "./components/TrustStrip";
 import VisibilityBadge, { ClientPrivateBadge, ApprovalRequiredBadge, AIDraftedBadge } from "./components/VisibilityBadge";
+import CommandBarOverlay, { CommandBarHint } from "./components/CommandBarOverlay";
 
 export default function JTCoachingAppShellWireframe() {
   // User type: null = landing page, "coach" | "coachee" | "admin"
@@ -18,6 +19,19 @@ export default function JTCoachingAppShellWireframe() {
   const [showT15Prep, setShowT15Prep] = React.useState(false);
   const [t15Client, setT15Client] = React.useState(null);
   const [showSageTooltip, setShowSageTooltip] = React.useState(false);
+  const [showCommandBar, setShowCommandBar] = React.useState(false);
+
+  // Keyboard shortcut for command bar (Cmd/Ctrl + K)
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setShowCommandBar(true);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const navItems = [
     { key: "Dashboard", label: "Dashboard" },
@@ -121,6 +135,18 @@ export default function JTCoachingAppShellWireframe() {
   return (
     <div className="flex flex-col h-screen bg-gray-100 text-gray-900">
 
+      {/* V6 Command Bar Overlay - Opens with Cmd/Ctrl+K */}
+      <CommandBarOverlay
+        isOpen={showCommandBar}
+        onClose={() => setShowCommandBar(false)}
+        onNavigate={(action) => {
+          // Navigate to relevant view based on command
+          if (action === "dashboard") setActivePage("Dashboard");
+          if (action === "t15") setShowT15Prep(true);
+          if (action === "client") setActivePage("Clients");
+        }}
+      />
+
       {/* TOP HORIZONTAL NAVIGATION */}
       <header className="bg-gray-900 text-white shadow-lg">
         <div className="flex items-center justify-between px-8 py-3">
@@ -128,16 +154,19 @@ export default function JTCoachingAppShellWireframe() {
           <div className="flex items-center gap-6">
             <img src={logo} alt="Logo" className="h-10 rounded-lg" />
 
+            {/* Command Bar Hint - V6 addition */}
+            <CommandBarHint onClick={() => setShowCommandBar(true)} />
+
             {/* Sage - AI Intelligence Feature */}
             <div className="relative">
               <button
-                onClick={() => setActivePage("AI")}
+                onClick={() => setShowCommandBar(true)}
                 onMouseEnter={() => setShowSageTooltip(true)}
                 onMouseLeave={() => setShowSageTooltip(false)}
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-lg hover:shadow-lg transition-all"
               >
                 <span className="text-xl">🧙‍♂️</span>
-                <span className="font-semibold">Sage</span>
+                <span className="font-semibold">{AGENT_NAME}</span>
                 <span className="text-xs bg-white/20 px-2 py-0.5 rounded">AI</span>
               </button>
 
