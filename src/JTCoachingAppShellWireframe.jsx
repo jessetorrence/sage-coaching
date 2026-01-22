@@ -1,6 +1,9 @@
 import React from "react";
 import { mockClients } from "./data/mockClients";
 import logo from "./assets/logo.jpg";
+import { PRODUCT_NAME, AGENT_NAME, LOCKED_PHRASES, TRUST_BULLETS, PRICING } from "./lib/regenesisV6Copy";
+import TrustStrip, { TrustBlock } from "./components/TrustStrip";
+import VisibilityBadge, { ClientPrivateBadge, ApprovalRequiredBadge, AIDraftedBadge } from "./components/VisibilityBadge";
 
 export default function JTCoachingAppShellWireframe() {
   // User type: null = landing page, "coach" | "coachee" | "admin"
