@@ -45,6 +45,12 @@ export default function CommandBarOverlay({ isOpen, onClose, onNavigate }) {
       description: "Open pre-session brief for Marcus",
     },
     {
+      label: "Start in-session support",
+      icon: "🎯",
+      action: "insession",
+      description: "Open live session support panel",
+    },
+    {
       label: "Draft a follow-up email for Sarah...",
       icon: "✉️",
       action: "draft",

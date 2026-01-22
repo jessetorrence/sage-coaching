@@ -5,6 +5,7 @@ import { PRODUCT_NAME, AGENT_NAME, LOCKED_PHRASES, TRUST_BULLETS, PRICING } from
 import TrustStrip, { TrustBlock } from "./components/TrustStrip";
 import VisibilityBadge, { ClientPrivateBadge, ApprovalRequiredBadge, AIDraftedBadge } from "./components/VisibilityBadge";
 import CommandBarOverlay, { CommandBarHint } from "./components/CommandBarOverlay";
+import InSessionSupportPanel, { InSessionSupportButton } from "./components/InSessionSupportPanel";
 
 export default function JTCoachingAppShellWireframe() {
   // User type: null = landing page, "coach" | "coachee" | "admin"
@@ -20,6 +21,8 @@ export default function JTCoachingAppShellWireframe() {
   const [t15Client, setT15Client] = React.useState(null);
   const [showSageTooltip, setShowSageTooltip] = React.useState(false);
   const [showCommandBar, setShowCommandBar] = React.useState(false);
+  const [showInSessionSupport, setShowInSessionSupport] = React.useState(false);
+  const [isSessionActive, setIsSessionActive] = React.useState(false); // simulates live session
 
   // Keyboard shortcut for command bar (Cmd/Ctrl + K)
   React.useEffect(() => {
@@ -144,7 +147,24 @@ export default function JTCoachingAppShellWireframe() {
           if (action === "dashboard") setActivePage("Dashboard");
           if (action === "t15") setShowT15Prep(true);
           if (action === "client") setActivePage("Clients");
+          if (action === "insession") {
+            setIsSessionActive(true);
+            setShowInSessionSupport(true);
+          }
         }}
+      />
+
+      {/* V6 In-Session Support Panel */}
+      <InSessionSupportPanel
+        isOpen={showInSessionSupport}
+        onClose={() => setShowInSessionSupport(false)}
+        client={selectedClient}
+      />
+
+      {/* V6 In-Session Support Button - Shows when session is active */}
+      <InSessionSupportButton
+        onClick={() => setShowInSessionSupport(true)}
+        isSessionActive={isSessionActive}
       />
 
       {/* TOP HORIZONTAL NAVIGATION */}
