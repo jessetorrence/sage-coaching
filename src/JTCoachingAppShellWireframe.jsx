@@ -2193,15 +2193,17 @@ function ClientT15PrepTab({ client, onOpenT15 }) {
   );
 }
 
-// 24/7 Companion Chat Log Tab
+// V6: 24/7 Companion Chat Log Tab with Privacy Tiers
 function ClientCompanionTab({ client }) {
+  // V6 Privacy Tiers: tier1 (private), tier2 (shared summary), tier3 (shared with coach)
   const companionSessions = [
     {
       date: "Jan 18, 2026",
       summary: "Processed anxiety about upcoming board presentation",
+      summaryBullets: ["Felt anxious about board presentation", "Worked through catastrophizing patterns", "Ended feeling more calm and prepared"],
       mood: "anxious → calm",
       duration: "12 min",
-      sharedWithCoach: true,
+      privacyTier: "tier3", // Full share
       messages: [
         { role: "client", text: "I'm really nervous about the board presentation next week. I keep catastrophizing about all the ways it could go wrong." },
         { role: "companion", text: "I hear that this presentation is weighing heavily on you. Let's explore what specifically feels most daunting. What scenario keeps coming up when you imagine it going wrong?" },
@@ -2212,108 +2214,183 @@ function ClientCompanionTab({ client }) {
     {
       date: "Jan 15, 2026",
       summary: "Worked through difficult conversation with direct report",
+      summaryBullets: ["Had a frustrating interaction at work", "Explored communication patterns", "Found resolution and action plan"],
       mood: "frustrated → resolved",
       duration: "18 min",
-      sharedWithCoach: true,
+      privacyTier: "tier2", // Summary only
       messages: []
     },
     {
       date: "Jan 12, 2026",
       summary: "Reflected on work-life balance commitments",
+      summaryBullets: [],
       mood: "reflective",
       duration: "8 min",
-      sharedWithCoach: false,
+      privacyTier: "tier1", // Private
       messages: []
     },
     {
       date: "Jan 10, 2026",
       summary: "Prepared for coaching session - reviewed goals",
+      summaryBullets: ["Reviewed progress on leadership goals", "Identified topics for next session", "Felt focused and prepared"],
       mood: "focused",
       duration: "15 min",
-      sharedWithCoach: true,
-      messages: []
+      privacyTier: "tier3", // Full share
+      messages: [
+        { role: "client", text: "I want to prepare for my session tomorrow. Can you help me review my goals?" },
+        { role: "companion", text: "Of course! Looking at your journey, you've been working on delegation and building trust with your team. What feels most alive for you right now?" }
+      ]
     },
     {
       date: "Jan 7, 2026",
       summary: "Late night thoughts on career direction",
+      summaryBullets: [],
       mood: "contemplative",
       duration: "22 min",
-      sharedWithCoach: false,
+      privacyTier: "tier1", // Private
       messages: []
     }
   ];
 
   const [expandedSession, setExpandedSession] = React.useState(null);
 
+  // Privacy tier display helpers
+  const tierConfig = {
+    tier1: { label: "Private", icon: "🔒", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
+    tier2: { label: "Summary shared", icon: "👁️", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
+    tier3: { label: "Shared with coach", icon: "🤝", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" }
+  };
+
+  const tier1Count = companionSessions.filter(s => s.privacyTier === "tier1").length;
+  const tier2Count = companionSessions.filter(s => s.privacyTier === "tier2").length;
+  const tier3Count = companionSessions.filter(s => s.privacyTier === "tier3").length;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold">24/7 Companion Chat Log</h2>
-          <p className="text-sm text-gray-500 mt-1">Conversations {client.name} has chosen to share with you</p>
+          <h2 className="text-xl font-bold">24/7 Companion Log</h2>
+          <p className="text-sm text-stone-500 mt-1">Conversations {client.name} has chosen to share with you</p>
         </div>
-        <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-lg">
-          {companionSessions.filter(s => s.sharedWithCoach).length} shared · {companionSessions.filter(s => !s.sharedWithCoach).length} private
+        <div className="flex items-center gap-2">
+          <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">{tier3Count} full</span>
+          <span className="text-xs px-2 py-1 bg-teal-100 text-teal-700 rounded-full">{tier2Count} summary</span>
+          <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">{tier1Count} private</span>
         </div>
       </div>
 
-      <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+      {/* V6 Trust Strip */}
+      <div className="bg-gradient-to-r from-teal-50 to-emerald-50 p-4 rounded-xl border border-teal-200">
         <div className="flex items-start gap-3">
-          <span className="text-2xl">🔒</span>
-          <div className="text-sm text-teal-800">
-            <span className="font-medium">Privacy Protected:</span> {client.name} controls what conversations are shared with you.
-            Private conversations are counted but never visible. This builds trust and encourages authentic engagement.
+          <span className="text-2xl">🔐</span>
+          <div className="flex-1">
+            <div className="font-medium text-teal-900 mb-1">Privacy by Design</div>
+            <div className="text-sm text-teal-800">
+              {client.name} controls exactly what you see. Private conversations (Tier 1) are never visible.
+              Summary-only conversations (Tier 2) show themes but not full content. Full shares (Tier 3) include the complete conversation.
+            </div>
           </div>
         </div>
       </div>
 
       <div className="space-y-3">
-        {companionSessions.map((session, i) => (
-          <div
-            key={i}
-            className={`bg-white rounded-lg shadow overflow-hidden ${!session.sharedWithCoach ? 'opacity-50' : ''}`}
-          >
-            <button
-              onClick={() => session.sharedWithCoach && setExpandedSession(expandedSession === i ? null : i)}
-              className="w-full p-4 text-left hover:bg-gray-50 transition"
-              disabled={!session.sharedWithCoach}
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="font-medium text-gray-900">{session.date}</span>
-                    <span className="text-xs px-2 py-0.5 bg-gray-100 rounded-full">{session.duration}</span>
-                    {!session.sharedWithCoach && (
-                      <span className="text-xs px-2 py-0.5 bg-gray-200 text-gray-500 rounded-full">Private</span>
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-600">{session.summary}</p>
-                  <p className="text-xs text-gray-500 mt-1">Mood: {session.mood}</p>
-                </div>
-                {session.sharedWithCoach && session.messages.length > 0 && (
-                  <span className="text-gray-400">{expandedSession === i ? '▼' : '▶'}</span>
-                )}
-              </div>
-            </button>
+        {companionSessions.map((session, i) => {
+          const tier = tierConfig[session.privacyTier];
+          const isPrivate = session.privacyTier === "tier1";
+          const isSummaryOnly = session.privacyTier === "tier2";
+          const isFullShare = session.privacyTier === "tier3";
 
-            {expandedSession === i && session.messages.length > 0 && (
-              <div className="border-t bg-gray-50 p-4 space-y-3">
-                {session.messages.map((msg, j) => (
-                  <div key={j} className={`flex ${msg.role === 'client' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[80%] p-3 rounded-lg text-sm ${
-                      msg.role === 'client'
-                        ? 'bg-blue-100 text-blue-900'
-                        : 'bg-white border text-gray-700'
-                    }`}>
-                      {msg.text}
+          return (
+            <div
+              key={i}
+              className={`bg-white rounded-xl border overflow-hidden ${isPrivate ? 'opacity-60' : ''} ${tier.borderColor}`}
+            >
+              <button
+                onClick={() => !isPrivate && setExpandedSession(expandedSession === i ? null : i)}
+                className={`w-full p-4 text-left transition ${!isPrivate ? 'hover:bg-stone-50' : ''}`}
+                disabled={isPrivate}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="font-medium text-stone-900">{session.date}</span>
+                      <span className="text-xs px-2 py-0.5 bg-stone-100 rounded-full">{session.duration}</span>
+                      <span className={`text-xs px-2 py-0.5 ${tier.bgColor} ${tier.textColor} rounded-full flex items-center gap-1`}>
+                        <span>{tier.icon}</span> {tier.label}
+                      </span>
                     </div>
+
+                    {/* For private: show only that it exists */}
+                    {isPrivate && (
+                      <p className="text-sm text-stone-400 italic">Private conversation — only {client.name} and {AGENT_NAME} can see this</p>
+                    )}
+
+                    {/* For summary-only: show bullet summary */}
+                    {isSummaryOnly && (
+                      <div>
+                        <p className="text-sm text-stone-600 mb-2">{session.summary}</p>
+                        {session.summaryBullets.length > 0 && (
+                          <ul className="text-sm text-stone-500 space-y-1">
+                            {session.summaryBullets.map((bullet, j) => (
+                              <li key={j} className="flex items-start gap-2">
+                                <span className="text-teal-500">•</span>
+                                <span>{bullet}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+
+                    {/* For full share: show summary with expandable full content */}
+                    {isFullShare && (
+                      <p className="text-sm text-stone-600">{session.summary}</p>
+                    )}
+
+                    <p className="text-xs text-stone-500 mt-2">Mood: {session.mood}</p>
                   </div>
-                ))}
-                <p className="text-xs text-center text-gray-400 mt-4">Showing excerpt · Full conversation available</p>
-              </div>
-            )}
-          </div>
-        ))}
+
+                  {isFullShare && session.messages.length > 0 && (
+                    <span className="text-stone-400 ml-2">{expandedSession === i ? '▼' : '▶'}</span>
+                  )}
+                </div>
+              </button>
+
+              {/* Expanded full conversation (only for tier3) */}
+              {expandedSession === i && isFullShare && session.messages.length > 0 && (
+                <div className="border-t bg-stone-50 p-4 space-y-3">
+                  {session.messages.map((msg, j) => (
+                    <div key={j} className={`flex ${msg.role === 'client' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] p-3 rounded-xl text-sm ${
+                        msg.role === 'client'
+                          ? 'bg-blue-100 text-blue-900'
+                          : 'bg-white border border-stone-200 text-stone-700'
+                      }`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                  <p className="text-xs text-center text-stone-400 mt-4">
+                    Showing excerpt · <button className="text-violet-600 hover:underline">View full conversation</button>
+                  </p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Companion Tips for Coach */}
+      <div className="bg-stone-50 rounded-xl p-4 border border-stone-200">
+        <h4 className="font-medium text-stone-800 mb-2 flex items-center gap-2">
+          <span>💡</span> Companion Insights
+        </h4>
+        <p className="text-sm text-stone-600">
+          Based on shared conversations, {client.name} has been processing themes around
+          <span className="font-medium text-violet-700"> presentation anxiety</span> and
+          <span className="font-medium text-violet-700"> team communication</span>.
+          Consider exploring these in your next session.
+        </p>
       </div>
     </div>
   );
@@ -4949,6 +5026,265 @@ function SettingsPage() {
             </button>
           </div>
         </div>
+
+        {/* V6: Recording Retention Card */}
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 p-6 rounded-xl shadow">
+          <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
+            <span>🎬</span> Recording Retention
+          </h3>
+          <div className="bg-white/70 backdrop-blur rounded-lg p-4 mb-4">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="font-medium text-stone-800">Session recordings auto-delete after:</p>
+                <p className="text-sm text-stone-600">Transcripts are preserved, recordings are deleted</p>
+              </div>
+              <select className="px-4 py-2 border border-stone-300 rounded-lg bg-white">
+                <option>2 weeks (recommended)</option>
+                <option>1 week</option>
+                <option>1 month</option>
+                <option>3 months</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <input type="checkbox" defaultChecked className="rounded" />
+                <span className="text-sm text-stone-700">Remind me 48 hours before deletion</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" defaultChecked className="rounded" />
+                <span className="text-sm text-stone-700">Remind me 24 hours before deletion</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" className="rounded" />
+                <span className="text-sm text-stone-700">Remind me 1 hour before deletion</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 text-sm text-amber-800 bg-amber-100/50 rounded-lg p-3">
+            <span className="text-lg">💡</span>
+            <div>
+              <span className="font-medium">Why we delete recordings:</span> Transcripts capture the value; recordings carry risk.
+              Auto-deletion protects both you and your clients while preserving what matters.
+            </div>
+          </div>
+        </div>
+
+        {/* V6: Evaporation Promise - Delete My Data */}
+        <div className="bg-gradient-to-br from-red-50 to-rose-50 border-2 border-red-200 p-6 rounded-xl shadow">
+          <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
+            <span>🗑️</span> Delete My Data (Evaporation Promise)
+          </h3>
+          <div className="bg-white/70 backdrop-blur rounded-lg p-4 mb-4">
+            <p className="text-stone-700 mb-4">
+              We believe you should be able to leave completely. When you delete your data, it's gone —
+              not archived, not "anonymized," not kept for training. <span className="font-medium">Gone means gone.</span>
+            </p>
+            <div className="space-y-3 mb-4">
+              <div className="flex items-start gap-3 bg-stone-50 rounded-lg p-3">
+                <span className="text-green-600 font-bold">✓</span>
+                <div>
+                  <span className="font-medium text-stone-800">Export first:</span>
+                  <span className="text-stone-600 text-sm ml-1">Download all your data before deletion</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-stone-50 rounded-lg p-3">
+                <span className="text-green-600 font-bold">✓</span>
+                <div>
+                  <span className="font-medium text-stone-800">Complete removal:</span>
+                  <span className="text-stone-600 text-sm ml-1">All data, all backups, all traces</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-stone-50 rounded-lg p-3">
+                <span className="text-green-600 font-bold">✓</span>
+                <div>
+                  <span className="font-medium text-stone-800">30-day grace period:</span>
+                  <span className="text-stone-600 text-sm ml-1">Changed your mind? Restore within 30 days</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <DeleteMyDataFlow />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// V6: 3-Step Delete Data Flow (Evaporation Promise)
+function DeleteMyDataFlow() {
+  const [step, setStep] = React.useState(0); // 0=initial, 1=warn, 2=type DELETE, 3=final confirm
+  const [deleteInput, setDeleteInput] = React.useState("");
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  const handleInitiate = () => setStep(1);
+
+  const handleProceed = () => {
+    if (step === 1) setStep(2);
+    else if (step === 2 && deleteInput === "DELETE") setStep(3);
+    else if (step === 3) {
+      setIsDeleting(true);
+      // Simulate deletion
+      setTimeout(() => {
+        setIsDeleting(false);
+        setStep(4); // Completed
+      }, 2000);
+    }
+  };
+
+  const handleCancel = () => {
+    setStep(0);
+    setDeleteInput("");
+  };
+
+  if (step === 0) {
+    return (
+      <button
+        onClick={handleInitiate}
+        className="w-full px-4 py-3 bg-white border-2 border-red-300 text-red-600 rounded-xl hover:bg-red-50 font-medium transition-colors"
+      >
+        Request Data Deletion
+      </button>
+    );
+  }
+
+  if (step === 4) {
+    return (
+      <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+        <span className="text-2xl mb-2 block">✅</span>
+        <p className="font-medium text-green-800">Deletion request received</p>
+        <p className="text-sm text-green-700 mt-1">Your data will be permanently deleted within 72 hours.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-xl border-2 border-red-200 overflow-hidden">
+      {/* Progress indicator */}
+      <div className="flex border-b border-red-100">
+        {["Warning", "Confirm", "Final"].map((label, i) => (
+          <div
+            key={i}
+            className={`flex-1 py-2 text-center text-xs font-medium ${
+              step > i ? "bg-red-500 text-white" : step === i + 1 ? "bg-red-100 text-red-700" : "bg-stone-50 text-stone-400"
+            }`}
+          >
+            Step {i + 1}: {label}
+          </div>
+        ))}
+      </div>
+
+      <div className="p-4">
+        {/* Step 1: Warning */}
+        {step === 1 && (
+          <div>
+            <div className="flex items-start gap-3 mb-4">
+              <span className="text-3xl">⚠️</span>
+              <div>
+                <h4 className="font-semibold text-red-800 mb-1">This action is permanent</h4>
+                <p className="text-sm text-stone-600">
+                  Deleting your data will remove all client records, session notes,
+                  transcripts, and AI-generated insights. This cannot be undone after the 30-day grace period.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleCancel}
+                className="flex-1 px-4 py-2 bg-stone-100 rounded-lg hover:bg-stone-200 text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleProceed}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium"
+              >
+                I understand, continue
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Type DELETE */}
+        {step === 2 && (
+          <div>
+            <div className="mb-4">
+              <h4 className="font-semibold text-stone-800 mb-2">Type DELETE to confirm</h4>
+              <p className="text-sm text-stone-600 mb-3">
+                This is a security measure to prevent accidental deletion.
+              </p>
+              <input
+                type="text"
+                value={deleteInput}
+                onChange={(e) => setDeleteInput(e.target.value)}
+                placeholder="Type DELETE here"
+                className="w-full px-4 py-3 border-2 border-stone-300 rounded-lg focus:border-red-400 focus:outline-none text-center font-mono tracking-widest"
+              />
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleCancel}
+                className="flex-1 px-4 py-2 bg-stone-100 rounded-lg hover:bg-stone-200 text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleProceed}
+                disabled={deleteInput !== "DELETE"}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium ${
+                  deleteInput === "DELETE"
+                    ? "bg-red-600 text-white hover:bg-red-700"
+                    : "bg-stone-200 text-stone-400 cursor-not-allowed"
+                }`}
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: Final confirmation */}
+        {step === 3 && (
+          <div>
+            <div className="flex items-start gap-3 mb-4">
+              <span className="text-3xl">🚨</span>
+              <div>
+                <h4 className="font-semibold text-red-800 mb-1">Final confirmation</h4>
+                <p className="text-sm text-stone-600">
+                  Click "Delete Everything" to permanently remove all your data.
+                  You have 30 days to change your mind before deletion is finalized.
+                </p>
+              </div>
+            </div>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+              <p className="text-sm text-red-800">
+                <span className="font-medium">Affected data:</span> 12 clients, 47 sessions,
+                156 notes, 23 recordings pending deletion
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleCancel}
+                className="flex-1 px-4 py-2 bg-stone-100 rounded-lg hover:bg-stone-200 text-sm"
+              >
+                Keep my data
+              </button>
+              <button
+                onClick={handleProceed}
+                disabled={isDeleting}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium flex items-center justify-center gap-2"
+              >
+                {isDeleting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete Everything"
+                )}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -5156,6 +5492,11 @@ function LandingPage({ onSelectUserType }) {
         />
       ) : currentPage === 'pricing' ? (
         <PricingPage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : currentPage === 'security' ? (
+        <SecurityPage
           onGetStarted={() => handleCTA('signup')}
           setCurrentPage={setCurrentPage}
         />
@@ -6163,13 +6504,18 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
         <div className="absolute inset-0 bg-gradient-to-b from-stone-50 via-violet-50/20 to-white"></div>
 
         <div className="relative max-w-4xl mx-auto px-8 text-center">
+          {/* V6 Locked Tagline */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 rounded-full text-white text-sm font-medium mb-6">
+            No games, no gates, no bullshit.
+          </div>
+
           <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
-            Simple pricing. Full access. No games.
+            Simple pricing. Full access.
           </h1>
 
           <p className="text-xl text-stone-600 max-w-2xl mx-auto mb-8">
             We believe coaching should be accessible to everyone. That's why we keep our pricing
-            transparent, simple, and radically affordable.
+            transparent, simple, and radically affordable. Security is the same at every tier.
           </p>
 
           {/* Billing Toggle */}
@@ -6420,6 +6766,273 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
           >
             Try it for free
           </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ============ SECURITY PAGE ============
+// V6: Trust hierarchy, zero-knowledge model, compliance, "never send to LLM" list
+function SecurityPage({ onGetStarted, setCurrentPage }) {
+  return (
+    <div className="pt-20">
+      {/* Hero Section */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900"></div>
+
+        <div className="relative max-w-4xl mx-auto px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 rounded-full text-teal-400 text-sm font-medium mb-6">
+            <span>🔐</span> Trust by Architecture
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-light text-white mb-6">
+            Security isn't a feature.<br />It's the foundation.
+          </h1>
+
+          <p className="text-xl text-stone-400 max-w-2xl mx-auto mb-8">
+            We don't just promise privacy—we build it into every layer. Your data is encrypted, siloed,
+            and never used to train AI models. Period.
+          </p>
+        </div>
+      </section>
+
+      {/* Trust Hierarchy */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8">
+          <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">Trust Hierarchy</h2>
+          <p className="text-stone-600 text-center mb-12 max-w-2xl mx-auto">
+            Our security model is built on layers—each one independent and verifiable.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Architecture */}
+            <div className="bg-gradient-to-br from-violet-50 to-purple-50 p-8 rounded-2xl border border-violet-200">
+              <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">🏗️</span>
+              </div>
+              <h3 className="text-xl font-medium text-stone-800 mb-3">Architecture Trust</h3>
+              <ul className="space-y-3 text-stone-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-600">✓</span>
+                  <span>Zero-knowledge encryption — we can't read your data even if we wanted to</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-600">✓</span>
+                  <span>Client-side key generation — your keys never touch our servers</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-600">✓</span>
+                  <span>Isolated data stores — each coach's data is completely separate</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-600">✓</span>
+                  <span>Automatic data expiration — recordings auto-delete, transcripts persist</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Certification */}
+            <div className="bg-gradient-to-br from-teal-50 to-emerald-50 p-8 rounded-2xl border border-teal-200">
+              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">📜</span>
+              </div>
+              <h3 className="text-xl font-medium text-stone-800 mb-3">Certification Trust</h3>
+              <ul className="space-y-3 text-stone-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-600">✓</span>
+                  <span>SOC 2 Type II certified — annual third-party audits</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-600">✓</span>
+                  <span>HIPAA compliant — ready for healthcare coaching contexts</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-600">✓</span>
+                  <span>GDPR compliant — full data portability and deletion rights</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-600">✓</span>
+                  <span>Regular penetration testing — by independent security firms</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Zero-Knowledge Diagram */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-5xl mx-auto px-8">
+          <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">Zero-Knowledge Architecture</h2>
+          <p className="text-stone-600 text-center mb-12 max-w-2xl mx-auto">
+            Your encryption keys are generated and stored on your device. We literally cannot access your data.
+          </p>
+
+          {/* Simplified diagram */}
+          <div className="bg-white rounded-2xl border border-stone-200 p-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              {/* Your Device */}
+              <div className="text-center flex-1">
+                <div className="w-20 h-20 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">💻</span>
+                </div>
+                <h4 className="font-medium text-stone-800 mb-2">Your Device</h4>
+                <p className="text-sm text-stone-600">Keys generated here. Data encrypted before leaving.</p>
+                <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                  <span>🔐</span> You hold the keys
+                </div>
+              </div>
+
+              {/* Arrow */}
+              <div className="hidden md:block text-4xl text-stone-300">→</div>
+              <div className="md:hidden text-4xl text-stone-300">↓</div>
+
+              {/* Our Servers */}
+              <div className="text-center flex-1">
+                <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">☁️</span>
+                </div>
+                <h4 className="font-medium text-stone-800 mb-2">Our Servers</h4>
+                <p className="text-sm text-stone-600">Store encrypted blobs. Can't decrypt without your key.</p>
+                <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 bg-stone-200 text-stone-600 rounded-full text-xs font-medium">
+                  <span>🚫</span> We can't read it
+                </div>
+              </div>
+
+              {/* Arrow */}
+              <div className="hidden md:block text-4xl text-stone-300">→</div>
+              <div className="md:hidden text-4xl text-stone-300">↓</div>
+
+              {/* AI Processing */}
+              <div className="text-center flex-1">
+                <div className="w-20 h-20 bg-violet-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">🤖</span>
+                </div>
+                <h4 className="font-medium text-stone-800 mb-2">AI Processing</h4>
+                <p className="text-sm text-stone-600">Ephemeral. Never retained. Never used for training.</p>
+                <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-medium">
+                  <span>🗑️</span> Deleted after use
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Never Sent to LLM */}
+      <section className="py-20 bg-stone-900 text-white">
+        <div className="max-w-4xl mx-auto px-8">
+          <h2 className="text-3xl font-light mb-4 text-center">What We Never Send to AI</h2>
+          <p className="text-stone-400 text-center mb-12 max-w-2xl mx-auto">
+            Some data is too sensitive for any AI processing. These categories are never sent to language models—ever.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              { icon: "🔑", label: "Credentials & passwords" },
+              { icon: "💳", label: "Credit card numbers" },
+              { icon: "🆔", label: "Social Security numbers" },
+              { icon: "🏥", label: "Medical record numbers" },
+              { icon: "🔒", label: "Tier 1 private conversations" },
+              { icon: "📍", label: "Precise location data" },
+              { icon: "🔐", label: "Authentication tokens" },
+              { icon: "💼", label: "Financial account numbers" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-4 bg-stone-800 rounded-xl p-4">
+                <span className="text-2xl">{item.icon}</span>
+                <span className="text-stone-200">{item.label}</span>
+                <span className="ml-auto text-red-400 text-sm font-medium">Never</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Compliance Plan */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8">
+          <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">Compliance Coverage</h2>
+          <p className="text-stone-600 text-center mb-12 max-w-2xl mx-auto">
+            Same security at every tier. No exceptions.
+          </p>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { name: "GDPR", region: "European Union", status: "Compliant", icon: "🇪🇺" },
+              { name: "SOC 2", region: "Global", status: "Type II Certified", icon: "🔒" },
+              { name: "HIPAA", region: "United States", status: "Ready", icon: "🏥" },
+              { name: "CCPA", region: "California", status: "Compliant", icon: "🌴" },
+            ].map((cert, i) => (
+              <div key={i} className="bg-stone-50 rounded-xl p-6 text-center border border-stone-100">
+                <span className="text-4xl mb-3 block">{cert.icon}</span>
+                <h4 className="font-semibold text-stone-800">{cert.name}</h4>
+                <p className="text-sm text-stone-500 mb-2">{cert.region}</p>
+                <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                  <span>✓</span> {cert.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Evaporation Promise */}
+      <section className="py-20 bg-gradient-to-br from-teal-50 to-emerald-50">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light text-stone-800 mb-6">The Evaporation Promise</h2>
+
+          <div className="bg-white rounded-2xl p-8 border border-teal-200 mb-8">
+            <p className="text-xl text-stone-700 leading-relaxed">
+              "When you delete your data, it's gone—not archived, not 'anonymized,' not kept for training.
+              <span className="font-semibold text-teal-700"> Gone means gone.</span>"
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 text-left">
+            <div className="bg-white rounded-xl p-6 border border-stone-100">
+              <span className="text-2xl mb-3 block">📤</span>
+              <h4 className="font-medium text-stone-800 mb-1">Export First</h4>
+              <p className="text-sm text-stone-600">Download all your data in standard formats before deletion</p>
+            </div>
+            <div className="bg-white rounded-xl p-6 border border-stone-100">
+              <span className="text-2xl mb-3 block">🗑️</span>
+              <h4 className="font-medium text-stone-800 mb-1">Complete Removal</h4>
+              <p className="text-sm text-stone-600">All data, all backups, all traces—permanently erased</p>
+            </div>
+            <div className="bg-white rounded-xl p-6 border border-stone-100">
+              <span className="text-2xl mb-3 block">⏳</span>
+              <h4 className="font-medium text-stone-800 mb-1">30-Day Grace</h4>
+              <p className="text-sm text-stone-600">Changed your mind? Restore within 30 days</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-stone-900">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light text-white mb-6">
+            Ready to experience trust by architecture?
+          </h2>
+          <p className="text-stone-400 mb-8">
+            Security is the same at every tier. No enterprise lock-in required.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={onGetStarted}
+              className="px-8 py-4 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 transition-colors"
+            >
+              Start Free Trial
+            </button>
+            <button
+              onClick={() => setCurrentPage('pricing')}
+              className="px-8 py-4 bg-stone-800 text-white rounded-xl font-medium hover:bg-stone-700 transition-colors"
+            >
+              View Pricing
+            </button>
+          </div>
         </div>
       </section>
     </div>
