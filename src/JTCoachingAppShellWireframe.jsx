@@ -4559,25 +4559,31 @@ function LandingPage({ onSelectUserType }) {
               <span className="text-xs font-light tracking-widest text-stone-400 group-hover:text-stone-200 transition-colors mb-0.5">ReGenesis</span>
             </button>
 
-            {/* Navigation - right after logo */}
+            {/* Navigation - V6 aligned: Home / Product / Pricing / Security / Login */}
             <nav className="hidden md:flex items-center gap-6">
               <button
                 onClick={() => setCurrentPage('home')}
                 className={`text-sm font-medium transition-colors ${currentPage === 'home' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
-                For Coaches
+                Home
               </button>
               <button
                 onClick={() => setCurrentPage('enterprise')}
                 className={`text-sm font-medium transition-colors ${currentPage === 'enterprise' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
-                Enterprise
+                Product
               </button>
               <button
                 onClick={() => setCurrentPage('pricing')}
                 className={`text-sm font-medium transition-colors ${currentPage === 'pricing' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 Pricing
+              </button>
+              <button
+                onClick={() => setCurrentPage('security')}
+                className={`text-sm font-medium transition-colors ${currentPage === 'security' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
+              >
+                Security
               </button>
             </nav>
           </div>
@@ -4664,31 +4670,31 @@ function LandingPage({ onSelectUserType }) {
 
         <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
 
-          {/* Primary headline */}
+          {/* V6 Primary headline - Coach-centric "embedded coaching partner" direction */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-stone-800 mb-6 leading-tight tracking-tight">
-            The Coaching Platform That Holds
+            An Embedded Coaching Partner
             <br />
-            <span className="text-stone-900 font-normal">Everything You Shouldn't Have To</span>
+            <span className="text-stone-900 font-normal">That Never Forgets</span>
           </h1>
 
-          {/* Secondary headline - philosophical depth */}
-          <p className="text-xl md:text-2xl text-violet-700/70 font-light italic mb-12 tracking-wide">
-            Augmented Intelligence for Human Becoming
+          {/* V6 Subheadline - The promise */}
+          <p className="text-xl md:text-2xl text-stone-600 font-light mb-6 max-w-2xl mx-auto">
+            {LOCKED_PHRASES.coachPromise}
           </p>
 
-          {/* Trust signals */}
-          <div className="flex items-center justify-center gap-6 mb-12 text-xs text-stone-500">
+          {/* Micro-proof row - small, crisp credibility */}
+          <div className="flex items-center justify-center gap-6 mb-8 text-xs text-stone-500">
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              SOC 2
+              SOC 2 Ready
             </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              HIPAA
+              HIPAA Ready
             </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              GDPR
+              GDPR Compliant
             </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
@@ -4696,8 +4702,15 @@ function LandingPage({ onSelectUserType }) {
             </span>
           </div>
 
-          {/* Dual CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* V6 Dual CTAs - Primary: Start guided demo, Secondary: See how it works */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <button
+              onClick={() => handleCTA('signup')}
+              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 hover:shadow-xl transition-all"
+            >
+              Start Guided Demo
+            </button>
+
             <button
               onClick={() => setShowVideo(true)}
               className="group inline-flex items-center gap-3 px-6 py-3 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-stone-400 bg-white/50 backdrop-blur-sm"
@@ -4707,14 +4720,24 @@ function LandingPage({ onSelectUserType }) {
                   <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                 </svg>
               </span>
-              <span className="font-medium">See how it works</span>
+              <span className="font-medium">See How It Works</span>
             </button>
+          </div>
 
+          {/* V6 Fork CTAs - "Here for your organization?" / "Here as a coaching client?" */}
+          <div className="flex items-center justify-center gap-6 text-sm">
             <button
-              onClick={() => handleCTA('signup')}
-              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 hover:shadow-xl transition-all"
+              onClick={() => setCurrentPage('enterprise')}
+              className="text-stone-500 hover:text-violet-700 underline underline-offset-4 transition-colors"
             >
-              Try it for free
+              Here for your organization?
+            </button>
+            <span className="text-stone-300">|</span>
+            <button
+              onClick={() => onSelectUserType('coachee')}
+              className="text-stone-500 hover:text-violet-700 underline underline-offset-4 transition-colors"
+            >
+              Here as a coaching client?
             </button>
           </div>
 
@@ -4724,6 +4747,83 @@ function LandingPage({ onSelectUserType }) {
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
           <div className="w-6 h-10 border-2 border-stone-300 rounded-full flex items-start justify-center p-1.5">
             <div className="w-1 h-2 bg-violet-400 rounded-full animate-bounce"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== V6 TRUST STRIP - Early trust by architecture ===== */}
+      <section className="py-8 bg-white border-b border-stone-100">
+        <div className="max-w-5xl mx-auto px-8">
+          <TrustStrip />
+        </div>
+      </section>
+
+      {/* ===== V6 DEMO SPINE CARDS - 4 micro-clip placeholders ===== */}
+      <section className="py-20 bg-gradient-to-b from-white to-stone-50">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-light text-stone-800 mb-3">
+              Four Ways {PRODUCT_NAME} Transforms Your Practice
+            </h2>
+            <p className="text-stone-500">Click to explore each capability</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Demo Spine Card 1: Agent + Command Bar */}
+            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-violet-300 hover:shadow-lg transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-violet-200 transition-colors">
+                <svg className="w-6 h-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="font-medium text-stone-800 mb-2">Do Anything Agent</h3>
+              <p className="text-sm text-stone-500 mb-4">Command bar that pulls up any view and executes tasks</p>
+              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
+                Video placeholder
+              </div>
+            </div>
+
+            {/* Demo Spine Card 2: Post-Session Notes */}
+            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-amber-300 hover:shadow-lg transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
+                <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="font-medium text-stone-800 mb-2">Post-Session Notes</h3>
+              <p className="text-sm text-stone-500 mb-4">The "tears moment" — AI drafts that truly see your client</p>
+              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
+                Video placeholder
+              </div>
+            </div>
+
+            {/* Demo Spine Card 3: In-Session Support */}
+            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-teal-300 hover:shadow-lg transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
+                <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="font-medium text-stone-800 mb-2">In-Session Support</h3>
+              <p className="text-sm text-stone-500 mb-4">Gentle prompts right below your camera line</p>
+              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
+                Video placeholder
+              </div>
+            </div>
+
+            {/* Demo Spine Card 4: 24/7 Companion */}
+            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-blue-300 hover:shadow-lg transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <h3 className="font-medium text-stone-800 mb-2">24/7 Companion</h3>
+              <p className="text-sm text-stone-500 mb-4">Support between sessions, private by default</p>
+              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
+                Video placeholder
+              </div>
+            </div>
           </div>
         </div>
       </section>
