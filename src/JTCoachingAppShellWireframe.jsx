@@ -335,6 +335,61 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
         <p className="text-gray-600 font-medium">Capture · Clarify · Organize · Reflect · Engage</p>
       </div>
 
+      {/* V6: Next Best Action - Calm, focused, 1-3 items */}
+      <div className="mb-6 bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200 rounded-xl p-5">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-teal-100 rounded-xl flex items-center justify-center">
+            <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="font-semibold text-teal-900">Your Next Best Action</h3>
+            <p className="text-sm text-teal-700">Focus here first</p>
+          </div>
+        </div>
+        <button
+          onClick={() => onOpenT15 && onOpenT15(marcusClient)}
+          className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-teal-200 hover:shadow-md transition-all group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-xl group-hover:bg-teal-200 transition-colors">
+              📋
+            </div>
+            <div className="text-left">
+              <p className="font-medium text-gray-900">Prepare for Marcus Williams</p>
+              <p className="text-sm text-gray-600">Session in 30 minutes — T-15 prep is ready</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs px-3 py-1 bg-teal-100 text-teal-700 rounded-full font-medium">Next session upcoming</span>
+            <svg className="w-5 h-5 text-gray-400 group-hover:text-teal-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      {/* V6: Needs Attention Row - Calm badges, not guilt-inducing */}
+      <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="flex items-center gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg">
+          <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+          <span className="text-sm text-amber-800 font-medium">2 need attention</span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+          <span className="text-sm text-blue-800 font-medium">3 sessions this week</span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-lg">
+          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+          <span className="text-sm text-green-800 font-medium">1 draft ready</span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-3 bg-purple-50 border border-purple-200 rounded-lg">
+          <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+          <span className="text-sm text-purple-800 font-medium">12 active clients</span>
+        </div>
+      </div>
+
       {/* FUNNEL TOP: Values → Vision → Mission/I Am Statement */}
       <div className="mb-8 bg-gradient-to-br from-teal-600 via-blue-600 to-purple-600 text-white p-8 rounded-xl shadow-lg">
         <div className="text-center mb-6">
