@@ -19,7 +19,7 @@ export default function JTCoachingAppShellWireframe() {
   const [selectedSessionId, setSelectedSessionId] = React.useState(null);
   const [showT15Prep, setShowT15Prep] = React.useState(false);
   const [t15Client, setT15Client] = React.useState(null);
-  const [showSageTooltip, setShowSageTooltip] = React.useState(false);
+  const [showSashaTooltip, setShowSashaTooltip] = React.useState(false);
   const [showCommandBar, setShowCommandBar] = React.useState(false);
   const [showInSessionSupport, setShowInSessionSupport] = React.useState(false);
   const [isSessionActive, setIsSessionActive] = React.useState(false); // simulates live session
@@ -154,18 +154,21 @@ export default function JTCoachingAppShellWireframe() {
         }}
       />
 
-      {/* V6 In-Session Support Panel */}
+      {/* V6 In-Session Copilot Panel */}
       <InSessionSupportPanel
         isOpen={showInSessionSupport}
         onClose={() => setShowInSessionSupport(false)}
         client={selectedClient}
       />
 
-      {/* V6 In-Session Support Button - Shows when session is active */}
+      {/* V6 In-Session Copilot Button - Shows when session is active */}
       <InSessionSupportButton
         onClick={() => setShowInSessionSupport(true)}
         isSessionActive={isSessionActive}
       />
+
+      {/* V6 Floating Sasha Button - Always available on coach dashboard */}
+      <FloatingSashaButton onClick={() => setShowCommandBar(true)} />
 
       {/* TOP HORIZONTAL NAVIGATION */}
       <header className="bg-gray-900 text-white shadow-lg">
@@ -177,12 +180,12 @@ export default function JTCoachingAppShellWireframe() {
             {/* Command Bar Hint - V6 addition */}
             <CommandBarHint onClick={() => setShowCommandBar(true)} />
 
-            {/* Sage - AI Intelligence Feature */}
+            {/* Sasha - AI Intelligence Feature */}
             <div className="relative">
               <button
                 onClick={() => setShowCommandBar(true)}
-                onMouseEnter={() => setShowSageTooltip(true)}
-                onMouseLeave={() => setShowSageTooltip(false)}
+                onMouseEnter={() => setShowSashaTooltip(true)}
+                onMouseLeave={() => setShowSashaTooltip(false)}
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-lg hover:shadow-lg transition-all"
               >
                 <span className="text-xl">🧙‍♂️</span>
@@ -190,13 +193,13 @@ export default function JTCoachingAppShellWireframe() {
                 <span className="text-xs bg-white/20 px-2 py-0.5 rounded">AI</span>
               </button>
 
-              {/* Sage Tooltip - Shows all capabilities on hover */}
-              {showSageTooltip && (
+              {/* Sasha Tooltip - Shows all capabilities on hover */}
+              {showSashaTooltip && (
                 <div className="absolute top-full left-0 mt-2 w-96 bg-white text-gray-900 rounded-xl shadow-2xl p-6 z-50 border border-gray-200">
                   <div className="flex items-center gap-2 mb-4 pb-3 border-b">
                     <span className="text-2xl">🧙‍♂️</span>
                     <div>
-                      <h3 className="font-bold text-lg">Sage AI Assistant</h3>
+                      <h3 className="font-bold text-lg">Sasha AI Assistant</h3>
                       <p className="text-xs text-gray-500">Your always-on coaching intelligence</p>
                     </div>
                   </div>
@@ -276,6 +279,9 @@ export default function JTCoachingAppShellWireframe() {
           </div>
         </div>
       </header>
+
+      {/* V6 NORTH STAR STRIP - Part 4.1: Thin strip with Values, Vision, Mission */}
+      <NorthStarStrip />
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-hidden">
@@ -390,11 +396,11 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
         </button>
       </div>
 
-      {/* V6: Needs Attention Row - Calm badges, not guilt-inducing */}
+      {/* V6: Status Badges - Supportive language, not guilt-inducing (Part 4.4) */}
       <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="flex items-center gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg">
           <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-          <span className="text-sm text-amber-800 font-medium">2 need attention</span>
+          <span className="text-sm text-amber-800 font-medium">2 ready for you</span>
         </div>
         <div className="flex items-center gap-2 px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg">
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
@@ -402,33 +408,11 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
         </div>
         <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-lg">
           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-          <span className="text-sm text-green-800 font-medium">1 draft ready</span>
+          <span className="text-sm text-green-800 font-medium">1 draft ready to review</span>
         </div>
         <div className="flex items-center gap-2 px-4 py-3 bg-purple-50 border border-purple-200 rounded-lg">
           <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
           <span className="text-sm text-purple-800 font-medium">12 active clients</span>
-        </div>
-      </div>
-
-      {/* FUNNEL TOP: Values → Vision → Mission/I Am Statement */}
-      <div className="mb-8 bg-gradient-to-br from-teal-600 via-blue-600 to-purple-600 text-white p-8 rounded-xl shadow-lg">
-        <div className="text-center mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-teal-50">Jesse's Core Values</h3>
-          <p className="text-3xl font-bold mb-6">Courage · Truth · Integrity</p>
-        </div>
-
-        <div className="border-t border-teal-300 pt-6 mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-teal-50">Vision</h3>
-          <p className="text-xl font-medium text-white">
-            A world where leaders live authentically aligned with their deepest values and highest potential
-          </p>
-        </div>
-
-        <div className="border-t border-teal-300 pt-6">
-          <h3 className="text-lg font-semibold mb-3 text-teal-50">Mission / I Am Statement</h3>
-          <p className="text-xl font-medium text-white">
-            I am a catalyst for transformation, guiding leaders to clarity, impact, and sustainable excellence
-          </p>
         </div>
       </div>
 
@@ -998,10 +982,18 @@ function AllActionsAllDomainsPage({ onBack }) {
 // ============ CLIENTS PAGE (Master-Detail) ============
 function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSession }) {
   // V6: Overview is the default/first tab
-  const [activeTab, setActiveTab] = React.useState("Overview");
+  const [activeTab, setActiveTab] = React.useState("overview");
 
-  // V6 Client Tab Ordering (7 tabs - LOCKED)
-  const tabs = ["Overview", "Journey / Goals", "Notes History", "T-15 Prep", "24/7 Companion", "Profile Details", "Resources"];
+  // V6 Client Tab Ordering (7 tabs - Part 5.1)
+  const tabs = [
+    { key: "overview", label: "Overview" },
+    { key: "goals", label: "Goals & Progress" },
+    { key: "notes", label: "Session Notes" },
+    { key: "t15", label: "T-15 Prep" },
+    { key: "copilot", label: "In-Session Copilot" },
+    { key: "sashaLog", label: "Sasha Conversations Log" },
+    { key: "resources", label: "Shared Resources" }
+  ];
 
   return (
     <div className="flex h-full">
@@ -1073,34 +1065,34 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSessi
             </span>
           </div>
 
-          {/* Tab Navigation */}
-          <div className="flex gap-1 border-b -mb-px">
+          {/* Tab Navigation - V6 Part 5.1 */}
+          <div className="flex gap-1 border-b -mb-px overflow-x-auto">
             {tabs.map(tab => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
                 className={[
-                  "px-4 py-2 font-medium border-b-2 transition",
-                  activeTab === tab
+                  "px-4 py-2 font-medium border-b-2 transition whitespace-nowrap",
+                  activeTab === tab.key
                     ? "border-gray-900 text-gray-900"
                     : "border-transparent text-gray-600 hover:text-gray-900"
                 ].join(" ")}
               >
-                {tab}
+                {tab.label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Tab Content - V6 ordering */}
+        {/* Tab Content - V6 Part 5.1 ordering */}
         <div className="flex-1 overflow-auto p-8">
-          {activeTab === "Overview" && <ClientOverviewTab client={selectedClient} onOpenT15={onOpenT15} setActiveTab={setActiveTab} />}
-          {activeTab === "Journey / Goals" && <ClientGoalsTab client={selectedClient} />}
-          {activeTab === "Notes History" && <ClientSessionNotesTab client={selectedClient} onOpenSession={onOpenSession} />}
-          {activeTab === "T-15 Prep" && <ClientT15PrepTab client={selectedClient} onOpenT15={onOpenT15} />}
-          {activeTab === "24/7 Companion" && <ClientCompanionTab client={selectedClient} />}
-          {activeTab === "Profile Details" && <ClientProfileTab client={selectedClient} />}
-          {activeTab === "Resources" && <ClientResourcesTab client={selectedClient} />}
+          {activeTab === "overview" && <ClientOverviewTab client={selectedClient} onOpenT15={onOpenT15} setActiveTab={setActiveTab} />}
+          {activeTab === "goals" && <ClientGoalsTab client={selectedClient} />}
+          {activeTab === "notes" && <ClientSessionNotesTab client={selectedClient} onOpenSession={onOpenSession} />}
+          {activeTab === "t15" && <ClientT15PrepTab client={selectedClient} onOpenT15={onOpenT15} />}
+          {activeTab === "copilot" && <ClientInSessionCopilotTab client={selectedClient} />}
+          {activeTab === "sashaLog" && <ClientSashaLogTab client={selectedClient} />}
+          {activeTab === "resources" && <ClientResourcesTab client={selectedClient} />}
         </div>
       </div>
     </div>
@@ -1216,10 +1208,10 @@ function ClientOverviewTab({ client, onOpenT15, setActiveTab }) {
             <span>📋</span> Open T-15 Prep
           </button>
           <button
-            onClick={() => setActiveTab("Notes History")}
+            onClick={() => setActiveTab("notes")}
             className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
           >
-            <span>📝</span> Latest Note
+            <span>📝</span> Session Notes
           </button>
           <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
             <ApprovalRequiredBadge size="sm" />
@@ -1530,6 +1522,363 @@ function ClientProfileTab({ client }) {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// V6: Profile Accordion Section Component for 8-section profile structure (Part 7.2)
+function ProfileAccordionSection({ title, icon, isExpanded, onToggle, children }) {
+  return (
+    <div className="border border-stone-200 rounded-lg overflow-hidden mb-3">
+      <button
+        onClick={onToggle}
+        className="w-full px-4 py-3 bg-stone-50 hover:bg-stone-100 flex items-center justify-between text-left transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-xl">{icon}</span>
+          <span className="font-semibold text-stone-800">{title}</span>
+        </div>
+        <svg
+          className={`w-5 h-5 text-stone-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isExpanded && (
+        <div className="p-4 bg-white border-t border-stone-200">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// V6: Full Client Profile with 8 Accordion Sections (Part 7.2)
+function ClientFullProfileV6({ client }) {
+  const [expandedSections, setExpandedSections] = React.useState({
+    northStar: true,
+    identity: false,
+    strengths: false,
+    patterns: false,
+    context: false,
+    assessments: false,
+    health: false,
+    resources: false
+  });
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-stone-800">Client Profile</h1>
+          <p className="text-stone-600">{client.name} — Full Profile</p>
+        </div>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Edit Profile
+        </button>
+      </div>
+
+      {/* Section 1: North Star */}
+      <ProfileAccordionSection
+        title="North Star"
+        icon="🌟"
+        isExpanded={expandedSections.northStar}
+        onToggle={() => toggleSection('northStar')}
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Core Values</h4>
+            <p className="text-stone-800">Integrity · Authenticity · Growth · Family · Service</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Vision</h4>
+            <p className="text-stone-800">Leading a company that genuinely improves people's lives while being present for family during formative years.</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Mission / "I Am" Statement</h4>
+            <p className="text-stone-800 italic">"I am a leader who creates environments where people do their best work and live their best lives."</p>
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 2: Identity & Orientation */}
+      <ProfileAccordionSection
+        title="Identity & Orientation"
+        icon="🪞"
+        isExpanded={expandedSections.identity}
+        onToggle={() => toggleSection('identity')}
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Roles & Self-Concept</h4>
+            <p className="text-stone-800">Executive leader, parent, partner, lifelong learner, mentor to emerging leaders</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Purpose / Meaning Drivers</h4>
+            <p className="text-stone-800">Creating impact at scale, developing people, leaving a legacy of positive change</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Narrative Themes</h4>
+            <p className="text-stone-800">The reluctant high-achiever; the person who cares deeply but struggles to show it; always proving worth</p>
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 3: Strengths & Capacities */}
+      <ProfileAccordionSection
+        title="Strengths & Capacities"
+        icon="💪"
+        isExpanded={expandedSections.strengths}
+        onToggle={() => toggleSection('strengths')}
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Strengths Summary</h4>
+            <div className="flex flex-wrap gap-2">
+              {["Strategic Thinking", "People Development", "Pattern Recognition", "Communication", "Resilience"].map(s => (
+                <span key={s} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">{s}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Skills & Capabilities</h4>
+            <p className="text-stone-800">Executive leadership, product strategy, team building, board communications, fundraising</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Energizers & Drainers</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-3 bg-green-50 rounded-lg">
+                <p className="text-sm font-medium text-green-800">Energizers</p>
+                <p className="text-sm text-green-700">Mentoring, strategic planning, solving complex problems, meaningful 1:1s</p>
+              </div>
+              <div className="p-3 bg-red-50 rounded-lg">
+                <p className="text-sm font-medium text-red-800">Drainers</p>
+                <p className="text-sm text-red-700">Admin tasks, conflict avoidance aftermath, back-to-back meetings</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Heroes & Sources of Inspiration</h4>
+            <p className="text-stone-800">Satya Nadella (transformation leadership), Brené Brown (vulnerability), parents' work ethic</p>
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 4: Patterns & Growth Edges */}
+      <ProfileAccordionSection
+        title="Patterns & Growth Edges"
+        icon="🔄"
+        isExpanded={expandedSections.patterns}
+        onToggle={() => toggleSection('patterns')}
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Repeating Patterns</h4>
+            <ul className="list-disc list-inside text-stone-800 space-y-1">
+              <li>Overcommitting, then feeling resentful</li>
+              <li>Avoiding difficult conversations until they escalate</li>
+              <li>Seeking external validation before trusting internal compass</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Triggers</h4>
+            <p className="text-stone-800">Feeling unseen, perceived criticism, when others don't meet commitments</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Shadow Themes</h4>
+            <p className="text-stone-600 italic">Perfectionism, people-pleasing, fear of being "found out"</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Limiting Beliefs + Reframes</h4>
+            <div className="space-y-2">
+              <div className="p-3 bg-amber-50 rounded-lg">
+                <p className="text-sm text-amber-800"><strong>Belief:</strong> "If I say no, people won't respect me."</p>
+                <p className="text-sm text-green-700 mt-1"><strong>Reframe:</strong> "Saying no demonstrates self-awareness and builds trust."</p>
+              </div>
+              <div className="p-3 bg-amber-50 rounded-lg">
+                <p className="text-sm text-amber-800"><strong>Belief:</strong> "I have to do everything myself to ensure quality."</p>
+                <p className="text-sm text-green-700 mt-1"><strong>Reframe:</strong> "Developing others' capabilities multiplies impact."</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Growth Edges & Experiments</h4>
+            <p className="text-stone-800">Practicing delegation without micromanaging, having difficult conversations early, trusting intuition</p>
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 5: Context & Constraints */}
+      <ProfileAccordionSection
+        title="Context & Constraints"
+        icon="🌍"
+        isExpanded={expandedSections.context}
+        onToggle={() => toggleSection('context')}
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Key Relationships</h4>
+            <p className="text-stone-800">Spouse: Alex Chen (Architect) | Children: Maya (10), Lucas (7) | Mother nearby (health concerns)</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Work Context</h4>
+            <p className="text-stone-800">{client.role} at {client.company} | 12 direct reports | ~85 person org | Series C startup</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Environmental Constraints</h4>
+            <p className="text-stone-800">High-growth pressure, board expectations, competitive market, limited senior talent pool</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Time/Energy Constraints</h4>
+            <p className="text-stone-800">Kids' school schedules, spouse's demanding project through Q2, mother's medical appointments</p>
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 6: Assessments & Self-Knowing */}
+      <ProfileAccordionSection
+        title="Assessments & Self-Knowing"
+        icon="📊"
+        isExpanded={expandedSections.assessments}
+        onToggle={() => toggleSection('assessments')}
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-stone-600 mb-4">Upload any assessment results you already have. Sasha will synthesize patterns across tools—because no single test tells the whole story.</p>
+
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              { name: "Enneagram", result: "Type 3w2", color: "purple" },
+              { name: "CliftonStrengths", result: "View Results", color: "blue" },
+              { name: "DISC", result: "Di", color: "green" },
+              { name: "MBTI", result: "ENTJ", color: "orange" },
+              { name: "Hogan", result: "View Report", color: "teal" },
+              { name: "EQ-i 2.0", result: "108", color: "pink" },
+              { name: "Leadership Circle", result: "Not taken", color: "gray" },
+              { name: "Love Languages", result: "Quality Time", color: "red" },
+              { name: "Attachment Style", result: "Secure-Anxious", color: "indigo" }
+            ].map(a => (
+              <div key={a.name} className={`p-3 bg-${a.color}-50 rounded-lg`}>
+                <div className="text-xs text-stone-500">{a.name}</div>
+                <div className={`font-semibold text-${a.color}-700`}>{a.result}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t pt-4 mt-4">
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Other Modalities</h4>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {["Astrology / Birth chart", "Human Design", "Gene Keys", "Chakra Assessment"].map(m => (
+                <button key={m} className="p-3 border border-dashed border-stone-300 rounded-lg text-sm text-stone-600 hover:bg-stone-50">
+                  + {m}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex gap-3 mt-4">
+            <button className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm">Upload Results</button>
+            <button className="px-4 py-2 bg-green-100 text-green-700 rounded-lg text-sm">Invite to Take</button>
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 7: Health & Physiology */}
+      <ProfileAccordionSection
+        title="Health & Physiology"
+        icon="❤️"
+        isExpanded={expandedSections.health}
+        onToggle={() => toggleSection('health')}
+      >
+        <div className="space-y-4">
+          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-sm text-amber-800">
+              We're not medical providers. Always consult a medical professional. This section helps you and your coach consider patterns across sleep, stress, energy, and lifestyle that affect performance and wellbeing.
+            </p>
+            <p className="text-xs text-amber-600 mt-2">You control 100% of what is shared and with whom.</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <h4 className="text-sm font-medium text-stone-700 mb-2">Sleep</h4>
+              <p className="text-stone-800">5-6 hours avg | Poor quality | Trouble staying asleep</p>
+              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
+            </div>
+            <div>
+              <h4 className="text-sm font-medium text-stone-700 mb-2">Exercise</h4>
+              <p className="text-stone-800">1-2x/week currently | Goal: 4x/week</p>
+              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
+            </div>
+            <div>
+              <h4 className="text-sm font-medium text-stone-700 mb-2">Stress Level</h4>
+              <p className="text-stone-800">7/10 | Somatic: shoulder tension, jaw clenching</p>
+              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
+            </div>
+            <div>
+              <h4 className="text-sm font-medium text-stone-700 mb-2">Energy</h4>
+              <p className="text-stone-800">Peaks morning | Crashes 2-3pm | Caffeine: 3 cups</p>
+              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
+            </div>
+          </div>
+
+          <div className="flex gap-3 mt-4">
+            <button className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg text-sm">Complete Health Questionnaire</button>
+            <button className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg text-sm">Upload Medical Docs</button>
+          </div>
+
+          <div className="text-xs text-stone-500 mt-2">
+            Coming soon: Connect wearables (Apple Health, Oura, Fitbit, Garmin)
+          </div>
+        </div>
+      </ProfileAccordionSection>
+
+      {/* Section 8: Resources & Practices */}
+      <ProfileAccordionSection
+        title="Resources & Practices"
+        icon="📚"
+        isExpanded={expandedSections.resources}
+        onToggle={() => toggleSection('resources')}
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Mindsets, Mantras & Practices That Work</h4>
+            <div className="space-y-2">
+              <div className="p-3 bg-purple-50 rounded-lg">
+                <p className="text-sm text-purple-800 font-medium">"Progress, not perfection."</p>
+              </div>
+              <div className="p-3 bg-purple-50 rounded-lg">
+                <p className="text-sm text-purple-800 font-medium">"What would the 'grounded me' do right now?"</p>
+              </div>
+              <div className="p-3 bg-stone-50 rounded-lg">
+                <p className="text-sm text-stone-700">Morning journaling (10 min) — when done consistently, significantly reduces anxiety</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Coach-Recommended Tools</h4>
+            <div className="flex flex-wrap gap-2">
+              {["Conscious Leadership Framework", "NVC Communication", "Values Clarification", "Polarity Thinking"].map(t => (
+                <span key={t} className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm">{t}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-medium text-stone-700 mb-2">Client-Added Tools</h4>
+            <div className="flex flex-wrap gap-2">
+              {["GTD System", "Pomodoro Technique", "Headspace App"].map(t => (
+                <span key={t} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">{t}</span>
+              ))}
+            </div>
+            <button className="mt-3 text-sm text-blue-600 hover:underline">+ Add resource</button>
+          </div>
+        </div>
+      </ProfileAccordionSection>
     </div>
   );
 }
@@ -2101,7 +2450,7 @@ function ClientSessionNotesTab({ client, onOpenSession }) {
         <div className="text-xs text-gray-700 space-y-1">
           <div>• Click any session to view full notes with 6 sections (Summary, Insights, Inquiries, Invitations, Resources, Next Steps)</div>
           <div>• "Draft ready" sessions open editor with AI modify options</div>
-          <div>• Use Sage to: shorten notes, change tone, draft conversations (NVC style), modify template</div>
+          <div>• Use Sasha to: shorten notes, change tone, draft conversations (NVC style), modify template</div>
           <div>• "View Transcript" button shows original recording</div>
         </div>
       </div>
@@ -2112,6 +2461,7 @@ function ClientSessionNotesTab({ client, onOpenSession }) {
 function ClientT15PrepTab({ client, onOpenT15 }) {
   return (
     <div className="space-y-6">
+      {/* Main T-15 Prep Button */}
       <button
         onClick={() => onOpenT15 && onOpenT15(client)}
         className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 p-6 rounded-xl hover:shadow-lg transition text-left"
@@ -2127,6 +2477,17 @@ function ClientT15PrepTab({ client, onOpenT15 }) {
           <div className="text-4xl">📋</div>
         </div>
       </button>
+
+      {/* View Full Client Profile - Part 5.6 */}
+      <div className="flex items-center justify-between p-4 bg-stone-50 border border-stone-200 rounded-xl">
+        <div>
+          <h4 className="font-medium text-stone-800">Profile Summary</h4>
+          <p className="text-sm text-stone-600">Quick reference for session context</p>
+        </div>
+        <button className="px-4 py-2 bg-white border border-stone-300 rounded-lg text-sm font-medium text-stone-700 hover:bg-stone-100 transition-colors">
+          View Full Client Profile →
+        </button>
+      </div>
 
       {client.nextSession && (
         <div className="bg-white p-6 rounded-lg shadow">
@@ -2193,8 +2554,239 @@ function ClientT15PrepTab({ client, onOpenT15 }) {
   );
 }
 
-// V6: 24/7 Companion Chat Log Tab with Privacy Tiers
-function ClientCompanionTab({ client }) {
+// V6: In-Session Copilot Tab - Part 5.5: Text-only, never speaks aloud
+function ClientInSessionCopilotTab({ client }) {
+  const [copilotMode, setCopilotMode] = React.useState("observe"); // observe, suggest, active
+  const [showZoomMockup, setShowZoomMockup] = React.useState(false);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold">In-Session Copilot</h2>
+          <p className="text-sm text-stone-500 mt-1">Real-time coaching support during your sessions with {client.name}</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setShowZoomMockup(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium flex items-center gap-2"
+          >
+            <span>📹</span> Preview in Zoom
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-stone-500">Mode:</span>
+            <select
+              value={copilotMode}
+              onChange={(e) => setCopilotMode(e.target.value)}
+              className="text-sm border border-stone-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            >
+              <option value="observe">Observe Only</option>
+              <option value="suggest">Suggest Questions</option>
+              <option value="active">Active Guidance</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* V6 Phase 12: Zoom Panel Mockup Modal */}
+      {showZoomMockup && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-stone-900 rounded-2xl w-full max-w-5xl overflow-hidden shadow-2xl">
+            {/* Simulated Zoom UI */}
+            <div className="bg-stone-800 px-4 py-2 flex items-center justify-between border-b border-stone-700">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <span className="text-white text-sm font-medium">Zoom Meeting — Demo Preview</span>
+              </div>
+              <button
+                onClick={() => setShowZoomMockup(false)}
+                className="text-stone-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex">
+              {/* Main Video Area */}
+              <div className="flex-1 bg-stone-900 p-4">
+                {/* Video Grid Placeholder */}
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="aspect-video bg-gradient-to-br from-teal-800 to-teal-900 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-teal-700 rounded-full mx-auto mb-2 flex items-center justify-center text-2xl text-white">👤</div>
+                      <span className="text-white text-sm">You (Coach)</span>
+                    </div>
+                  </div>
+                  <div className="aspect-video bg-gradient-to-br from-blue-800 to-blue-900 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-blue-700 rounded-full mx-auto mb-2 flex items-center justify-center text-2xl text-white">{client.name.charAt(0)}</div>
+                      <span className="text-white text-sm">{client.name}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Copilot Panel — Below Camera Line */}
+                <div className="bg-gradient-to-r from-teal-900/90 to-blue-900/90 rounded-xl p-4 border border-teal-500/30">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🧙‍♂️</span>
+                      <span className="text-white font-medium text-sm">Sasha Copilot</span>
+                      <span className="text-xs px-2 py-0.5 bg-teal-600 text-white rounded-full">
+                        {copilotMode === "observe" ? "Observing" : copilotMode === "suggest" ? "Suggesting" : "Active"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button className="text-xs px-2 py-1 bg-stone-700 text-stone-300 rounded hover:bg-stone-600">Minimize</button>
+                      <button className="text-xs px-2 py-1 bg-stone-700 text-stone-300 rounded hover:bg-stone-600">Settings</button>
+                    </div>
+                  </div>
+
+                  {/* Live Suggestions */}
+                  {copilotMode !== "observe" && (
+                    <div className="space-y-2 mb-3">
+                      <div className="text-xs text-teal-400 uppercase tracking-wide">Suggested Questions</div>
+                      <div className="p-2 bg-white/10 rounded-lg text-white text-sm">
+                        "What would it look like if you trusted yourself fully here?"
+                        <button className="ml-2 text-xs text-teal-300 hover:underline">Use</button>
+                      </div>
+                      <div className="p-2 bg-white/10 rounded-lg text-white text-sm">
+                        "I'm noticing you've mentioned 'control' three times..."
+                        <button className="ml-2 text-xs text-teal-300 hover:underline">Use</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Real-time Transcript */}
+                  <div className="space-y-2">
+                    <div className="text-xs text-stone-400 uppercase tracking-wide">Live Transcript</div>
+                    <div className="max-h-24 overflow-auto text-sm text-stone-300 bg-black/20 rounded-lg p-2 space-y-1">
+                      <p><span className="text-teal-400">{client.name}:</span> "...and that's when I realized I was trying to control the outcome again."</p>
+                      <p><span className="text-blue-400">You:</span> "What do you notice in your body when you said that?"</p>
+                      <p><span className="text-teal-400">{client.name}:</span> "There's tension... in my shoulders, I think."</p>
+                    </div>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
+                    <button className="text-xs px-3 py-1.5 bg-teal-600 text-white rounded hover:bg-teal-700">Flag Moment</button>
+                    <button className="text-xs px-3 py-1.5 bg-stone-700 text-stone-300 rounded hover:bg-stone-600">Add Note</button>
+                    <button className="text-xs px-3 py-1.5 bg-stone-700 text-stone-300 rounded hover:bg-stone-600">Paste to Chat</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="bg-stone-800 px-4 py-3 flex items-center justify-between border-t border-stone-700">
+              <div className="flex items-center gap-4">
+                <button className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm">End Meeting</button>
+                <button className="px-4 py-2 bg-stone-700 text-white rounded-lg text-sm">Mute</button>
+                <button className="px-4 py-2 bg-stone-700 text-white rounded-lg text-sm">Video</button>
+              </div>
+              <span className="text-xs text-stone-500">This is a mockup preview — not a real Zoom meeting</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Key Feature: Text-only, never speaks */}
+      <div className="bg-teal-50 border border-teal-200 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <span className="text-xl">🎯</span>
+          <div>
+            <div className="font-medium text-teal-900">Text-Only Support</div>
+            <p className="text-sm text-teal-800 mt-1">
+              The Copilot displays suggestions on your screen only — it never speaks aloud or interrupts your session.
+              Position below your camera line for easy reference without breaking eye contact.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Copilot Capabilities */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="bg-white border border-stone-200 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">💡</span>
+            <h3 className="font-semibold">Suggested Questions</h3>
+          </div>
+          <p className="text-sm text-stone-600 mb-3">Based on conversation context and client history</p>
+          <div className="space-y-2 text-sm">
+            <div className="p-2 bg-stone-50 rounded-lg text-stone-700 italic">"What would it look like if you trusted yourself fully here?"</div>
+            <div className="p-2 bg-stone-50 rounded-lg text-stone-700 italic">"I'm noticing you've mentioned control three times..."</div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-stone-200 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">📚</span>
+            <h3 className="font-semibold">Framework Suggestions</h3>
+          </div>
+          <p className="text-sm text-stone-600 mb-3">Relevant frameworks from your library</p>
+          <div className="flex flex-wrap gap-2">
+            <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Immunity to Change</span>
+            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">Drama Triangle</span>
+            <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs">Values Clarification</span>
+          </div>
+        </div>
+
+        <div className="bg-white border border-stone-200 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">📝</span>
+            <h3 className="font-semibold">Live Note Capture</h3>
+          </div>
+          <p className="text-sm text-stone-600 mb-3">Key moments tagged automatically</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>• Breakthrough moments flagged</li>
+            <li>• Commitments tracked</li>
+            <li>• Follow-up items noted</li>
+          </ul>
+        </div>
+
+        <div className="bg-white border border-stone-200 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">⚡</span>
+            <h3 className="font-semibold">Pattern Alerts</h3>
+          </div>
+          <p className="text-sm text-stone-600 mb-3">Surfaces relevant history in real-time</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>• Similar challenges from past sessions</li>
+            <li>• Recurring themes detected</li>
+            <li>• Progress toward goals</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Session History with Copilot */}
+      <div className="bg-white border border-stone-200 rounded-xl p-5">
+        <h3 className="font-semibold mb-4">Recent Sessions with Copilot</h3>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
+            <div>
+              <div className="font-medium">Jan 15, 2026</div>
+              <div className="text-sm text-stone-600">15 suggestions shown · 4 frameworks referenced</div>
+            </div>
+            <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Active mode</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
+            <div>
+              <div className="font-medium">Jan 8, 2026</div>
+              <div className="text-sm text-stone-600">8 suggestions shown · 2 frameworks referenced</div>
+            </div>
+            <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Suggest mode</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// V6: Sasha Conversations Log Tab with Privacy Tiers (renamed from 24/7 Companion)
+function ClientSashaLogTab({ client }) {
   // V6 Privacy Tiers: tier1 (private), tier2 (shared summary), tier3 (shared with coach)
   const companionSessions = [
     {
@@ -2269,8 +2861,8 @@ function ClientCompanionTab({ client }) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold">24/7 Companion Log</h2>
-          <p className="text-sm text-stone-500 mt-1">Conversations {client.name} has chosen to share with you</p>
+          <h2 className="text-xl font-bold">Sasha Conversations Log</h2>
+          <p className="text-sm text-stone-500 mt-1">Conversations {client.name} has chosen to share with you from their Sasha sessions</p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">{tier3Count} full</span>
@@ -2528,7 +3120,7 @@ function SchedulePage() {
               className="w-full px-4 py-2 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white"
             />
             <div className="text-xs text-teal-50 mt-2">
-              Sage can propose times, send calendar invites, or email suggestions with one command
+              Sasha can propose times, send calendar invites, or email suggestions with one command
             </div>
           </div>
           <button className="px-6 py-2 bg-white text-teal-900 rounded-lg hover:bg-teal-50 font-semibold">
@@ -2904,11 +3496,11 @@ function ResourceLibraryPage() {
 function AICompanionPage() {
   return (
     <div className="p-8 overflow-auto h-full">
-      <h2 className="text-2xl font-semibold mb-6">Sage</h2>
+      <h2 className="text-2xl font-semibold mb-6">Sasha</h2>
 
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="text-sm text-gray-600 mb-4">
-          Your Sage is context-aware and capable of handling tasks across all aspects of your client's AND your life and work, from mundane logistics to existential pondering.
+          Your Sasha is context-aware and capable of handling tasks across all aspects of your client's AND your life and work, from mundane logistics to existential pondering.
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="p-4 bg-blue-50 rounded">
@@ -2929,7 +3521,7 @@ function AICompanionPage() {
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="font-semibold mb-4">Conversation</h3>
         <div className="mb-4 p-4 bg-gray-50 rounded">
-          <div className="text-sm font-medium text-gray-600 mb-1">Sage</div>
+          <div className="text-sm font-medium text-gray-600 mb-1">Sasha</div>
           <p>How can I assist you today? I have context on your upcoming sessions and recent client work.</p>
         </div>
         <div className="flex gap-2">
@@ -3824,7 +4416,7 @@ function BusinessManagementPage({ selectedTab, setSelectedTab }) {
 
             {/* Growth Areas Identified */}
             <div className="mt-6 bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <h4 className="font-semibold mb-2 text-purple-900">🎯 Growth Areas Identified by Sage</h4>
+              <h4 className="font-semibold mb-2 text-purple-900">🎯 Growth Areas Identified by Sasha</h4>
               <ul className="space-y-2 text-sm text-purple-800">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-500 mt-0.5">•</span>
@@ -3959,11 +4551,11 @@ function T15PrepFullPage({ client, onClose }) {
           </div>
         </div>
 
-        {/* Section 3: What's Alive TODAY - From Sage */}
+        {/* Section 3: What's Alive TODAY - From Sasha */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-lg font-bold mb-4 text-purple-900 flex items-center gap-2">
             <span className="text-2xl">✨</span> What's Alive for {client.name} TODAY
-            <span className="text-xs font-normal text-gray-500">(from Sage)</span>
+            <span className="text-xs font-normal text-gray-500">(from Sasha)</span>
           </h3>
 
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4 mb-4">
@@ -3985,7 +4577,7 @@ function T15PrepFullPage({ client, onClose }) {
           </div>
 
           <div className="bg-teal-50 border border-teal-200 rounded-lg p-4">
-            <div className="text-xs font-semibold text-teal-900 mb-2">SAGE ACTIVITY (since last session)</div>
+            <div className="text-xs font-semibold text-teal-900 mb-2">SASHA ACTIVITY (since last session)</div>
             <div className="text-xs text-teal-800 space-y-1">
               <div>→ 7 check-ins about team dynamics and decision-making</div>
               <div>→ Expressed feeling "stuck" between priorities 3 times</div>
@@ -4073,7 +4665,7 @@ function T15PrepFullPage({ client, onClose }) {
           </h3>
 
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <div className="text-xs font-semibold text-green-900 mb-3">SAGE RECOMMENDATIONS (based on: growth pace decisions)</div>
+            <div className="text-xs font-semibold text-green-900 mb-3">SASHA RECOMMENDATIONS (based on: growth pace decisions)</div>
             <div className="space-y-3 text-xs text-gray-800">
               <div>
                 <div className="font-semibold text-green-900">Values-Based Decision Framework</div>
@@ -4932,12 +5524,37 @@ function SettingsPage() {
           </div>
         </div>
 
-        {/* Sage AI Settings */}
+        {/* Sasha AI Settings */}
         <div className="bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50 border-2 border-teal-300 p-6 rounded-lg shadow">
           <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
-            <span>🧙‍♂️</span> Sage AI Settings
+            <span>🧙‍♂️</span> Sasha AI Settings
           </h3>
           <div className="space-y-4 bg-white/70 backdrop-blur p-4 rounded-lg">
+            {/* V6: Voice & Style Preference per Part 24.2 */}
+            <div className="border-b pb-4 mb-4">
+              <h4 className="font-medium mb-2 text-sm">Voice & Style</h4>
+              <p className="text-xs text-stone-600 mb-3">How would you like Sasha to sound when speaking aloud?</p>
+              <div className="flex gap-3">
+                {[
+                  { value: "female", label: "Female" },
+                  { value: "male", label: "Male" },
+                  { value: "neutral", label: "Ungendered" }
+                ].map(option => (
+                  <label key={option.value} className="flex-1">
+                    <input
+                      type="radio"
+                      name="sashaVoice"
+                      value={option.value}
+                      className="sr-only peer"
+                      defaultChecked={option.value === "female"}
+                    />
+                    <div className="p-3 text-center border-2 rounded-lg cursor-pointer transition-all peer-checked:border-teal-500 peer-checked:bg-teal-50 peer-checked:text-teal-700 hover:bg-stone-50">
+                      {option.label}
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
             <div>
               <h4 className="font-medium mb-2 text-sm">AI Preferences</h4>
               <div className="space-y-2">
@@ -5429,19 +6046,19 @@ function LandingPage({ onSelectUserType }) {
               <span className="text-xs font-light tracking-widest text-stone-400 group-hover:text-stone-200 transition-colors mb-0.5">ReGenesis</span>
             </button>
 
-            {/* Navigation - V6 aligned: Home / Product / Pricing / Security / Login */}
+            {/* Navigation - Phase B aligned: For Coaches / For Teams / Pricing / Security */}
             <nav className="hidden md:flex items-center gap-6">
               <button
-                onClick={() => setCurrentPage('home')}
-                className={`text-sm font-medium transition-colors ${currentPage === 'home' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
+                onClick={() => setCurrentPage('coaches')}
+                className={`text-sm font-medium transition-colors ${currentPage === 'coaches' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
-                Home
+                For Coaches
               </button>
               <button
-                onClick={() => setCurrentPage('enterprise')}
-                className={`text-sm font-medium transition-colors ${currentPage === 'enterprise' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
+                onClick={() => setCurrentPage('teams')}
+                className={`text-sm font-medium transition-colors ${currentPage === 'teams' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
-                Product
+                For Teams
               </button>
               <button
                 onClick={() => setCurrentPage('pricing')}
@@ -5464,17 +6081,10 @@ function LandingPage({ onSelectUserType }) {
               onClick={() => handleCTA('login')}
               className="text-stone-400 hover:text-white font-medium transition-colors text-sm"
             >
-              Log in
+              Login
             </button>
             <button
-              onClick={() => {
-                // Smart CTA - go directly to appropriate onboarding based on page
-                if (currentPage === 'enterprise') {
-                  onSelectUserType('admin');
-                } else {
-                  onSelectUserType('coach');
-                }
-              }}
+              onClick={() => handleCTA('signup')}
               className="px-4 py-2 bg-white text-stone-900 rounded-lg font-medium text-sm hover:bg-stone-100 transition-colors"
             >
               Get ReGenesis
@@ -5484,8 +6094,14 @@ function LandingPage({ onSelectUserType }) {
       </header>
 
       {/* ===== PAGE ROUTING ===== */}
-      {currentPage === 'enterprise' ? (
-        <EnterprisePage
+      {currentPage === 'coaches' ? (
+        <CoachExperiencePage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+          scrollY={scrollY}
+        />
+      ) : currentPage === 'teams' ? (
+        <TeamsExperiencePage
           onGetStarted={() => handleCTA('signup')}
           setCurrentPage={setCurrentPage}
           scrollY={scrollY}
@@ -5502,117 +6118,38 @@ function LandingPage({ onSelectUserType }) {
         />
       ) : (
       <>
-      {/* ===== HERO SECTION - Animated Nature Background with Parallax ===== */}
+      {/* ===== HERO SECTION - Phase B: Coaching, amplified ===== */}
       <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
-        {/* Animated nature gradient background - mountains/valleys feel */}
-        <div className="absolute inset-0">
-          {/* Base gradient - earth tones with violet */}
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-100 via-stone-50 to-violet-50/30"></div>
-
-          {/* Parallax mountain layers */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-stone-300/40 via-stone-200/20 to-transparent"
-            style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-          ></div>
-          <div
-            className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-violet-200/30 via-violet-100/10 to-transparent"
-            style={{ transform: `translateY(${scrollY * 0.15}px)` }}
-          ></div>
-          <div
-            className="absolute bottom-0 left-0 right-0 h-[30%] bg-gradient-to-t from-stone-400/20 via-stone-300/10 to-transparent"
-            style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-          ></div>
-
-          {/* Subtle animated gradient orbs */}
-          <div
-            className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-violet-300/10 to-purple-200/5 rounded-full blur-3xl animate-pulse"
-            style={{ animationDuration: '8s', transform: `translateY(${scrollY * 0.05}px)` }}
-          ></div>
-          <div
-            className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-gradient-to-br from-amber-200/10 to-orange-100/5 rounded-full blur-3xl animate-pulse"
-            style={{ animationDuration: '10s', animationDelay: '2s', transform: `translateY(${scrollY * 0.08}px)` }}
-          ></div>
-          <div
-            className="absolute bottom-1/3 left-1/3 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/10 to-emerald-100/5 rounded-full blur-3xl animate-pulse"
-            style={{ animationDuration: '12s', animationDelay: '4s', transform: `translateY(${scrollY * 0.03}px)` }}
-          ></div>
-        </div>
-
-        {/* Hero imagery placeholder - two humans connecting */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-          <div className="text-[400px] leading-none">🤝</div>
-        </div>
+        {/* Clean gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-100 via-stone-50 to-white"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
-
-          {/* V6 Primary headline - Coach-centric "embedded coaching partner" direction */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-stone-800 mb-6 leading-tight tracking-tight">
-            An Embedded Coaching Partner
-            <br />
-            <span className="text-stone-900 font-normal">That Never Forgets</span>
+          {/* Primary headline - Phase B copy */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-stone-800 mb-6 leading-tight tracking-tight">
+            Coaching, amplified.
           </h1>
 
-          {/* V6 Subheadline - The promise */}
-          <p className="text-xl md:text-2xl text-stone-600 font-light mb-6 max-w-2xl mx-auto">
-            {LOCKED_PHRASES.coachPromise}
+          {/* Subheadline */}
+          <p className="text-2xl md:text-3xl text-stone-600 font-light mb-12">
+            Deeper impact. Greater scale. Zero admin.
           </p>
 
-          {/* Micro-proof row - small, crisp credibility */}
-          <div className="flex items-center justify-center gap-6 mb-8 text-xs text-stone-500">
-            <span className="flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              SOC 2 Ready
-            </span>
-            <span className="flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              HIPAA Ready
-            </span>
-            <span className="flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              GDPR Compliant
-            </span>
-            <span className="flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-              ICF Aligned
-            </span>
-          </div>
-
-          {/* V6 Dual CTAs - Primary: Start guided demo, Secondary: See how it works */}
+          {/* Dual CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <button
               onClick={() => handleCTA('signup')}
-              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 hover:shadow-xl transition-all"
+              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 hover:shadow-xl transition-all text-lg"
             >
-              Start Guided Demo
+              Get ReGenesis
             </button>
 
             <button
-              onClick={() => setShowVideo(true)}
-              className="group inline-flex items-center gap-3 px-6 py-3 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-stone-400 bg-white/50 backdrop-blur-sm"
+              onClick={() => {
+                document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="px-8 py-4 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-stone-400 bg-white/50 backdrop-blur-sm font-medium text-lg"
             >
-              <span className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center group-hover:shadow-lg transition-all">
-                <svg className="w-4 h-4 ml-0.5 text-violet-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                </svg>
-              </span>
-              <span className="font-medium">See How It Works</span>
-            </button>
-          </div>
-
-          {/* V6 Fork CTAs - "Here for your organization?" / "Here as a coaching client?" */}
-          <div className="flex items-center justify-center gap-6 text-sm">
-            <button
-              onClick={() => setCurrentPage('enterprise')}
-              className="text-stone-500 hover:text-violet-700 underline underline-offset-4 transition-colors"
-            >
-              Here for your organization?
-            </button>
-            <span className="text-stone-300">|</span>
-            <button
-              onClick={() => onSelectUserType('coachee')}
-              className="text-stone-500 hover:text-violet-700 underline underline-offset-4 transition-colors"
-            >
-              Here as a coaching client?
+              See How It Works
             </button>
           </div>
 
@@ -5626,326 +6163,452 @@ function LandingPage({ onSelectUserType }) {
         </div>
       </section>
 
-      {/* ===== V6 TRUST STRIP - Early trust by architecture ===== */}
-      <section className="py-8 bg-white border-b border-stone-100">
-        <div className="max-w-5xl mx-auto px-8">
-          <TrustStrip />
+      {/* ===== PHILOSOPHY STATEMENT - Part 20.2 ===== */}
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <p className="text-xl md:text-2xl text-stone-700 font-light leading-relaxed mb-6">
+            ReGenesis holds memory, reveals patterns, and generates insight — so your presence, compassion, and discernment can lead transformation.
+          </p>
+          <p className="text-lg text-stone-600 font-medium">
+            You coach. More powerfully than ever. We handle the rest.
+          </p>
         </div>
       </section>
 
-      {/* ===== V6 DEMO SPINE CARDS - 4 micro-clip placeholders ===== */}
-      <section className="py-20 bg-gradient-to-b from-white to-stone-50">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-light text-stone-800 mb-3">
-              Four Ways {PRODUCT_NAME} Transforms Your Practice
-            </h2>
-            <p className="text-stone-500">Click to explore each capability</p>
+      {/* ===== WE GET IT - Part 20.3 ===== */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-8">We Get It</h2>
+          <p className="text-lg text-stone-600 mb-6 font-medium">
+            ReGenesis was built by coaches, for coaches.
+          </p>
+          <p className="text-lg text-stone-600 leading-relaxed mb-6">
+            One of the unspoken challenges of being a coach is that we care deeply, we see potential, we want to help more — but we're constrained by time, memory, and energy.
+          </p>
+          <p className="text-lg text-stone-600 leading-relaxed">
+            We're holding dozens of human stories in our heads and hearts — trying to be fully present in-session, remember everything out-of-session, all while juggling the tasks and challenges of running a practice.
+          </p>
+        </div>
+      </section>
+
+      {/* ===== HOW REGENESIS WORKS - Part 20.4 ===== */}
+      <section id="how-it-works" className="py-12 bg-white">
+        <div className="max-w-5xl mx-auto px-8 text-center">
+          <h2 className="text-sm font-semibold tracking-widest text-stone-500 uppercase">How ReGenesis Works</h2>
+        </div>
+      </section>
+
+      {/* ===== GREATER IMPACT - Part 20.5 ===== */}
+      <section className="py-20 bg-white border-b border-stone-100">
+        <div className="max-w-4xl mx-auto px-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase">Greater Impact</h2>
+            <button className="flex items-center gap-2 px-4 py-2 bg-stone-100 rounded-lg text-stone-600 hover:bg-stone-200 transition-colors">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+              </svg>
+              Video
+            </button>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Demo Spine Card 1: Agent + Command Bar */}
-            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-violet-300 hover:shadow-lg transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-violet-200 transition-colors">
-                <svg className="w-6 h-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-stone-800 mb-2">Do Anything Agent</h3>
-              <p className="text-sm text-stone-500 mb-4">Command bar that pulls up any view and executes tasks</p>
-              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
-                Video placeholder
-              </div>
+          <p className="text-lg text-stone-600 mb-8 leading-relaxed">
+            ReGenesis helps you create more profound outcomes for your clients. It helps you see more, remember more, prepare better, articulate insights in language that lands, stay connected, and support lasting behavioral change.
+          </p>
+
+          <ul className="space-y-4 text-stone-700">
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Unlimited Memory</span> — every client, every session, every word</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Pattern Recognition</span> — surfaces what you might sense but can't fully track or put words to: trajectories, gaps, blind spots, and what's emerging</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Language Mastery</span> — articulates insights in precise (and adjustable) language, drawing on deep knowledge of each client while giving you full control to shape the tone</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Pre-Session Prep</span> — walk into every session completely and effortlessly prepared, as if you just finished the last one</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">24/7 AI Companion</span> — meet "Sasha," the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate. <em className="text-stone-500">Sasha is ReGenesis's AI assistant — your always-on partner.</em></div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">In-Session Copilot</span> — real-time coaching support exactly when and how you want it</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Smart Dashboards + Progress Tracking</span> — see progress and diagnose challenges, understanding what's working, what's not, and why — across every client</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Voice & Style Matching</span> — communicates in your authentic voice, mirroring and enriching your unique philosophy, approach, frameworks, and methods</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">AI-Drafted Session Notes</span> — powerful observations, insights, analysis, and inquiries for growth delivered to your clients in language that resonates and moves them forward. Full autonomy to adjust the template, structure, and tone — automatically insert resources, attachments, and ancillary documents directly into the notes, and send to your client at the click of a button.</div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== GREATER SCALE - Part 20.6 ===== */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-4xl mx-auto px-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase">Greater Scale</h2>
+            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-stone-600 hover:bg-stone-100 transition-colors border border-stone-200">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+              </svg>
+              Video
+            </button>
+          </div>
+
+          <p className="text-lg text-stone-600 mb-8 leading-relaxed">
+            ReGenesis helps you build visibility and bring your gifts to MORE people — while actually REDUCING your load.
+          </p>
+
+          <ul className="space-y-4 text-stone-700">
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Branding & Marketing Support</span> — grow your reach without the grind</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Client Outreach & Lead Nurturing</span> — convert interest into clients with authentic, effortless outreach that feels genuine, not salesy. Cut through the noise and do it yourself — no outside marketers needed.</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Client Testimonials & Referrals</span> — capture and share effortlessly with the world proof of your impact, and invite other coaches and clients to join your community</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Resource Library</span> — comprehensive resources for any topic, integrated with our 10,000+ work Wisdom Library of humanity's greatest insights. Search and share a poem, a book, an idea, a philosophy — the right thing for the right person at the right time.</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Coach Development & Growth</span> — support your own evolution as coach and human being, with detailed analytics, feedback on your strengths and growth areas, and concrete suggestions for leveling up</div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== GREATER EASE - Part 20.7 ===== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase">Greater Ease</h2>
+            <button className="flex items-center gap-2 px-4 py-2 bg-stone-100 rounded-lg text-stone-600 hover:bg-stone-200 transition-colors">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+              </svg>
+              Video
+            </button>
+          </div>
+
+          <p className="text-lg text-stone-600 mb-8 leading-relaxed">
+            ReGenesis takes care of everything you used to do, effortlessly. The tasks that drained your time and energy? They handle themselves.
+          </p>
+
+          {/* Ask Anything. Do Anything. */}
+          <div className="bg-stone-50 rounded-2xl p-8 mb-8">
+            <h3 className="text-xl font-semibold text-stone-800 mb-2">Ask Anything. Do Anything.</h3>
+            <p className="text-stone-500 mb-6">Instant Visibility. Instant Action.</p>
+
+            {/* Command bar icon */}
+            <div className="flex items-center gap-2 mb-6 text-stone-400">
+              <kbd className="px-2 py-1 bg-stone-200 rounded text-sm font-mono">⌘K</kbd>
             </div>
 
-            {/* Demo Spine Card 2: Post-Session Notes */}
-            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-amber-300 hover:shadow-lg transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
-                <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-stone-800 mb-2">Post-Session Notes</h3>
-              <p className="text-sm text-stone-500 mb-4">The "tears moment" — AI drafts that truly see your client</p>
-              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
-                Video placeholder
-              </div>
+            {/* Example commands */}
+            <div className="space-y-3 text-stone-600 text-sm italic mb-6">
+              <p>"I haven't met with Priya for a while... Remind me what I most need to know about her, what she's been going through based on your conversations with her, and how we might best pick things up."</p>
+              <p>"I'm feeling stuck with Tomás — what do you suggest?"</p>
+              <p>"List all the times Kenji has mentioned feeling this way"</p>
+              <p>"Put these notes into two pages and integrate my reflections that I'll verbalize to you now"</p>
+              <p>"What frameworks should I share with Amara right now?"</p>
+              <p>"Bill all my clients who I haven't yet billed for the month and show me those who are overdue"</p>
+              <p>"Who needs attention today?"</p>
             </div>
 
-            {/* Demo Spine Card 3: In-Session Support */}
-            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-teal-300 hover:shadow-lg transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
-                <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-stone-800 mb-2">In-Session Support</h3>
-              <p className="text-sm text-stone-500 mb-4">Gentle prompts right below your camera line</p>
-              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
-                Video placeholder
-              </div>
-            </div>
+            <p className="text-stone-700 font-medium text-center">
+              You're always in the driver's seat.<br />
+              Sasha shows and suggests. You decide.
+            </p>
+          </div>
 
-            {/* Demo Spine Card 4: 24/7 Companion */}
-            <div className="group relative bg-white rounded-2xl p-6 border border-stone-200 hover:border-blue-300 hover:shadow-lg transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-stone-800 mb-2">24/7 Companion</h3>
-              <p className="text-sm text-stone-500 mb-4">Support between sessions, private by default</p>
-              <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs">
-                Video placeholder
-              </div>
+          {/* Zero Friction Features */}
+          <ul className="space-y-4 text-stone-700 mb-8">
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Post-Session Auto-Drafted Notes</span> — session ends, notes appear, you edit, add resources and attachments directly into the notes, and send</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Scheduling Automation</span> — booking, rescheduling, reminders all taken care of</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Client Onboarding</span> — seamless intake and setup for new clients</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Automated Follow-ups</span> — check-ins, reminders, resource delivery without lifting a finger</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Automated Client Touchpoints</span> — effortless communications with adjustable levels of autonomy based on your and your client's preferences</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">One-Click Actions</span> — bill, schedule, send from anywhere</div>
+            </li>
+          </ul>
+
+          {/* Seamless Integration */}
+          <h3 className="text-lg font-semibold text-stone-800 mb-4">Seamless Integration</h3>
+          <ul className="space-y-4 text-stone-700">
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Effortless Integration</span> — upload, share, and sync with all your existing apps and systems</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">Your Data Imports Seamlessly</span> — zero disruption to you or your clients</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-400 mt-1">·</span>
+              <div><span className="font-semibold">All-in-One or Alongside</span> — ReGenesis can integrate seamlessly with any or all of your current tools, or replace most of them — potentially saving you hundreds of dollars a month.</div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== WHY WE BUILT THIS - Part 20.8 ===== */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-8 text-center">Why We Built This</h2>
+
+          <div className="space-y-6 text-lg text-stone-600 leading-relaxed">
+            <p>
+              We believe every human being is inherently creative, resourceful, and whole — capable of profound growth and contribution when met with presence, compassion, and wisdom.
+            </p>
+            <p>
+              ReGenesis was built to <em>protect and <strong>strengthen</strong></em> these human capacities — not replace them.
+            </p>
+            <p>
+              While we take seriously the impacts and risks that come with AI, we hope to steward the use of this technology toward what we believe matters most: seeing ourselves and each other more clearly, more deeply — finding our proper relationship with and contribution to this Earth and the Cosmos, and living a life aligned with our greatest yearnings, gifts, and responsibilities.
+            </p>
+          </div>
+
+          <div className="mt-12 grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="font-semibold text-stone-800 mb-3">ReGenesis will never:</h3>
+              <ul className="space-y-2 text-stone-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Determine meaning on your behalf
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Decide what matters most to your client
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Pretend it knows what's true or right for you or your client
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-stone-800 mb-3">ReGenesis will always:</h3>
+              <ul className="space-y-2 text-stone-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Free your mind (and hands)
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Give you full autonomy
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Help you improve your craft
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-stone-400">•</span>
+                  Hold you and your client as creative, resourceful, and whole
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== RECOGNITION SECTION ===== */}
-      <section className="relative py-32 bg-white overflow-hidden">
-        {/* Decorative side element */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/5 bg-gradient-to-l from-violet-50/50 to-transparent"></div>
+      {/* ===== GROUNDED IN WISDOM - Part 20.9 ===== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-8">Grounded in Wisdom</h2>
 
-        <div className="relative max-w-3xl mx-auto px-8 text-center">
-
-          <p className="text-2xl md:text-3xl font-light text-stone-700 leading-relaxed mb-12">
-            <span className="text-stone-900 font-normal">Coaching was never meant to be atomized.</span>
+          <p className="text-lg text-stone-600 leading-relaxed mb-6">
+            ReGenesis is powered by leading AI models (Claude, GPT, and others) — AND layered with a curated Wisdom Corpus of 10,000+ of the greatest works of human wisdom from across cultures and centuries.
           </p>
-
-          <p className="text-lg md:text-xl text-stone-600 leading-relaxed mb-8">
-            Each session is part of a longer arc—of patterns of hopes and fears, yearnings and wounds,
-            realizations and commitments, being and becoming. But much of that arc is quietly lost to
-            the limits of our memory, the burden of administrative tasks, and the exhaustion of
-            holding everything alone.
+          <p className="text-lg text-stone-600 leading-relaxed">
+            The result: an AI that reflects humanity's greatest wisdom and compassion, combining frontier intelligence with our deepest insights on the nature and potential of our being, our growth, and what it means to flourish.
           </p>
-
-          <p className="text-lg md:text-xl text-stone-600 leading-relaxed">
-            <span className="text-violet-700 font-medium">ReGenesis</span> exists so nothing essential disappears—so insights compound over time,
-            so clients feel deeply and continuously held, and so you are freed to do the work
-            only a human being can do.
-          </p>
-
         </div>
       </section>
 
-      {/* ===== TRUTH STATEMENTS - Visual treatment ===== */}
-      <section className="relative py-28 overflow-hidden">
-        {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-violet-50/30 to-stone-50"></div>
+      {/* ===== TRUST, BY DESIGN - Part 20.10 ===== */}
+      <section className="py-20 bg-stone-900 text-white">
+        <div className="max-w-4xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold tracking-wide uppercase mb-4 text-center">Trust, By Design</h2>
 
-        <div className="relative max-w-5xl mx-auto px-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              { statement: "Care compounds when cognitive load is removed.", icon: "💜" },
-              { statement: "Insight deepens when larger patterns are revealed.", icon: "🔮" },
-              { statement: "Transformation accelerates when eloquence and continuity combine.", icon: "✨" },
-              { statement: "Wisdom expands when attention is liberated.", icon: "🌟" }
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-violet-100/50"
+          <p className="text-lg text-stone-300 mb-8 text-center">
+            Your coaching conversations are protected by architecture, not just policy.
+          </p>
+
+          <ul className="space-y-4 text-stone-300 max-w-2xl mx-auto mb-8">
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">Zero-knowledge encryption</span> — keys held only by you</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">True deletion</span> — delete means gone, not archived</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">Full data sovereignty</span> — export or leave anytime</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">Transparent AI attribution</span> — always know what's human, what's AI</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">100% source-verifiable</span> — every insight traceable to its origin</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">Human authority preserved</span> — AI supports, never overrides</div>
+            </li>
+          </ul>
+
+          {/* Compliance badges */}
+          <div className="flex items-center justify-center gap-6 mb-8 text-sm text-stone-400">
+            <span>SOC 2 Type II</span>
+            <span>·</span>
+            <span>HIPAA-ready</span>
+            <span>·</span>
+            <span>GDPR compliant</span>
+          </div>
+
+          <div className="text-center">
+            <button
+              onClick={() => setCurrentPage('security')}
+              className="text-white underline underline-offset-4 hover:text-stone-300 transition-colors"
+            >
+              Our security architecture →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PRICING - Part 20.11 ===== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4 text-center">Pricing</h2>
+
+          <p className="text-xl text-stone-600 text-center mb-12">
+            No games. No gates. No B.S.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {/* Individual Card */}
+            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
+              <h3 className="text-lg font-semibold text-stone-800 uppercase tracking-wide mb-4">Individual</h3>
+              <div className="mb-4">
+                <span className="text-4xl font-bold text-stone-900">$39</span>
+                <span className="text-stone-500">/month</span>
+              </div>
+              <ul className="space-y-2 text-stone-600 mb-8">
+                <li>Up to 25 clients</li>
+                <li>Everything included.</li>
+              </ul>
+              <button
+                onClick={() => handleCTA('signup')}
+                className="w-full py-3 bg-stone-900 text-white rounded-lg font-medium hover:bg-stone-800 transition-colors"
               >
-                <span className="text-2xl">{item.icon}</span>
-                <p className="text-lg text-stone-700 font-light leading-relaxed">
-                  {item.statement}
-                </p>
+                Get Started
+              </button>
+            </div>
+
+            {/* Teams Card */}
+            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
+              <h3 className="text-lg font-semibold text-stone-800 uppercase tracking-wide mb-4">Teams</h3>
+              <div className="mb-4">
+                <span className="text-4xl font-bold text-stone-900">$9</span>
+                <span className="text-stone-500">/coachee/month</span>
               </div>
-            ))}
+              <ul className="space-y-2 text-stone-600 mb-8">
+                <li>Coach seats free</li>
+                <li>Unlimited coaches</li>
+                <li>Full analytics</li>
+                <li>Admin dashboard</li>
+              </ul>
+              <button
+                onClick={() => handleCTA('signup')}
+                className="w-full py-3 bg-stone-900 text-white rounded-lg font-medium hover:bg-stone-800 transition-colors"
+              >
+                Talk to Us
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== THE REFRAME - "This Is Not AI Coaching" ===== */}
-      <section className="relative py-32 bg-stone-900 text-white overflow-hidden">
-        {/* Decorative gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-900/20 via-transparent to-amber-900/10"></div>
-
-        {/* Placeholder for imagery */}
-        <div className="absolute left-0 top-1/4 w-1/4 h-1/2 bg-gradient-to-r from-violet-500/10 to-transparent rounded-r-full blur-2xl"></div>
-
-        <div className="relative max-w-3xl mx-auto px-8 text-center">
-
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-12">
-            This Is Not AI Coaching
+      {/* ===== FINAL CTA - Part 20.12 ===== */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-8">
+            Ready to coach like you never thought possible?
           </h2>
-
-          <div className="space-y-6 text-lg leading-relaxed">
-            <p className="text-stone-300">
-              ReGenesis does not replace your insight, intuition, or care.
-            </p>
-            <p className="text-stone-300">
-              It replaces everything that should never have required your attention in the first place.
-            </p>
-            <p className="text-stone-400">
-              It holds perfect memory. It tracks patterns. It ensures continuity.
-              It takes care of anything and everything you want it to.
-            </p>
-            <p className="text-white font-medium text-2xl mt-12">
-              You remain the human in the room.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ===== WHAT CHANGES IN PRACTICE - Comprehensive ===== */}
-      <section className="py-32 bg-white">
-        <div className="max-w-6xl mx-auto px-8">
-
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4">
-              What Actually Changes in Practice
-            </h2>
-            <p className="text-lg text-stone-500 max-w-2xl mx-auto">
-              Every aspect of your coaching practice, transformed
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featureCategories.map((category, i) => (
-              <div
-                key={i}
-                className="relative p-6 rounded-2xl bg-gradient-to-br border border-stone-100 hover:shadow-lg transition-shadow"
-                style={{ background: `linear-gradient(135deg, ${category.color.includes('violet') ? 'rgba(139,92,246,0.08)' : category.color.includes('amber') ? 'rgba(245,158,11,0.08)' : category.color.includes('teal') ? 'rgba(20,184,166,0.08)' : category.color.includes('blue') ? 'rgba(59,130,246,0.08)' : category.color.includes('rose') ? 'rgba(244,63,94,0.08)' : 'rgba(6,182,212,0.08)'} 0%, transparent 100%)` }}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-2xl">{category.icon}</span>
-                  <h3 className="text-lg font-medium text-stone-800">{category.title}</h3>
-                </div>
-                <ul className="space-y-3">
-                  {category.features.map((feature, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-stone-600">
-                      <span className="text-violet-500 mt-1">•</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ===== WHAT BECOMES POSSIBLE - Visual grid ===== */}
-      <section className="relative py-32 overflow-hidden">
-        {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-amber-50/20 to-violet-50/30"></div>
-
-        {/* Decorative elements */}
-        <div className="absolute right-0 top-1/3 w-1/4 h-1/3 bg-gradient-to-l from-amber-200/20 to-transparent rounded-l-full blur-2xl"></div>
-
-        <div className="relative max-w-5xl mx-auto px-8">
-
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-4">
-              What Becomes Possible
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {possibilities.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-4 p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-stone-100 hover:border-violet-200 transition-colors"
-              >
-                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex-shrink-0"></div>
-                <p className="text-stone-700 text-sm">{item.text}</p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ===== CTA SECTION ===== */}
-      <section className="relative py-32 bg-stone-50">
-        {/* Placeholder for background imagery */}
-        <div className="absolute inset-0 bg-gradient-to-t from-violet-100/30 to-transparent"></div>
-
-        <div className="relative max-w-3xl mx-auto px-8 text-center">
-
-          <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-6">
-            Experience it with real clients
-          </h2>
-          <p className="text-lg text-stone-500 mb-12">
-            No setup theatre. No data loss. You can stop anytime.
-          </p>
 
           <button
-            onClick={() => onSelectUserType('coach')}
+            onClick={() => handleCTA('signup')}
             className="px-12 py-4 bg-stone-900 text-white rounded-xl font-medium text-lg hover:bg-stone-800 hover:shadow-2xl transition-all"
           >
-            Try it free
+            Get ReGenesis
           </button>
-
-          {/* Secondary pathways - visible but not dominant */}
-          <div className="mt-16 pt-8 border-t border-stone-200">
-            <p className="text-sm text-stone-500 mb-4">Not a coach?</p>
-            <div className="flex justify-center gap-8 text-sm">
-              <button
-                onClick={() => onSelectUserType('coachee')}
-                className="text-stone-600 hover:text-violet-600 transition-colors font-medium"
-              >
-                I'm a coaching client—recommend this to my coach →
-              </button>
-              <button
-                onClick={() => onSelectUserType('admin')}
-                className="text-stone-600 hover:text-violet-600 transition-colors font-medium"
-              >
-                I'm evaluating for my organization →
-              </button>
-            </div>
-          </div>
-
         </div>
       </section>
       </>
       )}
 
-      {/* ===== COMPREHENSIVE FOOTER - Superhuman-style ===== */}
+      {/* ===== FOOTER - Part 20.13 ===== */}
       <footer className="bg-stone-900 text-stone-400 pt-16 pb-8">
         <div className="max-w-6xl mx-auto px-8">
-          {/* Main footer grid */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-            {/* Brand column */}
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-end gap-2 mb-4">
-                <div className="w-10 h-10 flex items-center justify-center">
-                  <img
-                    src="/src/assets/ouroboros-logo.png"
-                    alt="ReGenesis"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <span className="text-xs font-light tracking-widest text-stone-500 mb-0.5">ReGenesis</span>
-              </div>
-              <p className="text-sm text-stone-500 leading-relaxed">
-                Augmented Intelligence for Human Becoming
-              </p>
-            </div>
+          {/* Brand */}
+          <div className="mb-12">
+            <span className="text-white font-medium text-lg">ReGenesis</span>
+          </div>
 
+          {/* Main footer grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Product */}
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Product</h4>
               <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setCurrentPage('home')} className="hover:text-white transition-colors">For Coaches</button></li>
-                <li><button onClick={() => setCurrentPage('enterprise')} className="hover:text-white transition-colors">Enterprise</button></li>
+                <li><button onClick={() => setCurrentPage('coaches')} className="hover:text-white transition-colors">For Coaches</button></li>
+                <li><button onClick={() => onSelectUserType('coachee')} className="hover:text-white transition-colors">For Clients</button></li>
+                <li><button onClick={() => setCurrentPage('teams')} className="hover:text-white transition-colors">For Teams</button></li>
                 <li><button onClick={() => setCurrentPage('pricing')} className="hover:text-white transition-colors">Pricing</button></li>
-                <li><button onClick={() => setShowVideo(true)} className="hover:text-white transition-colors">Demo</button></li>
-              </ul>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <h4 className="text-white font-medium text-sm mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Case Studies</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Webinars</a></li>
+                <li><button onClick={() => setCurrentPage('security')} className="hover:text-white transition-colors">Security</button></li>
               </ul>
             </div>
 
@@ -5954,20 +6617,28 @@ function LandingPage({ onSelectUserType }) {
               <h4 className="text-white font-medium text-sm mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Philosophy</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Press</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
 
-            {/* Legal */}
+            {/* Resources */}
             <div>
-              <h4 className="text-white font-medium text-sm mb-4">Legal</h4>
+              <h4 className="text-white font-medium text-sm mb-4">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">GDPR</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <h4 className="text-white font-medium text-sm mb-4">Connect</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Email us</a></li>
               </ul>
             </div>
           </div>
@@ -5975,19 +6646,12 @@ function LandingPage({ onSelectUserType }) {
           {/* Bottom bar */}
           <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-stone-500">© 2026 ReGenesis. All rights reserved.</p>
-            <div className="flex items-center gap-6 text-sm">
-              <span className="flex items-center gap-1.5 text-stone-500">
-                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                SOC 2 Type II
-              </span>
-              <span className="flex items-center gap-1.5 text-stone-500">
-                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                HIPAA Compliant
-              </span>
-              <span className="flex items-center gap-1.5 text-stone-500">
-                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/></svg>
-                GDPR Ready
-              </span>
+            <div className="flex items-center gap-4 text-sm text-stone-500">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <span>·</span>
+              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+              <span>·</span>
+              <a href="#" className="hover:text-white transition-colors">Cookie Settings</a>
             </div>
           </div>
         </div>
@@ -6197,6 +6861,119 @@ function LandingPage({ onSelectUserType }) {
         </div>
       )}
 
+    </div>
+  );
+}
+
+// ============ COACH EXPERIENCE PAGE ============
+function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
+  return (
+    <div className="min-h-screen bg-stone-50 pt-20">
+      <div className="max-w-4xl mx-auto px-8 py-16">
+        <h1 className="text-4xl font-light text-stone-800 mb-6">For Coaches</h1>
+        <p className="text-xl text-stone-600 mb-8">
+          Everything you need to coach more powerfully — with less admin, better preparation, and deeper insight.
+        </p>
+
+        <div className="space-y-8 mb-12">
+          <div className="bg-white rounded-2xl p-8 border border-stone-200">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Greater Impact</h2>
+            <p className="text-stone-600 mb-4">Create more profound outcomes for your clients with unlimited memory, pattern recognition, and language mastery.</p>
+            <ul className="space-y-2 text-stone-600">
+              <li>· Pre-session prep that makes you completely prepared</li>
+              <li>· 24/7 AI companion for your clients (Sasha)</li>
+              <li>· In-Session Copilot for real-time support</li>
+              <li>· Smart dashboards and progress tracking</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 border border-stone-200">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Greater Scale</h2>
+            <p className="text-stone-600 mb-4">Build visibility and bring your gifts to more people while reducing your load.</p>
+            <ul className="space-y-2 text-stone-600">
+              <li>· Branding & marketing support</li>
+              <li>· Client outreach & lead nurturing</li>
+              <li>· 10,000+ work Wisdom Library</li>
+              <li>· Coach development & growth analytics</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 border border-stone-200">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Greater Ease</h2>
+            <p className="text-stone-600 mb-4">Everything you used to do, handled effortlessly.</p>
+            <ul className="space-y-2 text-stone-600">
+              <li>· Post-session auto-drafted notes</li>
+              <li>· Scheduling automation</li>
+              <li>· Client onboarding</li>
+              <li>· One-click actions (bill, schedule, send)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button
+            onClick={onGetStarted}
+            className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium text-lg hover:bg-stone-800 transition-colors"
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============ TEAMS EXPERIENCE PAGE ============
+function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
+  return (
+    <div className="min-h-screen bg-stone-50 pt-20">
+      <div className="max-w-4xl mx-auto px-8 py-16">
+        <h1 className="text-4xl font-light text-stone-800 mb-6">For Teams</h1>
+        <p className="text-xl text-stone-600 mb-8">
+          Scale coaching across your organization with unified analytics, centralized administration, and privacy-first architecture.
+        </p>
+
+        <div className="space-y-8 mb-12">
+          <div className="bg-white rounded-2xl p-8 border border-stone-200">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Scale Development</h2>
+            <p className="text-stone-600 mb-4">Whether you have 50 coaches or 5,000 employees receiving coaching, ReGenesis grows with you.</p>
+            <ul className="space-y-2 text-stone-600">
+              <li>· Unified analytics & reporting</li>
+              <li>· Centralized administration</li>
+              <li>· Custom integrations (HRIS, SSO, LMS)</li>
+              <li>· Dedicated success team</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 border border-stone-200">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Privacy-First</h2>
+            <p className="text-stone-600 mb-4">Coachees trust the platform because their conversations stay private.</p>
+            <ul className="space-y-2 text-stone-600">
+              <li>· Zero-knowledge encryption</li>
+              <li>· Full audit trails & access controls</li>
+              <li>· Data residency options</li>
+              <li>· Compliance reporting</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 border border-stone-200">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Pricing</h2>
+            <div className="text-stone-600">
+              <p className="text-3xl font-bold text-stone-900 mb-2">$9<span className="text-lg font-normal">/coachee/month</span></p>
+              <p>Coach seats always free · Unlimited coaches · Full analytics · Admin dashboard</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button
+            onClick={onGetStarted}
+            className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium text-lg hover:bg-stone-800 transition-colors"
+          >
+            Talk to Us
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -8918,9 +9695,19 @@ function AdminOnboardingFlow({ step, setStep, onComplete, onBack }) {
 // ============ COACHEE DASHBOARD SHELL ============
 // UF-9: Expanded Coachee Dashboard with much more depth
 function CoacheeDashboardShell({ onLogout }) {
-  const [activePage, setActivePage] = React.useState("Home");
+  const [activePage, setActivePage] = React.useState("Profile");
   const [privacyLevel, setPrivacyLevel] = React.useState("coach-shared");
   const [showPrivacyModal, setShowPrivacyModal] = React.useState(false);
+
+  // V6: Client tabs per Part 6.2 - Profile, Goals & Progress, Session Notes, Session Prep, Sasha Conversations Log, Resource Library
+  const clientTabs = [
+    { key: "Profile", label: "Profile" },
+    { key: "Goals", label: "Goals & Progress" },
+    { key: "Notes", label: "Session Notes" },
+    { key: "SessionPrep", label: "Session Prep" },
+    { key: "SashaLog", label: "Sasha Conversations Log" },
+    { key: "Resources", label: "Resource Library" }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 to-blue-50">
@@ -8935,17 +9722,17 @@ function CoacheeDashboardShell({ onLogout }) {
               <span className="text-xl font-light text-stone-800">ReGenesis</span>
             </div>
             <nav className="flex gap-4">
-              {["Home", "Companion", "Journal", "Progress", "Resources", "Privacy", "Settings"].map(page => (
+              {clientTabs.map(tab => (
                 <button
-                  key={page}
-                  onClick={() => setActivePage(page)}
+                  key={tab.key}
+                  onClick={() => setActivePage(tab.key)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    activePage === page
+                    activePage === tab.key
                       ? "bg-blue-100 text-blue-700"
                       : "text-stone-600 hover:bg-stone-100"
                   }`}
                 >
-                  {page}
+                  {tab.label}
                 </button>
               ))}
             </nav>
@@ -8967,7 +9754,7 @@ function CoacheeDashboardShell({ onLogout }) {
 
       {/* Content */}
       <main className="p-8">
-        {activePage === "Home" && (
+        {activePage === "Profile" && (
           <div className="max-w-5xl mx-auto">
             {/* Welcome Section with Context */}
             <div className="mb-8">
@@ -9135,13 +9922,13 @@ function CoacheeDashboardShell({ onLogout }) {
           </div>
         )}
 
-        {activePage === "Companion" && (
+        {activePage === "SashaLog" && (
           <div className="max-w-3xl mx-auto">
             <div className="bg-white rounded-xl shadow-sm border border-stone-200 h-[650px] flex flex-col">
               <div className="p-4 border-b border-stone-200 flex items-center justify-between">
                 <div>
-                  <h2 className="font-semibold text-stone-800">Chat with ReGenesis</h2>
-                  <p className="text-sm text-stone-500">Your 24/7 growth companion · Knows your full context</p>
+                  <h2 className="font-semibold text-stone-800">Sasha Conversations Log</h2>
+                  <p className="text-sm text-stone-500">Your 24/7 AI companion · Knows your full context</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button className="px-3 py-1 text-xs bg-stone-100 rounded-lg hover:bg-stone-200">
@@ -9196,62 +9983,50 @@ function CoacheeDashboardShell({ onLogout }) {
           </div>
         )}
 
-        {activePage === "Journal" && (
+        {/* V6: Session Notes tab for clients - newest first, with View Transcript / View Video buttons */}
+        {activePage === "Notes" && (
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h1 className="text-3xl font-light text-stone-800">Your Journal</h1>
-                <p className="text-stone-600">Private reflections — only you can see these</p>
+                <h1 className="text-3xl font-light text-stone-800">Session Notes</h1>
+                <p className="text-stone-600">Notes from your coaching sessions with Jesse</p>
               </div>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
-                + New Entry
-              </button>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-5 text-white">
-                <div className="text-3xl mb-2">📝</div>
-                <div className="text-2xl font-bold">23</div>
-                <div className="text-purple-200 text-sm">Journal entries</div>
-              </div>
-              <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl p-5 text-white">
-                <div className="text-3xl mb-2">🔥</div>
-                <div className="text-2xl font-bold">7</div>
-                <div className="text-pink-200 text-sm">Day streak</div>
-              </div>
-              <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl p-5 text-white">
-                <div className="text-3xl mb-2">💡</div>
-                <div className="text-2xl font-bold">12</div>
-                <div className="text-amber-200 text-sm">Insights captured</div>
-              </div>
+              <input
+                type="text"
+                placeholder="Search notes..."
+                className="px-4 py-2 border border-stone-300 rounded-lg text-sm"
+              />
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
-              <div className="p-4 border-b border-stone-200 bg-stone-50">
-                <div className="flex items-center justify-between">
-                  <h2 className="font-semibold text-stone-800">Recent Entries</h2>
-                  <div className="flex items-center gap-2 text-xs text-green-700 bg-green-50 px-2 py-1 rounded-full">
-                    <span>🔒</span> All entries are Private
-                  </div>
-                </div>
-              </div>
               <div className="divide-y divide-stone-100">
                 {[
-                  { date: "Today", title: "Morning reflection", preview: "Feeling more confident about the conversation yesterday. Jesse was right that...", mood: "😊" },
-                  { date: "Yesterday", title: "Processing the feedback", preview: "Got some tough feedback in the meeting. Need to sit with this before reacting...", mood: "😐" },
-                  { date: "Jan 18", title: "Breakthrough moment", preview: "I finally understand what Jesse meant about my pattern of over-explaining...", mood: "🤩" },
-                  { date: "Jan 16", title: "Evening check-in", preview: "Tired but satisfied. Made progress on the boundary conversation prep...", mood: "🙂" }
-                ].map((entry, i) => (
-                  <div key={i} className="p-4 hover:bg-stone-50 cursor-pointer">
-                    <div className="flex items-start justify-between">
+                  { date: "Jan 20, 2026", title: "Session 12 – Boundary Conversation Debrief", status: "sent", duration: "60 min" },
+                  { date: "Jan 13, 2026", title: "Session 11 – Preparing for the Conversation", status: "sent", duration: "60 min" },
+                  { date: "Jan 6, 2026", title: "Session 10 – Values Alignment Check", status: "sent", duration: "60 min" },
+                  { date: "Dec 30, 2025", title: "Session 9 – Year-End Reflection", status: "sent", duration: "90 min" },
+                  { date: "Dec 16, 2025", title: "Session 8 – Feedback Processing", status: "sent", duration: "60 min" }
+                ].map((session, i) => (
+                  <div key={i} className="p-4 hover:bg-stone-50">
+                    <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xl">{entry.mood}</span>
-                          <span className="font-medium text-stone-800">{entry.title}</span>
+                        <div className="flex items-center gap-3 mb-1">
+                          <span className="font-medium text-stone-800">{session.title}</span>
+                          <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">{session.status}</span>
                         </div>
-                        <p className="text-sm text-stone-600 line-clamp-1">{entry.preview}</p>
+                        <div className="text-sm text-stone-500">{session.date} · {session.duration}</div>
                       </div>
-                      <span className="text-xs text-stone-500">{entry.date}</span>
+                      <div className="flex items-center gap-2">
+                        <button className="px-3 py-1.5 text-xs bg-stone-100 text-stone-700 rounded hover:bg-stone-200">
+                          View Full Transcript
+                        </button>
+                        <button className="px-3 py-1.5 text-xs bg-stone-100 text-stone-700 rounded hover:bg-stone-200">
+                          View Video
+                        </button>
+                        <button className="px-3 py-1.5 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
+                          Open Notes
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -9260,9 +10035,102 @@ function CoacheeDashboardShell({ onLogout }) {
           </div>
         )}
 
-        {activePage === "Progress" && (
+        {/* V6: Session Prep tab for clients (not T-15) */}
+        {activePage === "SessionPrep" && (
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-8">
+              <h1 className="text-3xl font-light text-stone-800 mb-2">Session Prep</h1>
+              <p className="text-stone-600">Prepare for your upcoming session with Jesse</p>
+            </div>
+
+            {/* Upcoming Session Card */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 text-white mb-8">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-xl font-semibold mb-2">Next Session</h2>
+                  <p className="text-blue-100 text-lg">Thursday, Jan 23 at 2:00 PM</p>
+                  <p className="text-blue-200 text-sm mt-1">with Jesse Torrence · 60 minutes · Zoom</p>
+                </div>
+                <span className="text-4xl">📅</span>
+              </div>
+            </div>
+
+            {/* Prep Questions */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-stone-200 mb-6">
+              <h2 className="font-semibold text-stone-800 mb-4">Reflection Questions</h2>
+              <div className="space-y-4">
+                {[
+                  { question: "What wins do you want to celebrate?", placeholder: "Share your successes since last session..." },
+                  { question: "What's feeling stuck or challenging?", placeholder: "What obstacles are you facing..." },
+                  { question: "What do you most want from this session?", placeholder: "Your intention for our time together..." }
+                ].map((item, i) => (
+                  <div key={i}>
+                    <label className="block text-sm font-medium text-stone-700 mb-2">{item.question}</label>
+                    <textarea
+                      rows={3}
+                      placeholder={item.placeholder}
+                      className="w-full px-4 py-3 border border-stone-300 rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between mt-6">
+                <span className="text-xs text-stone-500">Your responses are shared with your coach</span>
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
+                  Save Prep
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Check-ins */}
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-stone-200">
+                <h3 className="font-medium text-stone-800 mb-3">How are you feeling today?</h3>
+                <div className="flex gap-2">
+                  {["😔", "😐", "🙂", "😊", "🤩"].map((emoji, i) => (
+                    <button key={i} className="w-10 h-10 bg-stone-100 hover:bg-stone-200 rounded-lg text-xl">
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-stone-200">
+                <h3 className="font-medium text-stone-800 mb-3">Energy level</h3>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map(level => (
+                    <button key={level} className="flex-1 py-2 bg-stone-100 hover:bg-blue-100 rounded-lg text-sm">
+                      {level}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Past Session Prep Log */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-stone-200">
+              <h2 className="font-semibold text-stone-800 mb-4">Past Session Prep</h2>
+              <div className="space-y-3">
+                {[
+                  { date: "Jan 13", focus: "Boundary conversation prep", mood: "Nervous but ready" },
+                  { date: "Jan 6", focus: "Values alignment", mood: "Curious" },
+                  { date: "Dec 30", focus: "Year reflection", mood: "Grateful" }
+                ].map((prep, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg hover:bg-stone-100 cursor-pointer">
+                    <div>
+                      <div className="font-medium text-stone-800">{prep.date} – {prep.focus}</div>
+                      <div className="text-sm text-stone-500">Mood: {prep.mood}</div>
+                    </div>
+                    <button className="text-blue-600 hover:underline text-sm">View</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activePage === "Goals" && (
           <div className="max-w-5xl mx-auto">
-            <h1 className="text-3xl font-light text-stone-800 mb-8">Your Progress</h1>
+            <h1 className="text-3xl font-light text-stone-800 mb-8">Goals & Progress</h1>
 
             <div className="grid md:grid-cols-4 gap-4 mb-8">
               {[
@@ -9341,9 +10209,36 @@ function CoacheeDashboardShell({ onLogout }) {
           </div>
         )}
 
+        {/* V6: Resource Library with source filters per Part 18 */}
         {activePage === "Resources" && (
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-light text-stone-800 mb-8">Your Resources</h1>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-3xl font-light text-stone-800">Resource Library</h1>
+                <p className="text-stone-600">Resources shared with you and recommended by Sasha</p>
+              </div>
+              <input
+                type="text"
+                placeholder="Search resources..."
+                className="px-4 py-2 border border-stone-300 rounded-lg text-sm"
+              />
+            </div>
+
+            {/* Source Filters */}
+            <div className="flex gap-2 mb-6">
+              {["All", "My coach", "My team", "Me", "Sasha", "Other"].map(filter => (
+                <button
+                  key={filter}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                    filter === "All"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                  }`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
 
             <div className="space-y-6">
               <div className="bg-white rounded-xl p-6 shadow-sm border border-stone-200">
@@ -9352,20 +10247,27 @@ function CoacheeDashboardShell({ onLogout }) {
                 </h2>
                 <div className="space-y-3">
                   {[
-                    { title: "Conscious Leadership Commitments", type: "PDF", date: "Shared Jan 15" },
+                    { title: "Conscious Leadership Commitments", type: "Framework", date: "Shared Jan 15" },
                     { title: "NVC Communication Framework", type: "Article", date: "Shared Jan 10" },
-                    { title: "Boundaries Worksheet", type: "PDF", date: "Shared Jan 5" },
+                    { title: "Boundaries Worksheet", type: "Worksheet", date: "Shared Jan 5" },
                     { title: "Values Clarification Exercise", type: "Exercise", date: "Shared Dec 20" }
                   ].map((resource, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg hover:bg-stone-100 cursor-pointer">
+                    <div key={i} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg hover:bg-stone-100">
                       <div className="flex items-center gap-3">
                         <span className="text-xl">📄</span>
                         <div>
                           <div className="font-medium text-stone-800">{resource.title}</div>
-                          <div className="text-xs text-stone-500">{resource.type} · {resource.date}</div>
+                          <div className="text-xs text-stone-500">
+                            <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded mr-2">{resource.type}</span>
+                            {resource.date}
+                          </div>
                         </div>
                       </div>
-                      <button className="text-blue-600 hover:underline text-sm">Open</button>
+                      <div className="flex items-center gap-2">
+                        <button className="px-2 py-1 text-xs bg-stone-200 text-stone-700 rounded hover:bg-stone-300">Save</button>
+                        <button className="px-2 py-1 text-xs bg-stone-200 text-stone-700 rounded hover:bg-stone-300">Assign to goal</button>
+                        <button className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200">Open</button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -9373,20 +10275,26 @@ function CoacheeDashboardShell({ onLogout }) {
 
               <div className="bg-white rounded-xl p-6 shadow-sm border border-stone-200">
                 <h2 className="font-semibold text-stone-800 mb-4 flex items-center gap-2">
-                  <span>🎧</span> Recommended by ReGenesis
+                  <span>🎧</span> Recommended by Sasha
                 </h2>
                 <p className="text-sm text-stone-600 mb-4">Based on themes from your recent sessions</p>
                 <div className="grid grid-cols-2 gap-4">
                   {[
-                    { title: "The Power of Vulnerability", author: "Brené Brown", type: "TED Talk" },
+                    { title: "The Power of Vulnerability", author: "Brené Brown", type: "Video" },
                     { title: "Difficult Conversations", author: "Stone, Patton, Heen", type: "Book" },
                     { title: "Radical Candor", author: "Kim Scott", type: "Book" },
                     { title: "Setting Boundaries", author: "Nedra Tawwab", type: "Article" }
                   ].map((resource, i) => (
-                    <div key={i} className="p-4 border border-stone-200 rounded-lg hover:border-blue-300 cursor-pointer">
+                    <div key={i} className="p-4 border border-stone-200 rounded-lg hover:border-blue-300">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded">{resource.type}</span>
+                      </div>
                       <div className="font-medium text-stone-800 mb-1">{resource.title}</div>
-                      <div className="text-sm text-stone-600">{resource.author}</div>
-                      <div className="text-xs text-blue-600 mt-2">{resource.type}</div>
+                      <div className="text-sm text-stone-600 mb-3">{resource.author}</div>
+                      <div className="flex gap-2">
+                        <button className="text-xs text-blue-600 hover:underline">Save</button>
+                        <button className="text-xs text-blue-600 hover:underline">Discuss with coach</button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -9730,6 +10638,344 @@ function AdminDashboardShell({ onLogout }) {
           </div>
         )}
       </main>
+    </div>
+  );
+}
+
+// ============ FLOATING SASHA BUTTON ============
+// Part 2.4: Floating Sasha button that appears on all coach pages
+// ============ SASHA LIVE MODAL ============
+// V6 Part 3: Modal for between-session/solo work with voice + screen sharing
+function SashaLiveModal({ isOpen, onClose }) {
+  const [isListening, setIsListening] = React.useState(false);
+  const [isScreenSharing, setIsScreenSharing] = React.useState(false);
+  const [speakAloud, setSpeakAloud] = React.useState(true);
+  const [conversation, setConversation] = React.useState([
+    { role: "sasha", text: "Hello! I'm here to help. You can share your screen or speak with me directly. What would you like to work on?" }
+  ]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-stone-900 rounded-2xl w-full max-w-5xl h-[80vh] flex flex-col overflow-hidden shadow-2xl">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">🧙‍♂️</span>
+            <div>
+              <h2 className="text-xl font-bold text-white">Sasha Live</h2>
+              <p className="text-xs text-white/80">Voice + Vision Mode</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            {/* Demo Status Badge */}
+            <div className="px-3 py-1 bg-white/20 rounded-full text-xs text-white">
+              Stage 0: Wireframe Demo
+            </div>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Left Panel - Preview */}
+          <div className="w-1/2 border-r border-stone-700 p-6 flex flex-col">
+            <h3 className="text-stone-400 text-sm font-medium mb-4">SCREEN PREVIEW</h3>
+            <div className="flex-1 bg-stone-800 rounded-xl flex items-center justify-center">
+              {isScreenSharing ? (
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-3 mx-auto">
+                    <span className="text-3xl">🖥️</span>
+                  </div>
+                  <p className="text-green-400 text-sm">Screen sharing active</p>
+                  <p className="text-stone-500 text-xs mt-1">Sasha can see your screen</p>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-stone-700 rounded-full flex items-center justify-center mb-3 mx-auto">
+                    <span className="text-3xl text-stone-500">🖥️</span>
+                  </div>
+                  <p className="text-stone-500 text-sm">Screen not shared</p>
+                  <p className="text-stone-600 text-xs mt-1">Click Share Screen to start</p>
+                </div>
+              )}
+            </div>
+
+            {/* Controls */}
+            <div className="flex items-center justify-center gap-4 mt-6">
+              {/* Screen Share Button */}
+              <button
+                onClick={() => setIsScreenSharing(!isScreenSharing)}
+                className={`flex flex-col items-center gap-1 p-4 rounded-xl transition-colors ${
+                  isScreenSharing
+                    ? "bg-green-600 text-white"
+                    : "bg-stone-700 text-stone-300 hover:bg-stone-600"
+                }`}
+              >
+                <span className="text-2xl">🖥️</span>
+                <span className="text-xs">{isScreenSharing ? "Stop Sharing" : "Share Screen"}</span>
+              </button>
+
+              {/* Mic Button */}
+              <button
+                onClick={() => setIsListening(!isListening)}
+                className={`flex flex-col items-center gap-1 p-4 rounded-xl transition-colors ${
+                  isListening
+                    ? "bg-red-500 text-white animate-pulse"
+                    : "bg-stone-700 text-stone-300 hover:bg-stone-600"
+                }`}
+              >
+                <span className="text-2xl">{isListening ? "🎙️" : "🎤"}</span>
+                <span className="text-xs">{isListening ? "Listening..." : "Start Mic"}</span>
+              </button>
+
+              {/* Stop Button */}
+              <button
+                onClick={() => { setIsListening(false); setIsScreenSharing(false); }}
+                className="flex flex-col items-center gap-1 p-4 rounded-xl bg-stone-700 text-stone-300 hover:bg-red-600 hover:text-white transition-colors"
+              >
+                <span className="text-2xl">⏹️</span>
+                <span className="text-xs">Stop All</span>
+              </button>
+            </div>
+
+            {/* Speak Aloud Toggle */}
+            <div className="flex items-center justify-center gap-3 mt-4">
+              <span className="text-stone-400 text-sm">Sasha speaks out loud</span>
+              <button
+                onClick={() => setSpeakAloud(!speakAloud)}
+                className={`w-12 h-6 rounded-full transition-colors ${
+                  speakAloud ? "bg-teal-600" : "bg-stone-600"
+                }`}
+              >
+                <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                  speakAloud ? "translate-x-6" : "translate-x-0.5"
+                }`} />
+              </button>
+            </div>
+          </div>
+
+          {/* Right Panel - Conversation */}
+          <div className="w-1/2 flex flex-col">
+            <div className="p-4 border-b border-stone-700">
+              <h3 className="text-stone-400 text-sm font-medium">CONVERSATION</h3>
+            </div>
+            <div className="flex-1 overflow-auto p-4 space-y-4">
+              {conversation.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[80%] rounded-xl p-3 ${
+                    msg.role === "user"
+                      ? "bg-blue-600 text-white"
+                      : "bg-stone-700 text-stone-200"
+                  }`}>
+                    {msg.role === "sasha" && (
+                      <div className="flex items-center gap-2 mb-1 text-xs text-stone-400">
+                        <span>🧙‍♂️</span> Sasha
+                      </div>
+                    )}
+                    <p className="text-sm">{msg.text}</p>
+                  </div>
+                </div>
+              ))}
+              {isListening && (
+                <div className="flex justify-end">
+                  <div className="bg-blue-600/50 text-white rounded-xl p-3 max-w-[80%]">
+                    <p className="text-sm flex items-center gap-2">
+                      <span className="animate-pulse">●</span> Listening...
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="p-4 border-t border-stone-700">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Type a message or speak..."
+                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+                <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer - Demo Stages */}
+        <div className="bg-stone-800 px-6 py-3 border-t border-stone-700">
+          <div className="flex items-center justify-between text-xs text-stone-500">
+            <div className="flex items-center gap-4">
+              <span className="text-teal-400">● Stage 0: Wireframe Demo</span>
+              <span>○ Stage 1: Real AI Streaming</span>
+              <span>○ Stage 2: Sasha Anywhere Extension</span>
+            </div>
+            <span>Voice + Vision powered by Claude</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FloatingSashaButton({ onClick }) {
+  const [showQuickActions, setShowQuickActions] = React.useState(false);
+  const [showSashaLive, setShowSashaLive] = React.useState(false);
+
+  return (
+    <>
+      <SashaLiveModal isOpen={showSashaLive} onClose={() => setShowSashaLive(false)} />
+      <div className="fixed bottom-6 right-6 z-40">
+        {/* Quick Actions Drawer */}
+        {showQuickActions && (
+          <div className="absolute bottom-16 right-0 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden mb-2">
+            <div className="bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 px-4 py-3 text-white">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🧙‍♂️</span>
+                <span className="font-semibold">Sasha</span>
+              </div>
+              <p className="text-xs text-white/80 mt-1">Quick actions</p>
+            </div>
+            <div className="p-2">
+              <button
+                onClick={() => { setShowSashaLive(true); setShowQuickActions(false); }}
+                className="w-full text-left px-3 py-2 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors font-medium"
+              >
+                🎙️ Sasha Live (Voice + Vision)
+              </button>
+              <button
+                onClick={() => { onClick(); setShowQuickActions(false); }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                📄 Summarize this page
+              </button>
+              <button
+                onClick={() => { onClick(); setShowQuickActions(false); }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                🎯 Find next actions
+              </button>
+              <button
+                onClick={() => { onClick(); setShowQuickActions(false); }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                ✉️ Draft message
+              </button>
+              <button
+                onClick={() => { onClick(); setShowQuickActions(false); }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                💬 Open full chat
+              </button>
+            </div>
+          </div>
+        )}
+
+      {/* Floating Button */}
+      <button
+        onClick={() => setShowQuickActions(!showQuickActions)}
+        className="w-14 h-14 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center text-white text-2xl"
+        title="Ask Sasha"
+      >
+        🧙‍♂️
+      </button>
+    </div>
+    </>
+  );
+}
+
+// ============ NORTH STAR STRIP ============
+// Part 4.1: Thin horizontal strip showing Values → Vision → Mission
+function NorthStarStrip() {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(null);
+
+  // Sample data - in production would come from user profile
+  const northStar = {
+    values: "Courage · Truth · Integrity",
+    vision: "A world where leaders live authentically aligned with their deepest values",
+    mission: "I am a catalyst for transformation, guiding leaders to clarity and impact"
+  };
+
+  return (
+    <div className="bg-gradient-to-r from-stone-800 via-stone-900 to-stone-800 border-b border-stone-700">
+      {/* Collapsed View - Single line */}
+      <div
+        className="flex items-center justify-between px-6 py-2 cursor-pointer hover:bg-stone-800/50 transition-colors"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center gap-6 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-stone-400 text-xs uppercase tracking-wider">Values:</span>
+            <span className="text-white font-medium">{northStar.values}</span>
+          </div>
+          <span className="text-stone-600">|</span>
+          <div className="flex items-center gap-2">
+            <span className="text-stone-400 text-xs uppercase tracking-wider">Vision:</span>
+            <span className="text-stone-300 truncate max-w-xs">{northStar.vision.substring(0, 50)}...</span>
+          </div>
+        </div>
+        <button className="text-stone-500 hover:text-stone-300 transition-colors">
+          <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Expanded View - Full details */}
+      {isExpanded && (
+        <div className="px-6 pb-4 pt-2 border-t border-stone-700/50">
+          <div className="grid grid-cols-3 gap-6">
+            {/* Core Values */}
+            <div
+              className="group cursor-pointer"
+              onClick={() => setIsEditing('values')}
+            >
+              <h4 className="text-xs uppercase tracking-wider text-stone-500 mb-1 flex items-center gap-2">
+                Core Values
+                <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </h4>
+              <p className="text-white font-semibold text-lg">{northStar.values}</p>
+            </div>
+
+            {/* Vision */}
+            <div
+              className="group cursor-pointer"
+              onClick={() => setIsEditing('vision')}
+            >
+              <h4 className="text-xs uppercase tracking-wider text-stone-500 mb-1 flex items-center gap-2">
+                Vision
+                <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </h4>
+              <p className="text-stone-200">{northStar.vision}</p>
+            </div>
+
+            {/* Mission / I Am Statement */}
+            <div
+              className="group cursor-pointer"
+              onClick={() => setIsEditing('mission')}
+            >
+              <h4 className="text-xs uppercase tracking-wider text-stone-500 mb-1 flex items-center gap-2">
+                Mission / I Am
+                <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </h4>
+              <p className="text-stone-200">{northStar.mission}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

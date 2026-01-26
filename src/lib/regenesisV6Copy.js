@@ -12,7 +12,7 @@
 // =============================================================================
 
 export const PRODUCT_NAME = "ReGenesis";
-export const AGENT_NAME = "Sage";
+export const AGENT_NAME = "Sasha";
 
 // =============================================================================
 // LOCKED PHRASES (V6 Foundation)
@@ -106,16 +106,16 @@ export const PRICING = {
     period: "month",
     clients: 25,
     annualDiscount: 15,
-    tagline: "For coaches paying out of pocket",
+    tagline: "Everything included.",
   },
-  enterprise: {
+  teams: {
     pricePerCoachee: 9,
     period: "month",
-    coachSeats: "Unlimited free",
-    features: ["Admin dashboard", "SSO/SAML", "Priority support"],
+    coachSeats: "Coach seats free",
+    features: ["Unlimited coaches", "Full analytics", "Admin dashboard"],
     tagline: "For organizations investing in their people",
   },
-  philosophy: "No games, no gates, no bullshit.",
+  philosophy: "No games. No gates. No B.S.",
 };
 
 // =============================================================================
@@ -137,12 +137,12 @@ export const ATTENTION_FLAGS = {
 
 export const CLIENT_TABS = [
   { key: "overview", label: "Overview" },
-  { key: "journey", label: "Journey / Goals" },
-  { key: "notes", label: "Notes History" },
+  { key: "goals", label: "Goals & Progress" },
+  { key: "notes", label: "Session Notes" },
   { key: "t15", label: "T-15 Prep" },
-  { key: "companion", label: "24/7 Companion" },
-  { key: "profile", label: "Profile Details" },
-  { key: "resources", label: "Resources" },
+  { key: "copilot", label: "In-Session Copilot" },
+  { key: "sashaLog", label: "Sasha Conversations Log" },
+  { key: "resources", label: "Shared Resources" },
 ];
 
 // =============================================================================
@@ -152,7 +152,7 @@ export const CLIENT_TABS = [
 export const PRIVACY_TIERS = {
   tier1: {
     label: "Private",
-    description: "Only you and Sage can see this",
+    description: "Only you and Sasha can see this",
     icon: "lock",
   },
   tier2: {
@@ -176,7 +176,7 @@ export const DEMO_SPINE = [
     key: "agent",
     title: "Do Anything Agent",
     subtitle: "Command bar that pulls up any view and executes tasks",
-    description: "Ask Sage anything. Pull up client prep, draft emails, check your schedule—all from one place.",
+    description: "Ask Sasha anything. Pull up client prep, draft emails, check your schedule—all from one place.",
   },
   {
     key: "notes",
@@ -186,7 +186,7 @@ export const DEMO_SPINE = [
   },
   {
     key: "insession",
-    title: "In-Session Support",
+    title: "In-Session Copilot",
     subtitle: "Gentle prompts right below your camera line",
     description: "Observe-only or active help. Propose questions, frameworks, or paste directly into Zoom chat.",
   },

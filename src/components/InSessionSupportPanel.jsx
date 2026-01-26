@@ -102,7 +102,7 @@ export default function InSessionSupportPanel({ isOpen, onClose, client }) {
                 <span className="text-xl">🎯</span>
               </div>
               <div>
-                <h3 className="font-semibold text-lg">In-Session Support</h3>
+                <h3 className="font-semibold text-lg">In-Session Copilot</h3>
                 <p className="text-sm text-teal-100">
                   {client ? `Session with ${client.name}` : "Live session mode"}
                 </p>
