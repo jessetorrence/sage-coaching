@@ -8683,11 +8683,11 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
       <section className="py-24 bg-white">
         <div className="max-w-3xl mx-auto px-8 text-center">
           <p className="text-sm font-medium text-stone-500 uppercase tracking-wider mb-4">Our Story</p>
-          <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-8 leading-tight">
-            We built the tool we wished we had.
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-stone-800 mb-8 leading-tight whitespace-nowrap">
+            We built the tool we dreamed of having.
           </h1>
           <p className="text-xl text-stone-600 leading-relaxed">
-            ReGenesis was born from a simple frustration: the most important work in the world—helping people transform their lives—was drowning in administrative burden.
+            ReGenesis was born from a longing—a vision of what coaching could become when the raw power of AI is wielded by a wise, compassionate human heart.
           </p>
         </div>
       </section>
@@ -8697,55 +8697,82 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
         <div className="max-w-3xl mx-auto px-8">
           <div className="space-y-8 text-lg text-stone-600 leading-relaxed">
             <p>
-              Our founders are coaches. Not tech people who thought coaching seemed interesting—actual practitioners who've spent years in the arena, holding space for leaders, executives, and people navigating life's hardest transitions.
+              Our founders are coaches. Not tech people who thought coaching seemed like an interesting market—actual practitioners who've spent years in the arena, with thousands of hours holding space for leaders, executives, and people navigating the full gamut of life: beginnings and endings, transitions and stuck places, pain and grief and loss, ambition and excitement and everything in between.
             </p>
             <p>
-              We know what it's like to walk out of a session having witnessed something sacred—a breakthrough, a moment of clarity, a client finally seeing what they couldn't see before—and then sit down to write notes while the insight is still fresh, knowing you have three more sessions that day and a dozen emails waiting.
+              We know what it's like to walk out of a session having witnessed something profound—even sacred. A breakthrough. A moment of clarity, of insight, of healing. A client finally seeing what they couldn't see before. A shift, a recognition, a deepening. An encounter with their own truth.
+            </p>
+            <p>
+              We know the desperate longing to capture what that moment meant—for them and for you—and to see that growth translate into the rest of their life. And we know the reality of sitting down to write notes while the insight is still fresh, preparing for the next sessions of the day, with dozens of emails and administrative tasks awaiting.
             </p>
             <p>
               We know the cognitive load of holding 30+ client stories in your head. The guilt of forgetting something important a client shared three months ago. The impossible choice between being fully present and keeping decent records.
-            </p>
-            <p className="text-stone-800 font-medium">
-              And we knew there had to be a better way—one that didn't ask coaches to become less human in order to be more organized.
             </p>
           </div>
         </div>
       </section>
 
-      {/* The Insight */}
+      {/* The Recognition */}
       <section className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-8">
-          <h2 className="text-2xl font-semibold text-stone-800 mb-8 text-center">The Insight</h2>
+          <h2 className="text-2xl font-semibold text-stone-800 mb-8 text-center">The Recognition</h2>
 
-          <div className="bg-stone-50 rounded-2xl p-8 md:p-12 border border-stone-200">
-            <p className="text-xl text-stone-700 leading-relaxed mb-6">
-              The most meaningful moments in coaching happen because a human is fully present—noticing what's said and unsaid, holding complexity, offering precisely the right question at the right moment.
+          <div className="space-y-8 text-lg text-stone-600 leading-relaxed">
+            <p>
+              And then something indescribable began to happen.
             </p>
-            <p className="text-xl text-stone-700 leading-relaxed mb-6">
-              AI can never do that. But AI <em>can</em> remember everything. It <em>can</em> see patterns across dozens of sessions. It <em>can</em> take the invisible admin off your plate.
+            <p>
+              As we experimented with these new AI tools, we witnessed a profound emergence. The way language was reflected back. The perfect memory of every word exchanged between us and our clients. The ability to see patterns and connections our brains could never hold—across dozens of sessions, months of conversations, the entire arc of someone's transformation.
             </p>
-            <p className="text-xl text-stone-800 font-medium leading-relaxed">
-              So we asked: what if technology existed not to replace the human elements of coaching, but to create more space for them?
+            <p>
+              Yet somehow, miraculously, it made space for more of what mattered most: our hearts' longing, our deep compassion, the presence with which we could hold someone through their hardest moments. The genuine insights and wisdom that arose from us as coaches weren't overshadowed—they were amplified.
+            </p>
+            <p>
+              We tested this across hundreds of sessions with dozens of clients. We asked ourselves: <em>Is there another way of showing up? Can we do more by doing less? Can we be more for our clients by holding less?</em>
+            </p>
+            <p className="text-stone-800 font-medium">
+              Despite our early skepticism—even dismissal—we did a 180. We saw what a powerful tool for uplifting humanity this could be, if used for the right reasons, in the right way, with the right safeguards.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why We Coach */}
+      <section className="py-20 bg-stone-900 text-white">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-sm font-medium text-stone-400 uppercase tracking-wider mb-6 text-center">Why We Coach</h2>
+          <div className="space-y-6 text-lg text-stone-300 leading-relaxed">
+            <p>
+              True coaches come to this work as a calling. There's pure joy in watching someone achieve a goal, reach a milestone, or become someone they never thought they could be—which is really just remembering themselves at a deeper level.
+            </p>
+            <p>
+              It makes us feel alive. Connected. Useful in the deepest sense.
+            </p>
+            <p>
+              We yearn for our clients the way we yearn for our own lives—to really matter, to make a difference, to know that we were here, even for a brief speck of time.
+            </p>
+            <p className="text-white font-medium text-xl mt-8">
+              That's what we want to preserve. That's what we refuse to let technology diminish.
             </p>
           </div>
         </div>
       </section>
 
       {/* The Mission */}
-      <section className="py-20 bg-stone-900 text-white">
+      <section className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-8 text-center">
-          <h2 className="text-sm font-medium text-stone-400 uppercase tracking-wider mb-6">Our Mission</h2>
-          <p className="text-2xl md:text-3xl font-light leading-relaxed mb-8">
+          <h2 className="text-sm font-medium text-stone-500 uppercase tracking-wider mb-6">Our Mission</h2>
+          <p className="text-2xl md:text-3xl font-light leading-relaxed text-stone-800 mb-8">
             Preserve and deepen what is sacred in human-to-human care—while radically expanding access to care itself.
           </p>
-          <p className="text-lg text-stone-400">
+          <p className="text-lg text-stone-500">
             Not instead of love, not instead of wisdom—in service of them.
           </p>
         </div>
       </section>
 
       {/* What We're Building */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-stone-50">
         <div className="max-w-3xl mx-auto px-8">
           <h2 className="text-2xl font-semibold text-stone-800 mb-8 text-center">What We're Building</h2>
 
@@ -8766,6 +8793,25 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
         </div>
       </section>
 
+      {/* The Vision for Coaches */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-2xl font-semibold text-stone-800 mb-8">Our Vision</h2>
+
+          <div className="space-y-6 text-lg text-stone-600 leading-relaxed">
+            <p>
+              We want good coaches to become great coaches. Great coaches to become phenomenal. And coaches still finding their footing to grow faster and more confidently than they ever thought possible.
+            </p>
+            <p>
+              We want coaching—real, transformational coaching—to reach more people. Not by replacing the human at the center, but by making each human exponentially more effective.
+            </p>
+            <p className="text-stone-800 font-medium">
+              Wherever you are in your journey—as a coach or as someone being coached—we want to see you thrive. We want to help you live the fullest life you can imagine.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Who We Are */}
       <section className="py-20 bg-stone-50">
         <div className="max-w-3xl mx-auto px-8">
@@ -8779,7 +8825,7 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
               Our team includes people who've facilitated leadership development for Fortune 500 executives, built enterprise software at scale, studied contemplative traditions, and spent thousands of hours in one-on-one coaching conversations. We've lived the problems we're solving.
             </p>
             <p>
-              We're based in the belief that technology, used wisely, can amplify rather than diminish human connection. And we're committed to proving it.
+              We're grounded in the conviction that technology, wielded wisely, can amplify rather than diminish human connection. And we're committed to proving it—one coach, one client, one transformation at a time.
             </p>
           </div>
         </div>
@@ -8811,27 +8857,8 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
         </div>
       </section>
 
-      {/* The Stakes */}
-      <section className="py-20 bg-stone-50">
-        <div className="max-w-3xl mx-auto px-8 text-center">
-          <h2 className="text-2xl font-semibold text-stone-800 mb-8">Why This Matters</h2>
-
-          <div className="space-y-6 text-lg text-stone-600 leading-relaxed">
-            <p>
-              The world needs more coaching, not less. More people who can help others navigate complexity, develop leadership capacity, and become more fully themselves.
-            </p>
-            <p>
-              But the current model doesn't scale. Great coaches burn out. Access is limited to those who can afford premium rates. And the gap between who needs support and who can get it keeps widening.
-            </p>
-            <p className="text-stone-800 font-medium">
-              We believe technology can help close that gap—not by replacing human coaches, but by making each coach radically more effective and expanding who they can serve.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-stone-50">
         <div className="max-w-3xl mx-auto px-8 text-center">
           <h2 className="text-3xl font-light text-stone-800 mb-4">Join Us</h2>
           <p className="text-lg text-stone-600 mb-10">
