@@ -6298,19 +6298,19 @@ function LandingPage({ onSelectUserType }) {
             {/* Logo */}
             <button
               onClick={() => setCurrentPage('home')}
-              className="flex items-end gap-2 group"
+              className="flex items-center gap-2 group"
             >
               <div className="w-9 h-9 flex items-center justify-center">
                 <img
-                  src="/src/assets/ouroboros-logo.png"
+                  src="/src/assets/rainbow-ouroboros.png"
                   alt="ReGenesis"
                   className="w-full h-full object-contain drop-shadow-lg"
                 />
               </div>
-              <span className="text-xs font-light tracking-widest text-stone-400 group-hover:text-stone-200 transition-colors mb-0.5">ReGenesis</span>
+              <span className="text-sm font-medium tracking-widest text-stone-300 group-hover:text-white transition-colors">ReGenesis</span>
             </button>
 
-            {/* Navigation - Phase B aligned: For Coaches / For Teams / Pricing / Security */}
+            {/* Navigation - Phase B aligned: For Coaches / For Teams / About Us / Pricing / Security */}
             <nav className="hidden md:flex items-center gap-6">
               <button
                 onClick={() => setCurrentPage('coaches')}
@@ -6323,6 +6323,12 @@ function LandingPage({ onSelectUserType }) {
                 className={`text-sm font-medium transition-colors ${currentPage === 'teams' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 For Teams
+              </button>
+              <button
+                onClick={() => setCurrentPage('about')}
+                className={`text-sm font-medium transition-colors ${currentPage === 'about' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
+              >
+                About Us
               </button>
               <button
                 onClick={() => setCurrentPage('pricing')}
@@ -6399,13 +6405,25 @@ function LandingPage({ onSelectUserType }) {
       <>
       {/* ===== HERO SECTION - Phase B: Coaching, amplified ===== */}
       <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
-        {/* Clean gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-100 via-stone-50 to-white"></div>
+        {/* Parallax background - nature/organic imagery */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.85)), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80")',
+            transform: `translateY(${scrollY * 0.3}px)`,
+          }}
+        />
+        {/* Gradient overlay with subtle color */}
+        <div className="absolute inset-0 bg-gradient-to-b from-violet-50/30 via-white/60 to-white"></div>
+
+        {/* Decorative gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-violet-200/30 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * 0.1}px)` }}></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-teal-200/20 rounded-full blur-3xl" style={{ transform: `translateY(${-scrollY * 0.15}px)` }}></div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
           {/* Primary headline - Phase B copy */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-stone-800 mb-6 leading-tight tracking-tight">
-            Coaching, amplified.
+            Coaching, <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">amplified.</span>
           </h1>
 
           {/* Subheadline */}
@@ -6417,7 +6435,7 @@ function LandingPage({ onSelectUserType }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <button
               onClick={() => handleCTA('signup')}
-              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 hover:shadow-xl transition-all text-lg"
+              className="px-8 py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-medium hover:from-violet-700 hover:to-purple-700 hover:shadow-xl hover:shadow-violet-500/25 transition-all text-lg"
             >
               Get ReGenesis
             </button>
@@ -6426,19 +6444,18 @@ function LandingPage({ onSelectUserType }) {
               onClick={() => {
                 document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-stone-400 bg-white/50 backdrop-blur-sm font-medium text-lg"
+              className="px-8 py-4 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-violet-300 bg-white/70 backdrop-blur-sm font-medium text-lg"
             >
               See How It Works
             </button>
           </div>
 
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <div className="w-6 h-10 border-2 border-stone-300 rounded-full flex items-start justify-center p-1.5">
-            <div className="w-1 h-2 bg-violet-400 rounded-full animate-bounce"></div>
+          {/* Command K hint */}
+          <div className="flex items-center justify-center gap-2 text-sm text-stone-500 mt-6">
+            <kbd className="px-2 py-1 bg-stone-100 rounded text-xs font-mono border border-stone-200">⌘K</kbd>
+            <span>Press to ask Sasha anything — your AI command center</span>
           </div>
+
         </div>
       </section>
 
@@ -6471,65 +6488,78 @@ function LandingPage({ onSelectUserType }) {
       </section>
 
       {/* ===== HOW REGENESIS WORKS - Part 20.4 ===== */}
-      <section id="how-it-works" className="py-12 bg-white">
+      <section id="how-it-works" className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-8 text-center">
-          <h2 className="text-sm font-semibold tracking-widest text-stone-500 uppercase">How ReGenesis Works</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-2">How ReGenesis Works</h2>
+          <p className="text-lg text-stone-500">Your AI-powered coaching platform</p>
         </div>
       </section>
 
       {/* ===== GREATER IMPACT - Part 20.5 ===== */}
       <section className="py-20 bg-white border-b border-stone-100">
         <div className="max-w-4xl mx-auto px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase">Greater Impact</h2>
-            <button className="flex items-center gap-2 px-4 py-2 bg-stone-100 rounded-lg text-stone-600 hover:bg-stone-200 transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-              </svg>
-              Video
-            </button>
+          <div className="flex flex-col lg:flex-row items-start gap-8 mb-8">
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4">Greater Impact</h2>
+              <p className="text-lg text-stone-600 leading-relaxed">
+                ReGenesis helps you create more profound outcomes for your clients. It helps you see more, remember more, prepare better, articulate insights in language that lands, stay connected, and support lasting behavioral change.
+              </p>
+            </div>
+            {/* Video Thumbnail */}
+            <div className="w-full lg:w-80 flex-shrink-0">
+              <div className="relative aspect-video bg-gradient-to-br from-stone-800 to-stone-900 rounded-xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60">
+                  <span className="text-white text-sm font-medium">Watch: Greater Impact Demo</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <p className="text-lg text-stone-600 mb-8 leading-relaxed">
-            ReGenesis helps you create more profound outcomes for your clients. It helps you see more, remember more, prepare better, articulate insights in language that lands, stay connected, and support lasting behavioral change.
-          </p>
-
-          <ul className="space-y-4 text-stone-700">
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Unlimited Memory</span> — every client, every session, every word</div>
+          <ul className="space-y-5 text-stone-700">
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Unlimited Memory</span> — every client, every session, every word</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Pattern Recognition</span> — surfaces what you might sense but can't fully track or put words to: trajectories, gaps, blind spots, and what's emerging</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Pattern Recognition</span> — surfaces what you might sense but can't fully track or put words to: trajectories, gaps, blind spots, and what's emerging</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Language Mastery</span> — articulates insights in precise (and adjustable) language, drawing on deep knowledge of each client while giving you full control to shape the tone</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Language Mastery</span> — articulates insights in precise (and adjustable) language, drawing on deep knowledge of each client while giving you full control to shape the tone</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Pre-Session Prep</span> — walk into every session completely and effortlessly prepared, as if you just finished the last one</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Pre-Session Prep</span> — walk into every session completely and effortlessly prepared, as if you just finished the last one</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">24/7 AI Companion</span> — meet "Sasha," the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate. <em className="text-stone-500">Sasha is ReGenesis's AI assistant — your always-on partner.</em></div>
+            <li className="flex items-start gap-4">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-white text-xs font-bold">S</span>
+              </div>
+              <div className="text-base"><span className="font-bold text-stone-800">24/7 AI Companion — Meet Sasha</span> — the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate. <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full text-sm font-medium ml-1">Sasha = ReGenesis's AI</span></div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">In-Session Copilot</span> — real-time coaching support exactly when and how you want it</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">In-Session Copilot</span> — real-time coaching support exactly when and how you want it</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Smart Dashboards + Progress Tracking</span> — see progress and diagnose challenges, understanding what's working, what's not, and why — across every client</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Smart Dashboards + Progress Tracking</span> — see progress and diagnose challenges, understanding what's working, what's not, and why — across every client</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Voice & Style Matching</span> — communicates in your authentic voice, mirroring and enriching your unique philosophy, approach, frameworks, and methods</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Voice & Style Matching</span> — communicates in your authentic voice, mirroring and enriching your unique philosophy, approach, frameworks, and methods</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">AI-Drafted Session Notes</span> — powerful observations, insights, analysis, and inquiries for growth delivered to your clients in language that resonates and moves them forward. Full autonomy to adjust the template, structure, and tone — automatically insert resources, attachments, and ancillary documents directly into the notes, and send to your client at the click of a button.</div>
+            <li className="flex items-start gap-4">
+              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">AI-Drafted Session Notes</span> — powerful observations, insights, analysis, and inquiries for growth delivered to your clients in language that resonates and moves them forward. Full autonomy to adjust the template, structure, and tone — automatically insert resources, attachments, and ancillary documents directly into the notes, and send to your client at the click of a button.</div>
             </li>
           </ul>
         </div>
@@ -6538,40 +6568,50 @@ function LandingPage({ onSelectUserType }) {
       {/* ===== GREATER SCALE - Part 20.6 ===== */}
       <section className="py-20 bg-stone-50">
         <div className="max-w-4xl mx-auto px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase">Greater Scale</h2>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-stone-600 hover:bg-stone-100 transition-colors border border-stone-200">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-              </svg>
-              Video
-            </button>
+          <div className="flex flex-col lg:flex-row items-start gap-8 mb-8">
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4">Greater Scale</h2>
+              <p className="text-lg text-stone-600 leading-relaxed">
+                ReGenesis helps you build visibility and bring your gifts to MORE people — while actually REDUCING your load.
+              </p>
+            </div>
+            {/* Video Thumbnail */}
+            <div className="w-full lg:w-80 flex-shrink-0">
+              <div className="relative aspect-video bg-gradient-to-br from-teal-800 to-emerald-900 rounded-xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60">
+                  <span className="text-white text-sm font-medium">Watch: Greater Scale Demo</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <p className="text-lg text-stone-600 mb-8 leading-relaxed">
-            ReGenesis helps you build visibility and bring your gifts to MORE people — while actually REDUCING your load.
-          </p>
-
-          <ul className="space-y-4 text-stone-700">
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Branding & Marketing Support</span> — grow your reach without the grind</div>
+          <ul className="space-y-5 text-stone-700">
+            <li className="flex items-start gap-4">
+              <span className="text-teal-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Branding & Marketing Support</span> — grow your reach without the grind</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Client Outreach & Lead Nurturing</span> — convert interest into clients with authentic, effortless outreach that feels genuine, not salesy. Cut through the noise and do it yourself — no outside marketers needed.</div>
+            <li className="flex items-start gap-4">
+              <span className="text-teal-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Client Outreach & Lead Nurturing</span> — convert interest into clients with authentic, effortless outreach that feels genuine, not salesy. Cut through the noise and do it yourself — no outside marketers needed.</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Client Testimonials & Referrals</span> — capture and share effortlessly with the world proof of your impact, and invite other coaches and clients to join your community</div>
+            <li className="flex items-start gap-4">
+              <span className="text-teal-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Client Testimonials & Referrals</span> — capture and share effortlessly with the world proof of your impact, and invite other coaches and clients to join your community</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Resource Library</span> — comprehensive resources for any topic, integrated with our 10,000+ work Wisdom Library of humanity's greatest insights. Search and share a poem, a book, an idea, a philosophy — the right thing for the right person at the right time.</div>
+            <li className="flex items-start gap-4">
+              <span className="text-teal-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Resource Library</span> — comprehensive resources for any topic, integrated with our 10,000+ work Wisdom Library of humanity's greatest insights. Search and share a poem, a book, an idea, a philosophy — the right thing for the right person at the right time.</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Coach Development & Growth</span> — support your own evolution as coach and human being, with detailed analytics, feedback on your strengths and growth areas, and concrete suggestions for leveling up</div>
+            <li className="flex items-start gap-4">
+              <span className="text-teal-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Coach Development & Growth</span> — support your own evolution as coach and human being, with detailed analytics, feedback on your strengths and growth areas, and concrete suggestions for leveling up</div>
             </li>
           </ul>
         </div>
@@ -6809,32 +6849,32 @@ function LandingPage({ onSelectUserType }) {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {/* Individual Card */}
-            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
+            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200 flex flex-col h-full">
               <h3 className="text-lg font-semibold text-stone-800 uppercase tracking-wide mb-4">Individual</h3>
               <div className="mb-4">
                 <span className="text-4xl font-bold text-stone-900">$39</span>
                 <span className="text-stone-500">/month</span>
               </div>
-              <ul className="space-y-2 text-stone-600 mb-8">
+              <ul className="space-y-2 text-stone-600 flex-1">
                 <li>Up to 25 clients</li>
                 <li>Everything included.</li>
               </ul>
               <button
                 onClick={() => handleCTA('signup')}
-                className="w-full py-3 bg-stone-900 text-white rounded-lg font-medium hover:bg-stone-800 transition-colors"
+                className="w-full py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-700 hover:to-purple-700 transition-colors mt-8"
               >
                 Get Started
               </button>
             </div>
 
             {/* Teams Card */}
-            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
+            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200 flex flex-col h-full">
               <h3 className="text-lg font-semibold text-stone-800 uppercase tracking-wide mb-4">Teams</h3>
               <div className="mb-4">
                 <span className="text-4xl font-bold text-stone-900">$9</span>
                 <span className="text-stone-500">/coachee/month</span>
               </div>
-              <ul className="space-y-2 text-stone-600 mb-8">
+              <ul className="space-y-2 text-stone-600 flex-1">
                 <li>Coach seats free</li>
                 <li>Unlimited coaches</li>
                 <li>Full analytics</li>
@@ -6842,7 +6882,7 @@ function LandingPage({ onSelectUserType }) {
               </ul>
               <button
                 onClick={() => handleCTA('signup')}
-                className="w-full py-3 bg-stone-900 text-white rounded-lg font-medium hover:bg-stone-800 transition-colors"
+                className="w-full py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-700 hover:to-purple-700 transition-colors mt-8"
               >
                 Talk to Us
               </button>
@@ -6872,8 +6912,13 @@ function LandingPage({ onSelectUserType }) {
       {/* ===== FOOTER - Part 20.13 ===== */}
       <footer className="bg-stone-900 text-stone-400 pt-16 pb-8">
         <div className="max-w-6xl mx-auto px-8">
-          {/* Brand */}
-          <div className="mb-12">
+          {/* Brand with Logo */}
+          <div className="mb-12 flex items-center gap-3">
+            <img
+              src="/src/assets/rainbow-ouroboros.png"
+              alt="ReGenesis"
+              className="w-10 h-10 object-contain"
+            />
             <span className="text-white font-medium text-lg">ReGenesis</span>
           </div>
 
@@ -6915,9 +6960,22 @@ function LandingPage({ onSelectUserType }) {
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Connect</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Email us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.59 3.143 8.433 7.384 9.556.02-.396-.004-1.004.108-1.512L10.62 16.5s-.237-.473-.237-1.172c0-1.098.637-1.918 1.43-1.918.674 0 1 .506 1 1.113 0 .678-.432 1.692-.655 2.632-.187.788.395 1.43 1.172 1.43 1.408 0 2.487-1.484 2.487-3.63 0-1.897-1.363-3.225-3.31-3.225-2.254 0-3.577 1.69-3.577 3.437 0 .68.262 1.41.59 1.807a.237.237 0 01.054.227c-.06.25-.193.788-.22.898-.035.143-.115.174-.266.105-1.002-.466-1.628-1.93-1.628-3.105 0-2.529 1.838-4.853 5.3-4.853 2.783 0 4.946 1.983 4.946 4.632 0 2.765-1.743 4.993-4.162 4.993-.813 0-1.578-.423-1.84-.92l-.5 1.9c-.18.693-.67 1.56-.997 2.088A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+                  Bluesky
+                </a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  X / Twitter
+                </a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  LinkedIn
+                </a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                  Email us
+                </a></li>
               </ul>
             </div>
           </div>
