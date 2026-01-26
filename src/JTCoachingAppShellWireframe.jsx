@@ -724,12 +724,104 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
   );
 }
 
-// ============ ALL ACTIONS - ALL DOMAINS PAGE ============
+// ============ ALL ACTIONS - ALL DOMAINS PAGE (Part 4.3 - Left-to-Right Column Layout) ============
 function AllActionsAllDomainsPage({ onBack }) {
+  // Domain columns data
+  const domains = [
+    {
+      name: "Coaching",
+      icon: "🎯",
+      color: "blue",
+      items: [
+        { text: "T-15 Prep - Marcus Williams", priority: "today", urgent: true },
+        { text: "Review draft notes - Sarah Chen", priority: "today", urgent: true },
+        { text: "Follow up with Jennifer Martinez", priority: "week" },
+        { text: "Send resources to Lisa Patel", priority: "week" }
+      ],
+      waiting: [
+        "Client feedback from James Rodriguez",
+        "Contract renewal - Emily Thompson"
+      ],
+      someday: ["Group coaching program", "Online course"]
+    },
+    {
+      name: "Wellbeing",
+      icon: "🧘",
+      color: "purple",
+      items: [
+        { text: "Book dermatology checkup", priority: "urgent", urgent: true },
+        { text: "Morning stillness routine", priority: "ongoing" },
+        { text: "Schedule annual physical", priority: "month" }
+      ],
+      waiting: [],
+      someday: ["Meditation retreat"]
+    },
+    {
+      name: "Family",
+      icon: "👨‍👩‍👧",
+      color: "pink",
+      items: [
+        { text: "Pick up birthday gift for Oana", priority: "urgent", urgent: true },
+        { text: "Plan family weekend trip", priority: "week" },
+        { text: "Schedule date night", priority: "week" },
+        { text: "Call mom Sunday", priority: "week" }
+      ],
+      waiting: [],
+      someday: []
+    },
+    {
+      name: "Financial",
+      icon: "💰",
+      color: "green",
+      items: [
+        { text: "Invoice 3 clients", priority: "today", urgent: true },
+        { text: "Review Q1 finances", priority: "week" },
+        { text: "Update website testimonials", priority: "month" }
+      ],
+      waiting: [],
+      someday: ["Passive income streams"]
+    },
+    {
+      name: "Community",
+      icon: "🤝",
+      color: "cyan",
+      items: [
+        { text: "Call old mentor", priority: "week" },
+        { text: "Volunteer event planning", priority: "month" },
+        { text: "Coffee with Dave", priority: "week" }
+      ],
+      waiting: [],
+      someday: []
+    },
+    {
+      name: "Legacy",
+      icon: "🌟",
+      color: "orange",
+      items: [
+        { text: "Draft book chapter 3", priority: "week" },
+        { text: "Update scholarship fund", priority: "month" },
+        { text: "Record podcast episode", priority: "month" }
+      ],
+      waiting: [],
+      someday: ["Launch podcast series", "Establish foundation"]
+    }
+  ];
+
+  const getPriorityBadge = (priority, urgent) => {
+    if (urgent) return <span className="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full">Urgent</span>;
+    switch(priority) {
+      case 'today': return <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">Today</span>;
+      case 'week': return <span className="text-xs px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full">This Week</span>;
+      case 'month': return <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">This Month</span>;
+      case 'ongoing': return <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">Ongoing</span>;
+      default: return null;
+    }
+  };
+
   return (
-    <div className="h-full overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="h-full flex flex-col bg-stone-100">
       {/* Header */}
-      <div className="bg-white border-b shadow-sm sticky top-0 z-10">
+      <div className="bg-white border-b shadow-sm flex-shrink-0">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
             <button
@@ -738,242 +830,139 @@ function AllActionsAllDomainsPage({ onBack }) {
             >
               ← Back to Dashboard
             </button>
-            <div className="text-sm text-gray-600">
-              Complete GTD View · All Life Areas
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">Complete GTD View · All Life Domains</span>
+              <select className="text-sm border rounded px-3 py-1">
+                <option>All Actions</option>
+                <option>Next Actions Only</option>
+                <option>Waiting For</option>
+                <option>Someday/Maybe</option>
+              </select>
             </div>
           </div>
           <h1 className="text-3xl font-bold mb-2">All Actions - All Domains</h1>
-          <p className="text-gray-600">Complete project management view across all areas of life</p>
+          <p className="text-gray-600">Left-to-right view across all areas of your life (Basecamp-style)</p>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-8 space-y-8">
+      {/* Horizontal Scrolling Column Layout */}
+      <div className="flex-1 overflow-x-auto overflow-y-hidden p-6">
+        <div className="flex gap-4 h-full min-w-max">
+          {domains.map((domain, idx) => (
+            <div
+              key={idx}
+              className={`w-80 flex-shrink-0 bg-white rounded-xl shadow-lg border-t-4 border-${domain.color}-500 flex flex-col h-full`}
+            >
+              {/* Column Header */}
+              <div className={`p-4 border-b bg-${domain.color}-50`}>
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{domain.icon}</span>
+                  <h2 className={`text-lg font-bold text-${domain.color}-900`}>{domain.name}</h2>
+                  <span className="ml-auto text-xs bg-white px-2 py-1 rounded-full text-gray-600">
+                    {domain.items.length} actions
+                  </span>
+                </div>
+              </div>
 
-        {/* Coaching Business */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
-          <h2 className="text-2xl font-bold mb-6 text-blue-900">Coaching Business</h2>
+              {/* Column Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {/* Next Actions */}
+                {domain.items.length > 0 && (
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
+                      <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                      Next Actions
+                    </h3>
+                    <div className="space-y-2">
+                      {domain.items.map((item, i) => (
+                        <div
+                          key={i}
+                          className={`p-3 rounded-lg border ${item.urgent ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'} hover:shadow-sm transition cursor-pointer`}
+                        >
+                          <div className="flex items-start gap-2">
+                            <input type="checkbox" className="mt-1 rounded" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm text-gray-900">{item.text}</p>
+                              <div className="mt-1">{getPriorityBadge(item.priority, item.urgent)}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-          {/* Next Actions */}
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              Next Actions
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                <span className="text-gray-900">T-15 Prep - Marcus Williams</span>
-                <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Today</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                <span className="text-gray-900">Review draft notes - Sarah Chen</span>
-                <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Today</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Follow up with Jennifer Martinez</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Send resources to Lisa Patel</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
+                {/* Waiting For */}
+                {domain.waiting.length > 0 && (
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
+                      <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                      Waiting For
+                    </h3>
+                    <div className="space-y-2">
+                      {domain.waiting.map((item, i) => (
+                        <div key={i} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200 text-sm text-gray-700">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Someday/Maybe */}
+                {domain.someday.length > 0 && (
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                      Someday/Maybe
+                    </h3>
+                    <div className="space-y-2">
+                      {domain.someday.map((item, i) => (
+                        <div key={i} className="p-3 bg-gray-100 rounded-lg border border-gray-200 text-sm text-gray-600">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Add Task Button */}
+                <button className={`w-full p-2 border-2 border-dashed border-${domain.color}-200 rounded-lg text-sm text-${domain.color}-600 hover:bg-${domain.color}-50 transition`}>
+                  + Add to {domain.name}
+                </button>
               </div>
             </div>
-          </div>
+          ))}
 
-          {/* Waiting For */}
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
-              Waiting For
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200 text-gray-900">
-                Client feedback from James Rodriguez (sent 2 days ago)
+          {/* Add New Domain Column */}
+          <div className="w-80 flex-shrink-0 bg-white/50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center h-full">
+            <button className="text-gray-500 hover:text-gray-700 transition">
+              <div className="text-center">
+                <div className="text-3xl mb-2">+</div>
+                <div className="text-sm">Add Life Domain</div>
               </div>
-              <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200 text-gray-900">
-                Contract renewal decision - Emily Thompson
-              </div>
-            </div>
-          </div>
-
-          {/* Someday/Maybe */}
-          <div>
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
-              Someday/Maybe
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700">
-                Explore group coaching program
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700">
-                Create online course
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Personal Wellbeing */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
-          <h2 className="text-2xl font-bold mb-6 text-purple-900">Personal Wellbeing</h2>
-
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              Next Actions
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                <span className="text-gray-900">Book dermatology checkup</span>
-                <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">Urgent</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Morning stillness routine (daily)</span>
-                <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Ongoing</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Schedule annual physical</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Month</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
-              Someday/Maybe
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700">
-                Research meditation retreat
-              </div>
-            </div>
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Family */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-pink-500">
-          <h2 className="text-2xl font-bold mb-6 text-pink-900">Family</h2>
-
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              Next Actions
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                <span className="text-gray-900">Pick up birthday gift for Oana</span>
-                <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">Urgent</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Plan family weekend trip</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Schedule date night with Oana</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
-              </div>
-            </div>
-          </div>
+      {/* Quick Capture Bar */}
+      <div className="bg-white border-t p-4 flex-shrink-0">
+        <div className="max-w-4xl mx-auto flex items-center gap-4">
+          <span className="text-2xl">💭</span>
+          <input
+            type="text"
+            placeholder="Quick capture: type anything and I'll figure out where it goes..."
+            className="flex-1 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+          />
+          <select className="px-3 py-3 border border-gray-200 rounded-lg text-sm">
+            <option>Auto-assign</option>
+            {domains.map(d => <option key={d.name}>{d.name}</option>)}
+          </select>
+          <button className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">
+            Add
+          </button>
         </div>
-
-        {/* Financial/Business (non-coaching) */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-          <h2 className="text-2xl font-bold mb-6 text-green-900">Financial/Business</h2>
-
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              Next Actions
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                <span className="text-gray-900">Invoice 3 clients</span>
-                <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Today</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Review Q1 finances</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Update website testimonials</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Month</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
-              Someday/Maybe
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700">
-                Explore passive income streams
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Community & Relationships */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
-          <h2 className="text-2xl font-bold mb-6 text-blue-900">Community & Relationships</h2>
-
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              Next Actions
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Call old mentor</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Volunteer event planning</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Month</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Legacy & Impact */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
-          <h2 className="text-2xl font-bold mb-6 text-orange-900">Legacy & Impact</h2>
-
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              Next Actions
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Draft book chapter 3</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Week</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <span className="text-gray-900">Update scholarship fund</span>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">This Month</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
-              Someday/Maybe
-            </h3>
-            <div className="space-y-2 ml-5">
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700">
-                Launch podcast series
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700">
-                Establish foundation
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   );
@@ -1756,11 +1745,14 @@ function ClientFullProfileV6({ client }) {
             {[
               { name: "Enneagram", result: "Type 3w2", color: "purple" },
               { name: "CliftonStrengths", result: "View Results", color: "blue" },
+              { name: "VIA Character Strengths", result: "View Results", color: "emerald" },
+              { name: "Big Five / IPIP", result: "View Results", color: "cyan" },
               { name: "DISC", result: "Di", color: "green" },
               { name: "MBTI", result: "ENTJ", color: "orange" },
-              { name: "Hogan", result: "View Report", color: "teal" },
+              { name: "Hogan HPI/HDS/MVPI", result: "View Report", color: "teal" },
               { name: "EQ-i 2.0", result: "108", color: "pink" },
-              { name: "Leadership Circle", result: "Not taken", color: "gray" },
+              { name: "Leadership Circle Profile", result: "Not taken", color: "gray" },
+              { name: "Leadership 360", result: "Not taken", color: "slate" },
               { name: "Love Languages", result: "Quality Time", color: "red" },
               { name: "Attachment Style", result: "Secure-Anxious", color: "indigo" }
             ].map(a => (
@@ -1773,10 +1765,19 @@ function ClientFullProfileV6({ client }) {
 
           <div className="border-t pt-4 mt-4">
             <h4 className="text-sm font-medium text-stone-700 mb-2">Other Modalities</h4>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              {["Astrology / Birth chart", "Human Design", "Gene Keys", "Chakra Assessment"].map(m => (
-                <button key={m} className="p-3 border border-dashed border-stone-300 rounded-lg text-sm text-stone-600 hover:bg-stone-50">
-                  + {m}
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              {[
+                { name: "Astrology / Birth chart", result: null },
+                { name: "Family Constellations", result: null },
+                { name: "Human Design", result: null },
+                { name: "Gene Keys", result: null },
+                { name: "Anodea Judith Wellness Self Test", result: null },
+                { name: "Chakra Diagnostics", result: null }
+              ].map(m => (
+                <button key={m.name} className="p-3 border border-dashed border-stone-300 rounded-lg text-sm text-stone-600 hover:bg-stone-50 text-left">
+                  <div className="font-medium">+ {m.name}</div>
+                  {m.name.includes("Anodea") && <div className="text-xs text-purple-600 mt-1">Chakra-based self-awareness</div>}
+                  {m.name === "Chakra Diagnostics" && <div className="text-xs text-purple-600 mt-1">7-chakra energy assessment</div>}
                 </button>
               ))}
             </div>
@@ -1789,51 +1790,269 @@ function ClientFullProfileV6({ client }) {
         </div>
       </ProfileAccordionSection>
 
-      {/* Section 7: Health & Physiology */}
+      {/* Section 7: Health & Physiology - Full 11-Section Module (Part 8) */}
       <ProfileAccordionSection
         title="Health & Physiology"
         icon="❤️"
         isExpanded={expandedSections.health}
         onToggle={() => toggleSection('health')}
       >
-        <div className="space-y-4">
-          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-sm text-amber-800">
-              We're not medical providers. Always consult a medical professional. This section helps you and your coach consider patterns across sleep, stress, energy, and lifestyle that affect performance and wellbeing.
+        <div className="space-y-6">
+          {/* Disclaimer */}
+          <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-sm text-amber-800 font-medium mb-2">
+              We're not medical providers. Always consult a medical professional.
             </p>
-            <p className="text-xs text-amber-600 mt-2">You control 100% of what is shared and with whom.</p>
+            <p className="text-sm text-amber-700">
+              This section helps you and your coach consider patterns across sleep, stress, energy, symptoms, and lifestyle that affect performance and wellbeing.
+            </p>
+            <p className="text-xs text-amber-600 mt-3 font-medium">As always, you control 100% of what is shared and with whom.</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h4 className="text-sm font-medium text-stone-700 mb-2">Sleep</h4>
-              <p className="text-stone-800">5-6 hours avg | Poor quality | Trouble staying asleep</p>
-              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-stone-700 mb-2">Exercise</h4>
-              <p className="text-stone-800">1-2x/week currently | Goal: 4x/week</p>
-              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-stone-700 mb-2">Stress Level</h4>
-              <p className="text-stone-800">7/10 | Somatic: shoulder tension, jaw clenching</p>
-              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-stone-700 mb-2">Energy</h4>
-              <p className="text-stone-800">Peaks morning | Crashes 2-3pm | Caffeine: 3 cups</p>
-              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">Shared with coach</span>
+          {/* Privacy Legend */}
+          <div className="flex flex-wrap gap-2 text-xs">
+            <span className="px-2 py-1 bg-stone-100 text-stone-600 rounded">🔒 Private (only me)</span>
+            <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded">👤 Shared with coach</span>
+            <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded">🏢 Shared with team</span>
+            <span className="px-2 py-1 bg-green-100 text-green-700 rounded">🩺 Shared with doctor</span>
+          </div>
+
+          {/* 1. Basics */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>📊</span> 1. Basics
+            </h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-2 bg-stone-50 rounded">
+                <span className="text-sm text-stone-700">Height / Weight (optional)</span>
+                <select className="text-xs border rounded px-2 py-1">
+                  <option>Shared with coach</option>
+                  <option>Private (only me)</option>
+                  <option>Shared with doctor</option>
+                </select>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-stone-50 rounded">
+                <span className="text-sm text-stone-700">General health goals</span>
+                <select className="text-xs border rounded px-2 py-1">
+                  <option>Shared with coach</option>
+                  <option>Private (only me)</option>
+                </select>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-stone-50 rounded">
+                <span className="text-sm text-stone-700">Primary health concerns</span>
+                <select className="text-xs border rounded px-2 py-1">
+                  <option>Shared with coach</option>
+                  <option>Private (only me)</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <div className="flex gap-3 mt-4">
-            <button className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg text-sm">Complete Health Questionnaire</button>
-            <button className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg text-sm">Upload Medical Docs</button>
+          {/* 2. Sleep */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>😴</span> 2. Sleep
+            </h4>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Average Duration</div>
+                <div className="text-sm text-stone-800">5-6 hours</div>
+                <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded mt-1 inline-block">Shared with coach</span>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Quality</div>
+                <div className="text-sm text-stone-800">Poor - waking frequently</div>
+                <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded mt-1 inline-block">Shared with coach</span>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Insomnia Patterns</div>
+                <div className="text-sm text-stone-800">Trouble staying asleep</div>
+                <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded mt-1 inline-block">Shared with coach</span>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Morning Energy</div>
+                <div className="text-sm text-stone-800">Low - need caffeine</div>
+                <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded mt-1 inline-block">Shared with coach</span>
+              </div>
+            </div>
           </div>
 
-          <div className="text-xs text-stone-500 mt-2">
-            Coming soon: Connect wearables (Apple Health, Oura, Fitbit, Garmin)
+          {/* 3. Nutrition + Hydration */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>🥗</span> 3. Nutrition + Hydration
+            </h4>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Dietary Pattern</div>
+                <div className="text-sm text-stone-800">No restrictions, irregular meals</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Caffeine</div>
+                <div className="text-sm text-stone-800">3 cups coffee/day</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Alcohol</div>
+                <div className="text-sm text-stone-800">1-2 drinks/week</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Water Intake</div>
+                <div className="text-sm text-stone-800">4-5 glasses/day</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 4. Movement + Exercise */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>🏃</span> 4. Movement + Exercise
+            </h4>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Weekly Frequency</div>
+                <div className="text-sm text-stone-800">1-2x/week (goal: 4x)</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Types</div>
+                <div className="text-sm text-stone-800">Walking, occasional yoga</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Sedentary Time</div>
+                <div className="text-sm text-stone-800">8+ hours desk work/day</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Stress + Nervous System */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>🧠</span> 5. Stress + Nervous System
+            </h4>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Perceived Stress</div>
+                <div className="text-sm text-stone-800">7/10</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Somatic Signals</div>
+                <div className="text-sm text-stone-800">Shoulder tension, jaw clenching</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded col-span-2">
+                <div className="text-xs text-stone-500 mb-1">Recovery Practices</div>
+                <div className="text-sm text-stone-800">Meditation (inconsistent), walks</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 6. Symptoms */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>🩺</span> 6. Symptoms (by body system)
+            </h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center justify-between p-2 bg-stone-50 rounded">
+                <span className="text-stone-700">GI / Digestive</span>
+                <span className="text-stone-500">Occasional bloating</span>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-stone-50 rounded">
+                <span className="text-stone-700">Headaches</span>
+                <span className="text-stone-500">1-2x/month</span>
+              </div>
+              <div className="flex items-center justify-between p-2 bg-stone-50 rounded">
+                <span className="text-stone-700">Energy Crashes</span>
+                <span className="text-stone-500">Daily 2-3pm</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 7. Medications + Supplements */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>💊</span> 7. Medications + Supplements
+            </h4>
+            <div className="space-y-2 text-sm">
+              <div className="p-2 bg-stone-50 rounded">Current medications: None</div>
+              <div className="p-2 bg-stone-50 rounded">Supplements: Multivitamin, Vitamin D</div>
+            </div>
+          </div>
+
+          {/* 8. Diagnoses + History */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>📋</span> 8. Diagnoses + History
+            </h4>
+            <div className="space-y-2 text-sm">
+              <div className="p-2 bg-stone-50 rounded">Chronic conditions: None reported</div>
+              <div className="p-2 bg-stone-50 rounded">Past surgeries: Appendectomy (2015)</div>
+            </div>
+          </div>
+
+          {/* 9. Sexual Health - Sensitive, default Private */}
+          <div className="border border-stone-200 rounded-lg p-4 bg-stone-50">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>🔒</span> 9. Sexual Health
+              <span className="text-xs px-2 py-0.5 bg-stone-200 text-stone-600 rounded">Private by default</span>
+            </h4>
+            <p className="text-sm text-stone-600">This sensitive section is private by default. Only share if you choose to.</p>
+            <button className="mt-3 px-4 py-2 bg-white border border-stone-300 text-stone-600 rounded-lg text-sm hover:bg-stone-100">
+              Complete privately →
+            </button>
+          </div>
+
+          {/* 10. Environment */}
+          <div className="border border-stone-200 rounded-lg p-4">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>🏠</span> 10. Environment
+            </h4>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Work Conditions</div>
+                <div className="text-sm text-stone-800">Hybrid office/home</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Travel</div>
+                <div className="text-sm text-stone-800">2-3 trips/month</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Time Zones</div>
+                <div className="text-sm text-stone-800">Frequent changes</div>
+              </div>
+              <div className="p-3 bg-stone-50 rounded">
+                <div className="text-xs text-stone-500 mb-1">Light Exposure</div>
+                <div className="text-sm text-stone-800">Low natural light</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 11. Wearables + Data (Future) */}
+          <div className="border border-dashed border-stone-300 rounded-lg p-4 bg-stone-50">
+            <h4 className="font-medium text-stone-800 mb-3 flex items-center gap-2">
+              <span>⌚</span> 11. Wearables + Data
+              <span className="text-xs px-2 py-0.5 bg-amber-100 text-amber-700 rounded">Coming Soon</span>
+            </h4>
+            <p className="text-sm text-stone-600 mb-3">
+              When connected, Sasha can correlate sleep + stress + mood + performance.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {["Apple Health", "Oura Ring", "Fitbit", "Garmin"].map(device => (
+                <span key={device} className="px-3 py-1 bg-white border border-stone-200 text-stone-500 rounded-lg text-sm">
+                  {device}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-3 pt-4 border-t">
+            <button className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700">
+              Complete Full Health Questionnaire
+            </button>
+            <button className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg text-sm hover:bg-stone-200">
+              Upload Medical Docs
+            </button>
+            <button className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg text-sm hover:bg-stone-200">
+              📸 Take Photo of Document
+            </button>
           </div>
         </div>
       </ProfileAccordionSection>
@@ -5251,6 +5470,8 @@ function TranscriptDrawerInline({ isOpen, onClose, section }) {
 
 // ============ SETTINGS PAGE ============
 function SettingsPage() {
+  const [showMyProfile, setShowMyProfile] = React.useState(false);
+
   return (
     <div className="p-8 overflow-auto h-full bg-gray-50">
       <div className="mb-6">
@@ -5259,6 +5480,49 @@ function SettingsPage() {
       </div>
 
       <div className="space-y-6">
+        {/* V6 Part 7: Coach My Profile Access Point */}
+        <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200 p-6 rounded-xl shadow">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-600 to-emerald-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                JT
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-stone-800">Jesse Torrence</h3>
+                <p className="text-stone-600">Executive Coach · ICF PCC</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-xs px-2 py-0.5 bg-teal-100 text-teal-700 rounded">Voice trained</span>
+                  <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded">Wisdom corpus uploaded</span>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowMyProfile(true)}
+              className="px-6 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors flex items-center gap-2"
+            >
+              <span>👤</span> View My Full Profile
+            </button>
+          </div>
+          <div className="mt-4 pt-4 border-t border-teal-200 grid grid-cols-4 gap-4 text-sm">
+            <button className="text-left p-3 bg-white rounded-lg hover:bg-teal-50 transition">
+              <div className="font-medium text-stone-800">North Star</div>
+              <div className="text-xs text-stone-500">Values · Vision · Mission</div>
+            </button>
+            <button className="text-left p-3 bg-white rounded-lg hover:bg-teal-50 transition">
+              <div className="font-medium text-stone-800">Voice & Style</div>
+              <div className="text-xs text-stone-500">How Sasha sounds like you</div>
+            </button>
+            <button className="text-left p-3 bg-white rounded-lg hover:bg-teal-50 transition">
+              <div className="font-medium text-stone-800">Frameworks</div>
+              <div className="text-xs text-stone-500">Your coaching models</div>
+            </button>
+            <button className="text-left p-3 bg-white rounded-lg hover:bg-teal-50 transition">
+              <div className="font-medium text-stone-800">Wisdom Corpus</div>
+              <div className="text-xs text-stone-500">Your uploaded knowledge</div>
+            </button>
+          </div>
+        </div>
+
         {/* Video Conferencing */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
@@ -6116,6 +6380,21 @@ function LandingPage({ onSelectUserType }) {
           onGetStarted={() => handleCTA('signup')}
           setCurrentPage={setCurrentPage}
         />
+      ) : currentPage === 'about' ? (
+        <AboutPage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : currentPage === 'faq' ? (
+        <FAQPage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : currentPage === 'integrations' ? (
+        <IntegrationsPage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+        />
       ) : (
       <>
       {/* ===== HERO SECTION - Phase B: Coaching, amplified ===== */}
@@ -6616,8 +6895,8 @@ function LandingPage({ onSelectUserType }) {
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Philosophy</a></li>
+                <li><button onClick={() => setCurrentPage('about')} className="hover:text-white transition-colors">About</button></li>
+                <li><button onClick={() => setCurrentPage('about')} className="hover:text-white transition-colors">Philosophy</button></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
               </ul>
             </div>
@@ -6626,8 +6905,8 @@ function LandingPage({ onSelectUserType }) {
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><button onClick={() => setCurrentPage('faq')} className="hover:text-white transition-colors">FAQ</button></li>
+                <li><button onClick={() => setCurrentPage('integrations')} className="hover:text-white transition-colors">Integrations</button></li>
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
               </ul>
             </div>
@@ -7816,6 +8095,431 @@ function SecurityPage({ onGetStarted, setCurrentPage }) {
   );
 }
 
+// ============ ABOUT PAGE (Part 11) ============
+function AboutPage({ onGetStarted, setCurrentPage }) {
+  return (
+    <div className="min-h-screen bg-stone-50 pt-20">
+      {/* Hero */}
+      <section className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
+            And the courage to name what we see.
+          </h1>
+          <p className="text-xl text-stone-600">
+            ReGenesis exists to amplify the craft of coaching—not replace it.
+          </p>
+        </div>
+      </section>
+
+      {/* What We Believe - "X without Y" chain */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold text-stone-800 uppercase tracking-wide mb-8 text-center">What We Believe</h2>
+
+          <div className="space-y-4 text-lg text-stone-700">
+            <p className="p-4 bg-white rounded-lg border border-stone-200 italic">
+              "Data without context becomes noise."
+            </p>
+            <p className="p-4 bg-white rounded-lg border border-stone-200 italic">
+              "Insight without practice becomes entertainment."
+            </p>
+            <p className="p-4 bg-white rounded-lg border border-stone-200 italic">
+              "Reflection without action becomes avoidance."
+            </p>
+            <p className="p-4 bg-white rounded-lg border border-stone-200 italic">
+              "Action without values becomes drift."
+            </p>
+            <p className="p-4 bg-white rounded-lg border border-stone-200 italic">
+              "Growth without relationships becomes brittle."
+            </p>
+            <p className="p-4 bg-white rounded-lg border border-stone-200 italic">
+              "Technology without humanity becomes hollow."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* What ReGenesis Is */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold text-stone-800 uppercase tracking-wide mb-8 text-center">What ReGenesis Is</h2>
+
+          <div className="space-y-6 text-lg text-stone-600 leading-relaxed">
+            <p>
+              <strong className="text-stone-800">A platform for coaching and whole-life flourishing.</strong> We believe coaching isn't just about career goals—it's about becoming more fully yourself.
+            </p>
+            <p>
+              <strong className="text-stone-800">Sasha as embedded intelligence.</strong> Our AI assistant, Sasha, holds memory, reveals patterns, and generates insight—but never replaces the coach's presence, compassion, or discernment.
+            </p>
+            <p>
+              <strong className="text-stone-800">Between-session support.</strong> Clients have access to 24/7 AI support that extends the coach's presence without adding to the coach's workload.
+            </p>
+            <p>
+              <strong className="text-stone-800">Human agency and permissions at the center.</strong> Every piece of data is controlled by the person it belongs to. Privacy is architecture, not policy.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How We Work */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold text-stone-800 uppercase tracking-wide mb-8 text-center">How We Work</h2>
+
+          <div className="space-y-6 text-lg text-stone-600 leading-relaxed">
+            <p>
+              <strong className="text-stone-800">No-nonsense tone, high integrity.</strong> We say what we mean. We don't oversell, underdeliver, or hide behind fine print.
+            </p>
+            <p>
+              <strong className="text-stone-800">The craft of coaching is protected.</strong> AI handles admin, memory, and pattern recognition. Humans handle presence, intuition, and the sacred work of transformation.
+            </p>
+            <p>
+              <strong className="text-stone-800">The client's agency is central.</strong> Clients control their data, their privacy, and their journey. Nothing is sent without approval.
+            </p>
+            <p>
+              <strong className="text-stone-800">Technology reduces friction and increases depth.</strong> Less time on notes and scheduling. More time for the work that matters.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Are */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold text-stone-800 uppercase tracking-wide mb-8 text-center">Who We Are</h2>
+
+          <p className="text-lg text-stone-600 leading-relaxed text-center">
+            We're a combination of coaches, therapists, engineers, and wisdom-driven builders who believe that human transformation is the most important work of our time—and that technology, used wisely, can amplify rather than diminish it.
+          </p>
+        </div>
+      </section>
+
+      {/* Standards */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8">
+          <h2 className="text-2xl font-semibold text-stone-800 uppercase tracking-wide mb-8 text-center">Our Standards</h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-xl border border-stone-200 text-center">
+              <div className="text-3xl mb-4">🔐</div>
+              <h3 className="font-semibold text-stone-800 mb-2">Privacy</h3>
+              <p className="text-stone-600 text-sm">Architecture-level security. Zero-knowledge encryption. Your data is yours.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-stone-200 text-center">
+              <div className="text-3xl mb-4">🛡️</div>
+              <h3 className="font-semibold text-stone-800 mb-2">Security</h3>
+              <p className="text-stone-600 text-sm">SOC 2 Type II. HIPAA-ready. GDPR compliant. No compromises.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-stone-200 text-center">
+              <div className="text-3xl mb-4">💎</div>
+              <h3 className="font-semibold text-stone-800 mb-2">Respect</h3>
+              <p className="text-stone-600 text-sm">For human complexity. For the coaching relationship. For the journey.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Row */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light text-stone-800 mb-8">Experience ReGenesis</h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => setCurrentPage('coaches')}
+              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 transition-colors"
+            >
+              Explore the Coach Experience
+            </button>
+            <button
+              onClick={() => setCurrentPage('teams')}
+              className="px-8 py-4 border border-stone-300 text-stone-700 rounded-xl font-medium hover:bg-stone-50 transition-colors"
+            >
+              Explore the Team Experience
+            </button>
+            <button
+              onClick={onGetStarted}
+              className="px-8 py-4 border border-stone-300 text-stone-700 rounded-xl font-medium hover:bg-stone-50 transition-colors"
+            >
+              Explore the Client Experience
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ============ FAQ PAGE (Part 13) ============
+function FAQPage({ onGetStarted, setCurrentPage }) {
+  const [expandedFaq, setExpandedFaq] = React.useState(null);
+
+  const faqs = [
+    {
+      question: "Does this replace coaches?",
+      answer: "No—and it never will. ReGenesis was built by coaches, for coaches. It's designed to amplify your craft, not replace it. AI handles memory, patterns, and admin. You bring presence, intuition, and the sacred work of human transformation. The technology exists to free your hands and mind so you can be more fully present with your clients."
+    },
+    {
+      question: "Can I use this without a coach?",
+      answer: "We strongly recommend working with a trained coach. ReGenesis is designed to enhance the coaching relationship, not bypass it. That said, we recognize access to quality coaching is limited by cost and availability. We're exploring ways to expand access while honoring the irreplaceable value of human coaches. For now, the platform works best when you're working with a coach."
+    },
+    {
+      question: "What is Sasha?",
+      answer: "Sasha is ReGenesis's AI assistant—your always-on partner in coaching. Sasha helps you see and understand (surfacing patterns, preparing for sessions, remembering everything) and then do (drafting notes, scheduling, admin tasks)—always with your permission and approval. Think of Sasha as an extension of your coaching practice that never sleeps, never forgets, and always defers to your judgment."
+    },
+    {
+      question: "Is this secure?",
+      answer: "Security isn't a feature—it's the foundation. We use zero-knowledge encryption (your keys, not ours), isolated data stores, and architecture-level privacy controls. We're SOC 2 Type II certified, HIPAA-ready, and GDPR compliant. Your coaching conversations are protected by architecture, not just policy. Delete means delete. Export means export. You own your data.",
+      linkText: "Learn more about our security",
+      linkPage: "security"
+    },
+    {
+      question: "How does pricing work?",
+      answer: "Simple: $39/month for individual coaches (up to 25 clients, everything included) or $9/coachee/month for teams (coach seats are free, unlimited coaches). No per-feature gating. No 'contact sales' games. No enterprise lock-in for security features. Everyone gets the same security, the same features, the same support.",
+      linkText: "View pricing details",
+      linkPage: "pricing"
+    },
+    {
+      question: "What integrations do you support?",
+      answer: "Zoom, Google Meet, Microsoft Teams for video. Google Calendar, Outlook, Apple Calendar for scheduling. Gmail, Outlook for email. Google Drive, Dropbox, Notion for documents. Slack, Teams for communication. Apple Health, Oura, Fitbit, Garmin for wearables (coming soon). We're constantly adding more.",
+      linkText: "View all integrations",
+      linkPage: "integrations"
+    },
+    {
+      question: "How does the AI companion work with my clients?",
+      answer: "Your clients get access to Sasha between sessions—at no additional cost to them. Sasha helps them process challenges, track commitments, and prepare for sessions. Privacy is tiered: clients control exactly what's shared with you. Tier 1 is private (only client + Sasha). Tier 2 shares summaries. Tier 3 gives you full access. You see what they choose to share in your prep."
+    },
+    {
+      question: "Will AI-generated content sound like me?",
+      answer: "Yes—that's the point. ReGenesis learns your voice, your frameworks, your philosophy. Session notes, client communications, and Sasha's interactions are all tuned to reflect your authentic coaching style. You always have full control to adjust tone, structure, and content. Nothing is sent without your review and approval."
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-stone-50 pt-20">
+      {/* Hero */}
+      <section className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-xl text-stone-600">
+            Honest answers to the questions coaches ask most.
+          </p>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-8">
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-white rounded-xl border border-stone-200 overflow-hidden">
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  className="w-full p-6 text-left flex justify-between items-center hover:bg-stone-50 transition-colors"
+                >
+                  <h3 className="text-lg font-medium text-stone-800 pr-4">{faq.question}</h3>
+                  <span className="text-2xl text-stone-400">{expandedFaq === index ? '−' : '+'}</span>
+                </button>
+                {expandedFaq === index && (
+                  <div className="px-6 pb-6">
+                    <p className="text-stone-600 leading-relaxed">{faq.answer}</p>
+                    {faq.linkText && (
+                      <button
+                        onClick={() => setCurrentPage(faq.linkPage)}
+                        className="mt-4 text-teal-600 hover:text-teal-700 font-medium"
+                      >
+                        {faq.linkText} →
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light text-stone-800 mb-6">Still have questions?</h2>
+          <p className="text-stone-600 mb-8">We're real humans who love talking to coaches. Reach out anytime.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={onGetStarted}
+              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 transition-colors"
+            >
+              Get ReGenesis
+            </button>
+            <a
+              href="mailto:hello@regenesis.ai"
+              className="px-8 py-4 border border-stone-300 text-stone-700 rounded-xl font-medium hover:bg-stone-50 transition-colors"
+            >
+              Email us
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ============ INTEGRATIONS PAGE (Part 15) ============
+function IntegrationsPage({ onGetStarted, setCurrentPage }) {
+  const integrationCategories = [
+    {
+      title: "Meetings",
+      icon: "📹",
+      integrations: [
+        { name: "Zoom", status: "available", desc: "Auto-join sessions, transcribe, extract insights" },
+        { name: "Google Meet", status: "available", desc: "Native integration with real-time transcription" },
+        { name: "Microsoft Teams", status: "available", desc: "Enterprise video conferencing with transcription" }
+      ]
+    },
+    {
+      title: "Calendar",
+      icon: "📅",
+      integrations: [
+        { name: "Google Calendar", status: "available", desc: "Two-way sync for sessions and availability" },
+        { name: "Outlook Calendar", status: "available", desc: "Microsoft calendar integration" },
+        { name: "Apple Calendar", status: "available", desc: "iCloud calendar sync" }
+      ]
+    },
+    {
+      title: "Email",
+      icon: "📧",
+      integrations: [
+        { name: "Gmail", status: "available", desc: "Draft and send from your account" },
+        { name: "Outlook", status: "available", desc: "Microsoft email integration" }
+      ]
+    },
+    {
+      title: "Documents",
+      icon: "📄",
+      integrations: [
+        { name: "Google Drive", status: "available", desc: "Store and share session materials" },
+        { name: "Dropbox", status: "available", desc: "File storage and sharing" },
+        { name: "Box", status: "available", desc: "Enterprise document management" }
+      ]
+    },
+    {
+      title: "Notes",
+      icon: "📝",
+      integrations: [
+        { name: "Notion", status: "available", desc: "Sync notes and client records" },
+        { name: "Evernote", status: "available", desc: "Note-taking integration" }
+      ]
+    },
+    {
+      title: "Communication",
+      icon: "💬",
+      integrations: [
+        { name: "Slack", status: "available", desc: "Team messaging and notifications" },
+        { name: "Microsoft Teams Chat", status: "available", desc: "Enterprise messaging" }
+      ]
+    },
+    {
+      title: "CRM / LMS (Teams)",
+      icon: "🏢",
+      integrations: [
+        { name: "Salesforce", status: "available", desc: "Enterprise CRM integration" },
+        { name: "HubSpot", status: "available", desc: "Marketing and sales automation" },
+        { name: "Workday", status: "coming", desc: "HR and enterprise management" }
+      ]
+    },
+    {
+      title: "Wearables",
+      icon: "⌚",
+      integrations: [
+        { name: "Apple Health", status: "coming", desc: "iOS health data" },
+        { name: "Oura Ring", status: "coming", desc: "Sleep and readiness tracking" },
+        { name: "Fitbit", status: "coming", desc: "Activity and wellness data" },
+        { name: "Garmin", status: "coming", desc: "Fitness and health metrics" }
+      ]
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-stone-50 pt-20">
+      {/* Hero */}
+      <section className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
+            Integrations
+          </h1>
+          <p className="text-xl text-stone-600 mb-4">
+            ReGenesis works with the tools you already use—or replaces them entirely.
+          </p>
+          <p className="text-stone-500">
+            All-in-one or alongside your favorites. Your choice.
+          </p>
+        </div>
+      </section>
+
+      {/* Integrations Grid */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="space-y-12">
+            {integrationCategories.map((category, catIndex) => (
+              <div key={catIndex}>
+                <h2 className="text-xl font-semibold text-stone-800 mb-6 flex items-center gap-3">
+                  <span className="text-2xl">{category.icon}</span>
+                  {category.title}
+                </h2>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {category.integrations.map((integration, intIndex) => (
+                    <div
+                      key={intIndex}
+                      className="bg-white p-6 rounded-xl border border-stone-200 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-medium text-stone-800">{integration.name}</h3>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          integration.status === 'available'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-amber-100 text-amber-700'
+                        }`}>
+                          {integration.status === 'available' ? 'Available' : 'Coming Soon'}
+                        </span>
+                      </div>
+                      <p className="text-sm text-stone-600">{integration.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Request Integration */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light text-stone-800 mb-6">Need something else?</h2>
+          <p className="text-stone-600 mb-8">
+            We're constantly adding integrations based on coach needs. Let us know what tools are essential to your practice.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={onGetStarted}
+              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 transition-colors"
+            >
+              Get Started
+            </button>
+            <a
+              href="mailto:hello@regenesis.ai?subject=Integration Request"
+              className="px-8 py-4 border border-stone-300 text-stone-700 rounded-xl font-medium hover:bg-stone-50 transition-colors"
+            >
+              Request an Integration
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // ============ COACH ONBOARDING FLOW ============
 // UF-1: Multi-select throughout, UF-2: Privacy tooltips, UF-3: Exhaustive tools, UF-4: Progressive trust, UF-5: Deep questions, UF-6: Client invitation
 function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
@@ -8485,9 +9189,17 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                   <p className="text-sm text-stone-500 mb-4">
                     PDFs, Word docs, text files, or even links to online content
                   </p>
-                  <button className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700">
-                    Choose Files
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700">
+                      Choose Files
+                    </button>
+                    <button className="px-4 py-2 bg-stone-100 text-stone-700 border border-stone-300 rounded-lg text-sm hover:bg-stone-200 flex items-center gap-2 justify-center">
+                      <span>📸</span> Take Photo of Document
+                    </button>
+                  </div>
+                  <p className="text-xs text-stone-400 mt-4">
+                    Use your camera to capture handwritten notes, book pages, or whiteboard diagrams
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -10873,6 +11585,21 @@ function FloatingSashaButton({ onClick }) {
               >
                 💬 Open full chat
               </button>
+              {/* V6 Part 2.5: Sasha can reformat this page */}
+              <div className="border-t mt-2 pt-2">
+                <button
+                  onClick={() => { onClick(); setShowQuickActions(false); }}
+                  className="w-full text-left px-3 py-2 text-sm text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <span>🔄</span>
+                    <span>Reformat / Rearrange this page</span>
+                  </div>
+                  <p className="text-xs text-teal-600 mt-1 ml-6">
+                    Drag modules or tell Sasha to reorganize
+                  </p>
+                </button>
+              </div>
             </div>
           </div>
         )}
