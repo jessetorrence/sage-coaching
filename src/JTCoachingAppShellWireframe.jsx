@@ -6323,13 +6323,19 @@ function LandingPage({ onSelectUserType }) {
               <span className="text-sm font-medium tracking-widest text-stone-300 group-hover:text-white transition-colors">ReGenesis</span>
             </button>
 
-            {/* Navigation - Phase B aligned: For Coaches / For Teams / About Us / Pricing / Security */}
+            {/* Navigation - Phase B aligned: For Coaches / For Clients / For Teams / About Us / Pricing / Security */}
             <nav className="hidden md:flex items-center gap-6">
               <button
                 onClick={() => setCurrentPage('coaches')}
                 className={`text-sm font-medium transition-colors ${currentPage === 'coaches' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 For Coaches
+              </button>
+              <button
+                onClick={() => setCurrentPage('clients')}
+                className={`text-sm font-medium transition-colors ${currentPage === 'clients' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
+              >
+                For Clients
               </button>
               <button
                 onClick={() => setCurrentPage('teams')}
@@ -6385,6 +6391,12 @@ function LandingPage({ onSelectUserType }) {
         />
       ) : currentPage === 'teams' ? (
         <TeamsExperiencePage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+          scrollY={scrollY}
+        />
+      ) : currentPage === 'clients' ? (
+        <ClientExperiencePage
           onGetStarted={() => handleCTA('signup')}
           setCurrentPage={setCurrentPage}
           scrollY={scrollY}
@@ -6471,7 +6483,7 @@ function LandingPage({ onSelectUserType }) {
       <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-8 text-center">
           <p className="text-xl md:text-2xl text-stone-700 font-light leading-relaxed mb-6">
-            ReGenesis holds memory, reveals patterns, and generates insight — so your presence, compassion, and discernment can lead transformation.
+            ReGenesis is an AI-powered coaching platform that holds memory, reveals patterns, and generates powerful insights — so your presence, compassion, and discernment can lead transformation for your clients and your organization.
           </p>
           <p className="text-lg text-stone-600 font-medium">
             You coach. More powerfully than ever. We handle the rest.
@@ -6490,7 +6502,7 @@ function LandingPage({ onSelectUserType }) {
             One of the unspoken challenges of being a coach is that we care deeply, we see potential, we want to help more — but we're constrained by time, memory, and energy.
           </p>
           <p className="text-lg text-stone-600 leading-relaxed">
-            We're holding dozens of human stories in our heads and hearts — trying to be fully present in-session, remember everything out-of-session, all while juggling the tasks and challenges of running a practice.
+            We're holding dozens of human stories in our heads and hearts — trying to be fully present in-session, remember everything out-of-session, all while juggling the challenges of running a practice or managing coaching programs across an organization.
           </p>
         </div>
       </section>
@@ -6498,8 +6510,7 @@ function LandingPage({ onSelectUserType }) {
       {/* ===== HOW REGENESIS WORKS - Part 20.4 ===== */}
       <section id="how-it-works" className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-2">How ReGenesis Works</h2>
-          <p className="text-lg text-stone-500">Your AI-powered coaching platform</p>
+          <h2 className="text-3xl md:text-4xl font-light text-stone-800">How ReGenesis Works</h2>
         </div>
       </section>
 
@@ -6791,7 +6802,7 @@ function LandingPage({ onSelectUserType }) {
             ReGenesis is powered by leading AI models (Claude, GPT, and others) — AND layered with a curated Wisdom Corpus of 10,000+ of the greatest works of human wisdom from across cultures and centuries.
           </p>
           <p className="text-lg text-stone-600 leading-relaxed">
-            The result: an AI that reflects humanity's greatest wisdom and compassion, combining frontier intelligence with our deepest insights on the nature and potential of our being, our growth, and what it means to flourish.
+            The result: an AI that reflects humanity's greatest wisdom and compassion, combining frontier intelligence with our deepest insights on human potential, growth, leadership, and everything it means to flourish.
           </p>
         </div>
       </section>
@@ -6802,7 +6813,7 @@ function LandingPage({ onSelectUserType }) {
           <h2 className="text-2xl font-semibold tracking-wide uppercase mb-4 text-center">Trust, By Design</h2>
 
           <p className="text-lg text-stone-300 mb-8 text-center">
-            Your coaching conversations are protected by architecture, not just policy.
+            All of your coaching data is protected by architecture, not just policy.
           </p>
 
           <ul className="space-y-4 text-stone-300 max-w-2xl mx-auto mb-8">
@@ -6829,6 +6840,10 @@ function LandingPage({ onSelectUserType }) {
             <li className="flex items-start gap-3">
               <span className="text-stone-500 mt-1">·</span>
               <div><span className="font-semibold text-white">Human authority preserved</span> — AI supports, never overrides</div>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-stone-500 mt-1">·</span>
+              <div><span className="font-semibold text-white">Tiered privacy architecture</span> — organizations get anonymized aggregate insights, but private user data stays completely walled off. Full participation requires full trust.</div>
             </li>
           </ul>
 
@@ -6902,6 +6917,16 @@ function LandingPage({ onSelectUserType }) {
               </button>
             </div>
           </div>
+
+          {/* Pricing curiosity link */}
+          <div className="text-center mt-10">
+            <button
+              onClick={() => setCurrentPage('pricing')}
+              className="text-sm text-stone-500 hover:text-stone-700 underline underline-offset-4 transition-colors"
+            >
+              Too good to be true? Learn about our values and pricing →
+            </button>
+          </div>
         </div>
       </section>
 
@@ -6945,7 +6970,7 @@ function LandingPage({ onSelectUserType }) {
               <h4 className="text-white font-medium text-sm mb-4">Product</h4>
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => setCurrentPage('coaches')} className="hover:text-white transition-colors">For Coaches</button></li>
-                <li><button onClick={() => onSelectUserType('coachee')} className="hover:text-white transition-colors">For Clients</button></li>
+                <li><button onClick={() => setCurrentPage('clients')} className="hover:text-white transition-colors">For Clients</button></li>
                 <li><button onClick={() => setCurrentPage('teams')} className="hover:text-white transition-colors">For Teams</button></li>
                 <li><button onClick={() => setCurrentPage('pricing')} className="hover:text-white transition-colors">Pricing</button></li>
                 <li><button onClick={() => setCurrentPage('security')} className="hover:text-white transition-colors">Security</button></li>
@@ -7893,6 +7918,282 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             <a href="mailto:enterprise@regenesis.ai" className="px-8 py-4 border border-stone-600 text-white rounded-xl font-medium text-lg hover:bg-stone-800 transition-colors">
               Contact Sales
             </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============ CLIENT EXPERIENCE PAGE ============
+function ClientExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-b from-violet-50 to-white border-b border-stone-200">
+        <div className="max-w-5xl mx-auto px-8 py-20">
+          <div className="text-sm font-semibold text-violet-600 uppercase tracking-wide mb-4">For Coaching Clients</div>
+          <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
+            Your growth, supported<br />
+            <span className="text-stone-500">24 hours a day.</span>
+          </h1>
+          <p className="text-xl text-stone-600 mb-8 max-w-2xl">
+            ReGenesis gives you an AI companion that remembers your entire journey, helps you process challenges between sessions, and keeps you moving toward the life you're building — all while keeping your coach in the loop (on your terms).
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={onGetStarted}
+              className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium text-lg hover:bg-stone-800 transition-colors"
+            >
+              Get Started
+            </button>
+            <button
+              onClick={() => setCurrentPage('coaches')}
+              className="px-8 py-4 border border-stone-300 text-stone-700 rounded-xl font-medium text-lg hover:bg-stone-50 transition-colors"
+            >
+              I'm a Coach
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* The Challenge */}
+      <div className="max-w-5xl mx-auto px-8 py-20">
+        <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">The reality of personal growth</h2>
+        <p className="text-lg text-stone-500 text-center mb-12 max-w-2xl mx-auto">
+          You know coaching works. But what happens between sessions?
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
+            <h3 className="font-semibold text-stone-800 mb-3">Insights fade</h3>
+            <p className="text-stone-600">
+              That breakthrough you had in your session? By Thursday, it's hard to remember exactly what shifted. The insight that felt so clear starts to blur.
+            </p>
+          </div>
+          <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
+            <h3 className="font-semibold text-stone-800 mb-3">Life doesn't wait</h3>
+            <p className="text-stone-600">
+              Challenges don't schedule themselves around your next coaching session. When something comes up at 11pm on a Tuesday, you're on your own.
+            </p>
+          </div>
+          <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
+            <h3 className="font-semibold text-stone-800 mb-3">Patterns hide</h3>
+            <p className="text-stone-600">
+              You know you keep running into the same issues, but it's hard to see the patterns when you're living inside them.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* What You Get */}
+      <div className="bg-stone-900 text-white">
+        <div className="max-w-5xl mx-auto px-8 py-20">
+          <h2 className="text-3xl font-light mb-4 text-center">What changes with ReGenesis</h2>
+          <p className="text-lg text-stone-400 text-center mb-12 max-w-2xl mx-auto">
+            Your coaching experience extends far beyond the hour you spend with your coach.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-stone-800 rounded-xl p-8">
+              <div className="text-violet-400 text-sm font-semibold uppercase tracking-wide mb-3">Sasha — Your 24/7 Companion</div>
+              <h3 className="text-xl font-semibold text-white mb-4">Talk through anything, anytime</h3>
+              <p className="text-stone-300 mb-4">
+                Sasha is an AI trained to support your growth — not replace your coach, but extend their presence. Process a difficult conversation at midnight. Prepare for a challenging meeting. Work through what's bothering you before it becomes a crisis.
+              </p>
+              <ul className="space-y-2 text-stone-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-400 mt-1">✓</span>
+                  <span>Remembers your entire coaching journey</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-400 mt-1">✓</span>
+                  <span>Knows your goals, patterns, and growth edges</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-violet-400 mt-1">✓</span>
+                  <span>Available whenever you need support</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-stone-800 rounded-xl p-8">
+              <div className="text-teal-400 text-sm font-semibold uppercase tracking-wide mb-3">Perfect Memory</div>
+              <h3 className="text-xl font-semibold text-white mb-4">Nothing gets lost</h3>
+              <p className="text-stone-300 mb-4">
+                Every insight, every commitment, every pattern discussed — it's all there. ReGenesis remembers what you said six months ago and helps you see how far you've come.
+              </p>
+              <ul className="space-y-2 text-stone-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">✓</span>
+                  <span>Complete history of your growth journey</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">✓</span>
+                  <span>Track commitments and follow through</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-1">✓</span>
+                  <span>See patterns across months and years</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-stone-800 rounded-xl p-8">
+              <div className="text-rose-400 text-sm font-semibold uppercase tracking-wide mb-3">Session Preparation</div>
+              <h3 className="text-xl font-semibold text-white mb-4">Show up ready</h3>
+              <p className="text-stone-300 mb-4">
+                Before each session, get a summary of where you've been and what you want to focus on. No more spending the first 15 minutes trying to remember what happened last time.
+              </p>
+              <ul className="space-y-2 text-stone-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-rose-400 mt-1">✓</span>
+                  <span>Pre-session reflection prompts</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-rose-400 mt-1">✓</span>
+                  <span>Summary of recent progress and challenges</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-rose-400 mt-1">✓</span>
+                  <span>Suggested topics based on your journey</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-stone-800 rounded-xl p-8">
+              <div className="text-amber-400 text-sm font-semibold uppercase tracking-wide mb-3">Your Privacy, Your Control</div>
+              <h3 className="text-xl font-semibold text-white mb-4">Share what you choose</h3>
+              <p className="text-stone-300 mb-4">
+                What you share with Sasha is yours. You decide what your coach sees — full conversations, summaries only, or nothing at all. Privacy is architecture, not policy.
+              </p>
+              <ul className="space-y-2 text-stone-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-400 mt-1">✓</span>
+                  <span>Three privacy tiers you control</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-400 mt-1">✓</span>
+                  <span>Nothing shared without your approval</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-400 mt-1">✓</span>
+                  <span>Delete anything, anytime — gone means gone</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* How It Works With Your Coach */}
+      <div className="max-w-5xl mx-auto px-8 py-20">
+        <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">Better together</h2>
+        <p className="text-lg text-stone-500 text-center mb-12 max-w-2xl mx-auto">
+          ReGenesis makes your coaching relationship more powerful, not more complicated.
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">1</span>
+            </div>
+            <h3 className="font-semibold text-stone-800 mb-2">You engage between sessions</h3>
+            <p className="text-stone-600">
+              Talk with Sasha, track commitments, process challenges. Your growth continues 24/7.
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">2</span>
+            </div>
+            <h3 className="font-semibold text-stone-800 mb-2">Your coach sees what you share</h3>
+            <p className="text-stone-600">
+              You control the privacy settings. Share everything, summaries only, or keep it private.
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">3</span>
+            </div>
+            <h3 className="font-semibold text-stone-800 mb-2">Sessions go deeper</h3>
+            <p className="text-stone-600">
+              With better preparation and continuous context, you spend less time catching up and more time transforming.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Coach Not Using ReGenesis? */}
+      <div className="bg-gradient-to-br from-violet-50 to-white">
+        <div className="max-w-4xl mx-auto px-8 py-20">
+          <div className="bg-white rounded-2xl p-10 border border-violet-200 shadow-sm">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Coach not using ReGenesis yet?</h2>
+            <div className="space-y-4 text-stone-600">
+              <p>
+                No problem. You have options:
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <div className="bg-stone-50 rounded-xl p-6">
+                  <h3 className="font-semibold text-stone-800 mb-2">Invite your coach</h3>
+                  <p className="text-sm text-stone-600 mb-4">
+                    Share ReGenesis with your coach. When they see what it can do for their practice and your growth, they'll want in.
+                  </p>
+                  <button
+                    onClick={() => setCurrentPage('coaches')}
+                    className="text-sm text-violet-600 font-medium hover:text-violet-700"
+                  >
+                    Learn about the coach experience →
+                  </button>
+                </div>
+                <div className="bg-violet-50 rounded-xl p-6 border border-violet-200">
+                  <h3 className="font-semibold text-stone-800 mb-2">Try ReGenesis Direct</h3>
+                  <p className="text-sm text-stone-600 mb-4">
+                    Don't have a coach, or your coach isn't ready? Our AI-powered companion can support your growth directly. It's not a replacement for human coaching, but it's remarkably powerful on its own.
+                  </p>
+                  <button
+                    onClick={onGetStarted}
+                    className="text-sm text-violet-600 font-medium hover:text-violet-700"
+                  >
+                    Explore ReGenesis Direct →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonial */}
+      <div className="max-w-3xl mx-auto px-8 py-20 text-center">
+        <blockquote className="text-2xl font-light text-stone-700 italic mb-6">
+          "I used to show up to sessions trying to remember what I'd committed to. Now I have a complete picture of my growth journey — and Sasha helps me stay on track between sessions. My coaching has never been more impactful."
+        </blockquote>
+        <div className="text-stone-500">
+          <span className="font-medium text-stone-700">— Client Testimonial</span>
+          <span className="mx-2">·</span>
+          <span>Executive, Tech Industry</span>
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div className="bg-stone-900 text-white">
+        <div className="max-w-3xl mx-auto px-8 py-20 text-center">
+          <h2 className="text-3xl font-light mb-6">Ready to accelerate your growth?</h2>
+          <p className="text-stone-400 mb-8">Join thousands of coaching clients who are getting more from their coaching investment.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={onGetStarted}
+              className="px-8 py-4 bg-white text-stone-900 rounded-xl font-medium text-lg hover:bg-stone-100 transition-colors"
+            >
+              Get Started
+            </button>
+            <button
+              onClick={() => setCurrentPage('pricing')}
+              className="px-8 py-4 border border-stone-600 text-white rounded-xl font-medium text-lg hover:bg-stone-800 transition-colors"
+            >
+              View Pricing
+            </button>
           </div>
         </div>
       </div>
