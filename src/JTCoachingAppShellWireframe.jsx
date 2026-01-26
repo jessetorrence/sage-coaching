@@ -7602,9 +7602,26 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             Scale coaching impact.<br />
             <span className="text-stone-500">Without scaling headcount.</span>
           </h1>
-          <p className="text-xl text-stone-600 mb-8 max-w-2xl">
-            Give every employee access to transformative coaching — supported by AI that remembers everything, never sleeps, and keeps coaches focused on what matters most: human connection.
+          <p className="text-xl text-stone-600 mb-6 max-w-2xl">
+            Give every employee access to transformational coaching—supported by AI that never sleeps, remembers everything, sees patterns, possibilities, and solutions across thousands of employees, and keeps coaches focused on not just performance but genuine human connection.
           </p>
+          <div className="text-stone-600 mb-8 max-w-3xl space-y-4">
+            <p>
+              For years, transformational coaching has been reserved for executives and high-potentials—the people organizations could afford to invest in. Everyone else got a webinar and a wish.
+            </p>
+            <p>
+              Research is clear: coaching drives engagement, retention, performance, and wellbeing. It accelerates onboarding, develops leaders, and helps people navigate change. Companies that invest in their people outperform those that don't. But traditional coaching doesn't scale.
+            </p>
+            <p className="text-xl font-medium text-stone-800">
+              Until now.
+            </p>
+            <p>
+              ReGenesis lets you bring world-class coaching support to every employee, not just the top of the pyramid. Make your existing coaches spectacular and scalable. Or, for roles that don't have dedicated coaches, offer AI-powered support that's more thoughtful, more personalized, and more effective than anything else on the market—built by actual coaches, not just technologists chasing a market opportunity.
+            </p>
+            <p>
+              Finally, organizations of any size can compete for talent, invest in their people, and see real ROI—without million-dollar coaching budgets.
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={onGetStarted}
@@ -7660,7 +7677,7 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 <div className="text-sm font-semibold text-teal-600 uppercase tracking-wide mb-2">Scale</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">10x coach capacity without hiring</h3>
                 <p className="text-stone-600 mb-6">
-                  When AI handles prep, notes, and between-session support, your coaches can serve dramatically more people without sacrificing quality. One coach can now deeply support 50+ coachees.
+                  When AI handles prep, notes, and between-session support, your coaches can serve dramatically more people without sacrificing quality. One coach can now support 50+ coachees more deeply and easily than they used to support 10.
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
@@ -7778,6 +7795,33 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
         </div>
       </div>
 
+      {/* Direct to Employee Section */}
+      <div className="bg-gradient-to-br from-violet-50 to-white">
+        <div className="max-w-4xl mx-auto px-8 py-20">
+          <div className="bg-white rounded-2xl p-10 border border-violet-200 shadow-sm">
+            <h2 className="text-2xl font-semibold text-stone-800 mb-4">Don't Have Enough (or Any) Coaches?</h2>
+            <div className="space-y-4 text-stone-600">
+              <p>
+                Not every organization can afford a coach for every employee—or any coaches at all. We get it.
+              </p>
+              <p>
+                <strong className="text-stone-800">ReGenesis Direct</strong> (coming soon) brings AI-powered coaching support directly to employees—no human coach required. The same intelligent companion, the same pattern recognition, the same 24/7 availability.
+              </p>
+              <p>
+                It's not a replacement for working with a skilled human coach. But for organizations that want to extend developmental support to thousands of employees, it's a powerful way to fill the gap or extend your reach.
+              </p>
+            </div>
+            <div className="mt-6 pt-6 border-t border-stone-100">
+              <p className="text-sm font-medium text-violet-700 mb-3">Interested in our beta program?</p>
+              <a href="mailto:enterprise@regenesis.ai" className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl font-medium hover:bg-violet-700 transition-colors">
+                Talk to Us
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Pricing */}
       <div className="bg-stone-100">
         <div className="max-w-5xl mx-auto px-8 py-20">
@@ -7800,6 +7844,25 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             </button>
             <p className="text-sm text-stone-400 mt-4">Volume discounts available for 500+ coachees</p>
           </div>
+        </div>
+      </div>
+
+      {/* Why We're Different - Pricing Advantage */}
+      <div className="max-w-4xl mx-auto px-8 py-20">
+        <h2 className="text-2xl font-semibold text-stone-800 mb-6 text-center">Why We're Different—and Dramatically Cheaper</h2>
+        <div className="space-y-4 text-lg text-stone-600 leading-relaxed">
+          <p>
+            Most AI coaching platforms are backed by venture capital, which means they're under pressure to maximize returns for investors. That pressure gets passed to you in pricing.
+          </p>
+          <p>
+            We're largely self-funded. We're not beholden to VCs demanding 10x returns. We're not a giant corporation extracting every dollar it can.
+          </p>
+          <p className="text-stone-800 font-medium">
+            That means we can offer enterprise-grade AI coaching at a fraction of what others charge—not because we're cutting corners, but because we care more about access than extraction.
+          </p>
+          <p>
+            Same security. Same features. Same support. Just better product and honest pricing from people who really understand coaching.
+          </p>
         </div>
       </div>
 
@@ -8142,7 +8205,7 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
         <div className="relative max-w-4xl mx-auto px-8 text-center">
           {/* V6 Locked Tagline */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 rounded-full text-white text-sm font-medium mb-6">
-            No games, no gates, no bullshit.
+            No games, no gates, no B.S.
           </div>
 
           <h1 className="text-4xl md:text-5xl font-light text-stone-800 mb-6">
@@ -8187,7 +8250,7 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
           <div className="grid md:grid-cols-2 gap-8">
 
             {/* Individual Plan */}
-            <div className="relative p-8 rounded-2xl border-2 border-stone-200 bg-white hover:border-violet-300 transition-colors">
+            <div className="relative p-8 rounded-2xl border-2 border-stone-200 bg-white hover:border-violet-300 transition-colors flex flex-col">
               <div className="mb-6">
                 <h3 className="text-2xl font-medium text-stone-800 mb-2">Individual</h3>
                 <p className="text-stone-500">For coaches paying out of pocket</p>
@@ -8226,14 +8289,14 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
 
               <button
                 onClick={onGetStarted}
-                className="w-full py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 transition-colors"
+                className="w-full py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 transition-colors mt-auto"
               >
                 Start Free Trial
               </button>
             </div>
 
             {/* Organization Plan */}
-            <div className="relative p-8 rounded-2xl border-2 border-violet-300 bg-gradient-to-br from-violet-50/50 to-white">
+            <div className="relative p-8 rounded-2xl border-2 border-violet-300 bg-gradient-to-br from-violet-50/50 to-white flex flex-col">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <span className="px-4 py-1 bg-violet-600 text-white text-sm font-medium rounded-full">
                   Best for teams
@@ -8278,7 +8341,7 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
 
               <button
                 onClick={onGetStarted}
-                className="w-full py-4 bg-violet-600 text-white rounded-xl font-medium hover:bg-violet-700 transition-colors"
+                className="w-full py-4 bg-violet-600 text-white rounded-xl font-medium hover:bg-violet-700 transition-colors mt-auto"
               >
                 Talk to Sales
               </button>
@@ -8365,8 +8428,7 @@ function PricingPage({ onGetStarted, setCurrentPage }) {
             <div className="bg-white p-6 rounded-xl border border-stone-100">
               <h4 className="font-medium text-stone-800 mb-2">Why are coach seats free for organizations?</h4>
               <p className="text-stone-600 text-sm">
-                Coaches are the ones delivering the transformation. Coachees are where our AI provides the most value
-                (24/7 companion, session prep, etc.). Charging per-coachee aligns our revenue with the value we create.
+                Coaches deliver the transformation. Coachees are where our AI provides the most value—e.g. depth and precision of observations and insights, pattern recognition across their entire journey, continuity of support between sessions, commitment tracking, access to the same agentic AI ("Sasha") that powers their coach's life, etc. Charging per-coachee aligns our revenue with the value we create.
               </p>
             </div>
 
