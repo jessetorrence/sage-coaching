@@ -8749,10 +8749,7 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
               It makes us feel alive. Connected. Useful in the deepest sense.
             </p>
             <p>
-              We yearn for our clients the way we yearn for our own lives—to really matter, to make a difference, to know that we were here, even for a brief speck of time.
-            </p>
-            <p className="text-white font-medium text-xl mt-8">
-              That's what we want to preserve. That's what we refuse to let technology diminish.
+              We yearn for our clients the way we yearn for our own lives—to really matter, to make a difference, to feel like it mattered that we were here, even for a brief moment in time.
             </p>
           </div>
         </div>
@@ -8838,20 +8835,20 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="border-l-2 border-stone-300 pl-6">
-              <h3 className="font-semibold text-stone-800 mb-2">To Coaches</h3>
-              <p className="text-stone-600">We will never build features that diminish your value or replace your judgment. AI handles logistics; you handle transformation.</p>
+              <h3 className="text-base font-semibold text-stone-800 mb-2">To Coaches</h3>
+              <p className="text-base text-stone-600 leading-relaxed">We will never build features that diminish your value or replace your judgment. AI handles logistics; you handle transformation.</p>
             </div>
             <div className="border-l-2 border-stone-300 pl-6">
-              <h3 className="font-semibold text-stone-800 mb-2">To Clients</h3>
-              <p className="text-stone-600">Your data belongs to you. Your privacy is protected by architecture, not promises. You control what's shared and with whom—always.</p>
+              <h3 className="text-base font-semibold text-stone-800 mb-2">To Clients</h3>
+              <p className="text-base text-stone-600 leading-relaxed">Your data belongs to you. Your privacy is protected by architecture, not promises. You control what's shared and with whom—always.</p>
             </div>
             <div className="border-l-2 border-stone-300 pl-6">
-              <h3 className="font-semibold text-stone-800 mb-2">To Organizations</h3>
-              <p className="text-stone-600">No enterprise lock-in for security features. No games with pricing. The same integrity whether you're a solo coach or a Fortune 100.</p>
+              <h3 className="text-base font-semibold text-stone-800 mb-2">To Organizations</h3>
+              <p className="text-base text-stone-600 leading-relaxed">No enterprise lock-in for security features. No games with pricing. The same integrity whether you're a solo coach or a Fortune 100.</p>
             </div>
             <div className="border-l-2 border-stone-300 pl-6">
-              <h3 className="font-semibold text-stone-800 mb-2">To Ourselves</h3>
-              <p className="text-stone-600">We will say what we mean, deliver what we promise, and build something we'd be proud to use with our own clients.</p>
+              <h3 className="text-base font-semibold text-stone-800 mb-2">To Ourselves</h3>
+              <p className="text-base text-stone-600 leading-relaxed">We will say what we mean, deliver what we promise, and build something we'd be proud to use with our own clients.</p>
             </div>
           </div>
         </div>
@@ -8860,9 +8857,9 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
       {/* CTA */}
       <section className="py-20 bg-stone-50">
         <div className="max-w-3xl mx-auto px-8 text-center">
-          <h2 className="text-3xl font-light text-stone-800 mb-4">Join Us</h2>
+          <h2 className="text-2xl font-semibold text-stone-800 mb-8 text-center">Join Us</h2>
           <p className="text-lg text-stone-600 mb-10">
-            Whether you're a coach looking for better tools, an organization investing in your people, or someone curious about what's possible—we'd love to show you what we're building.
+            Whether you're a coach looking for better tools, an organization investing in your people, or someone curious about what's possible—we'd love to show you what we're building and get your feedback on how to make it even better.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
