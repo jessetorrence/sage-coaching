@@ -6301,11 +6301,11 @@ function LandingPage({ onSelectUserType }) {
               onClick={() => setCurrentPage('home')}
               className="flex items-center gap-2 group"
             >
-              <div className="w-9 h-9 flex items-center justify-center">
+              <div className="w-9 h-9 flex items-center justify-center rounded-full overflow-hidden bg-stone-800">
                 <img
                   src={ouroborosLogo}
                   alt="ReGenesis"
-                  className="w-full h-full object-contain drop-shadow-lg"
+                  className="w-[115%] h-[115%] object-contain"
                 />
               </div>
               <span className="text-sm font-medium tracking-widest text-stone-300 group-hover:text-white transition-colors">ReGenesis</span>
@@ -6521,7 +6521,9 @@ function LandingPage({ onSelectUserType }) {
           <ul className="space-y-5 text-stone-700">
             {/* 24/7 AI Companion - FIRST */}
             <li className="flex items-start gap-4">
-              <img src={ouroborosLogo} alt="Sasha" className="w-6 h-6 object-contain flex-shrink-0 mt-0.5" />
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-stone-100 flex-shrink-0 mt-0.5">
+                <img src={ouroborosLogo} alt="Sasha" className="w-[115%] h-[115%] object-contain" />
+              </div>
               <div className="text-base"><span className="font-bold text-stone-800">24/7 AI Companion — Meet Sasha</span> — the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate.</div>
             </li>
             <li className="flex items-start gap-4">
@@ -6591,11 +6593,6 @@ function LandingPage({ onSelectUserType }) {
           <div className="bg-white rounded-2xl p-8 mb-8">
             <h3 className="text-xl font-semibold text-stone-800 mb-2">Ask Anything. Do Anything.</h3>
             <p className="text-stone-500 mb-6">Instant Visibility. Instant Action.</p>
-
-            {/* Command bar icon */}
-            <div className="flex items-center gap-2 mb-6 text-stone-400">
-              <kbd className="px-2 py-1 bg-stone-200 rounded text-sm font-mono">⌘K</kbd>
-            </div>
 
             {/* Example commands */}
             <div className="space-y-3 text-stone-600 text-sm italic mb-6">
@@ -6919,11 +6916,13 @@ function LandingPage({ onSelectUserType }) {
         <div className="max-w-6xl mx-auto px-8">
           {/* Brand with Logo */}
           <div className="mb-12 flex items-center gap-3">
-            <img
-              src={ouroborosLogo}
-              alt="ReGenesis"
-              className="w-10 h-10 object-contain"
-            />
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-800">
+              <img
+                src={ouroborosLogo}
+                alt="ReGenesis"
+                className="w-[115%] h-[115%] object-contain"
+              />
+            </div>
             <span className="text-white font-medium text-lg">ReGenesis</span>
           </div>
 
@@ -7025,26 +7024,26 @@ function LandingPage({ onSelectUserType }) {
 
                   <button
                     onClick={() => setLoginUserType('coach')}
-                    className="w-full p-4 text-left border border-stone-200 rounded-xl hover:border-violet-300 hover:bg-violet-50/50 transition-colors"
+                    className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors"
                   >
                     <div className="font-medium text-stone-800">I'm a Coach</div>
-                    <div className="text-sm text-stone-500">Access your coaching dashboard</div>
+                    <div className="text-sm text-stone-500 mt-1">Access your coaching dashboard</div>
                   </button>
 
                   <button
                     onClick={() => setLoginUserType('coachee')}
-                    className="w-full p-4 text-left border border-stone-200 rounded-xl hover:border-violet-300 hover:bg-violet-50/50 transition-colors"
+                    className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors"
                   >
                     <div className="font-medium text-stone-800">I'm a Coaching Client</div>
-                    <div className="text-sm text-stone-500">Access your growth companion</div>
+                    <div className="text-sm text-stone-500 mt-1">Access your growth companion</div>
                   </button>
 
                   <button
                     onClick={() => setLoginUserType('admin')}
-                    className="w-full p-4 text-left border border-stone-200 rounded-xl hover:border-violet-300 hover:bg-violet-50/50 transition-colors"
+                    className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors"
                   >
                     <div className="font-medium text-stone-800">I'm an Organization Admin</div>
-                    <div className="text-sm text-stone-500">Access program administration</div>
+                    <div className="text-sm text-stone-500 mt-1">Access program administration</div>
                   </button>
 
                   <p className="text-center text-sm text-stone-500 mt-6">
@@ -7102,7 +7101,9 @@ function LandingPage({ onSelectUserType }) {
           onClick={() => {/* Would open command bar */}}
           className="group flex items-center gap-2 px-4 py-2.5 bg-stone-800/90 hover:bg-stone-700 text-stone-300 hover:text-white rounded-full shadow-lg hover:shadow-xl backdrop-blur-sm transition-all border border-stone-700/50"
         >
-          <img src={ouroborosLogo} alt="Sasha" className="w-5 h-5 object-contain" />
+          <div className="w-5 h-5 rounded-full overflow-hidden bg-stone-700">
+            <img src={ouroborosLogo} alt="Sasha" className="w-[115%] h-[115%] object-contain" />
+          </div>
           <span className="text-sm font-medium">Ask Sasha</span>
           <kbd className="px-1.5 py-0.5 bg-stone-700/80 rounded text-xs font-mono text-stone-400 ml-1">⌘K</kbd>
         </button>
@@ -7158,41 +7159,26 @@ function LandingPage({ onSelectUserType }) {
               <div className="space-y-3">
                 <button
                   onClick={() => handleUserTypeSelection('coach')}
-                  className="w-full p-4 text-left border border-stone-200 rounded-xl hover:border-violet-300 hover:bg-violet-50/50 transition-colors group"
+                  className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors group"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🎯</span>
-                    <div>
-                      <div className="font-medium text-stone-800 group-hover:text-violet-700">I'm a Coach</div>
-                      <div className="text-sm text-stone-500">Individual practitioner or coaching professional</div>
-                    </div>
-                  </div>
+                  <div className="font-medium text-stone-800 group-hover:text-stone-900">I'm a Coach</div>
+                  <div className="text-sm text-stone-500 mt-1">Individual practitioner or coaching professional</div>
                 </button>
 
                 <button
                   onClick={() => handleUserTypeSelection('coachee')}
-                  className="w-full p-4 text-left border border-stone-200 rounded-xl hover:border-violet-300 hover:bg-violet-50/50 transition-colors group"
+                  className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors group"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🌱</span>
-                    <div>
-                      <div className="font-medium text-stone-800 group-hover:text-violet-700">I'm a Coaching Client</div>
-                      <div className="text-sm text-stone-500">My coach invited me to ReGenesis</div>
-                    </div>
-                  </div>
+                  <div className="font-medium text-stone-800 group-hover:text-stone-900">I'm a Coaching Client</div>
+                  <div className="text-sm text-stone-500 mt-1">My coach invited me to ReGenesis</div>
                 </button>
 
                 <button
                   onClick={() => handleUserTypeSelection('admin')}
-                  className="w-full p-4 text-left border border-stone-200 rounded-xl hover:border-violet-300 hover:bg-violet-50/50 transition-colors group"
+                  className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors group"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🏢</span>
-                    <div>
-                      <div className="font-medium text-stone-800 group-hover:text-violet-700">I'm Evaluating for My Organization</div>
-                      <div className="text-sm text-stone-500">Enterprise, HR, or L&D decision maker</div>
-                    </div>
-                  </div>
+                  <div className="font-medium text-stone-800 group-hover:text-stone-900">I'm Evaluating for My Organization</div>
+                  <div className="text-sm text-stone-500 mt-1">Enterprise, HR, or L&D decision maker</div>
                 </button>
               </div>
             </div>
