@@ -1,6 +1,7 @@
 import React from "react";
 import { mockClients } from "./data/mockClients";
 import logo from "./assets/logo.jpg";
+import ouroborosLogo from "./assets/rainbow-ouroboros.png";
 import { PRODUCT_NAME, AGENT_NAME, LOCKED_PHRASES, TRUST_BULLETS, PRICING } from "./lib/regenesisV6Copy";
 import TrustStrip, { TrustBlock } from "./components/TrustStrip";
 import VisibilityBadge, { ClientPrivateBadge, ApprovalRequiredBadge, AIDraftedBadge } from "./components/VisibilityBadge";
@@ -5416,7 +5417,7 @@ function TranscriptDrawerInline({ isOpen, onClose, section }) {
     <>
       <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
       <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl z-50 overflow-hidden flex flex-col">
-        <div className="bg-gradient-to-r from-violet-600 to-purple-600 px-6 py-4 text-white">
+        <div className="bg-gradient-to-r from-stone-800 to-stone-900 px-6 py-4 text-white">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold">Transcript Source</h3>
             <button onClick={onClose} className="p-1 hover:bg-white/20 rounded">
@@ -6302,7 +6303,7 @@ function LandingPage({ onSelectUserType }) {
             >
               <div className="w-9 h-9 flex items-center justify-center">
                 <img
-                  src="/src/assets/rainbow-ouroboros.png"
+                  src={ouroborosLogo}
                   alt="ReGenesis"
                   className="w-full h-full object-contain drop-shadow-lg"
                 />
@@ -6413,17 +6414,17 @@ function LandingPage({ onSelectUserType }) {
             transform: `translateY(${scrollY * 0.3}px)`,
           }}
         />
-        {/* Gradient overlay with subtle color */}
-        <div className="absolute inset-0 bg-gradient-to-b from-violet-50/30 via-white/60 to-white"></div>
+        {/* Gradient overlay with subtle natural color */}
+        <div className="absolute inset-0 bg-gradient-to-b from-rose-50/20 via-white/60 to-white"></div>
 
-        {/* Decorative gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-violet-200/30 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * 0.1}px)` }}></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-teal-200/20 rounded-full blur-3xl" style={{ transform: `translateY(${-scrollY * 0.15}px)` }}></div>
+        {/* Decorative gradient orbs - natural, soft colors */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-rose-200/25 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * 0.1}px)` }}></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-sky-200/20 rounded-full blur-3xl" style={{ transform: `translateY(${-scrollY * 0.15}px)` }}></div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
           {/* Primary headline - Phase B copy */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-stone-800 mb-6 leading-tight tracking-tight">
-            Coaching, <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">amplified.</span>
+            Coaching, <span className="bg-gradient-to-r from-rose-600 to-indigo-600 bg-clip-text text-transparent">amplified.</span>
           </h1>
 
           {/* Subheadline */}
@@ -6435,7 +6436,7 @@ function LandingPage({ onSelectUserType }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <button
               onClick={() => handleCTA('signup')}
-              className="px-8 py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-medium hover:from-violet-700 hover:to-purple-700 hover:shadow-xl hover:shadow-violet-500/25 transition-all text-lg"
+              className="px-8 py-4 bg-gradient-to-r from-stone-800 to-stone-900 text-white rounded-xl font-medium hover:from-stone-700 hover:to-stone-800 hover:shadow-xl hover:shadow-stone-500/25 transition-all text-lg"
             >
               Get ReGenesis
             </button>
@@ -6444,17 +6445,12 @@ function LandingPage({ onSelectUserType }) {
               onClick={() => {
                 document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-violet-300 bg-white/70 backdrop-blur-sm font-medium text-lg"
+              className="px-8 py-4 text-stone-700 hover:text-stone-900 transition-all border border-stone-300 rounded-xl hover:border-rose-300 bg-white/70 backdrop-blur-sm font-medium text-lg"
             >
               See How It Works
             </button>
           </div>
 
-          {/* Command K hint */}
-          <div className="flex items-center justify-center gap-2 text-sm text-stone-500 mt-6">
-            <kbd className="px-2 py-1 bg-stone-100 rounded text-xs font-mono border border-stone-200">⌘K</kbd>
-            <span>Press to ask Sasha anything — your AI command center</span>
-          </div>
 
         </div>
       </section>
@@ -6516,49 +6512,48 @@ function LandingPage({ onSelectUserType }) {
                   </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60">
-                  <span className="text-white text-sm font-medium">Watch: Greater Impact Demo</span>
+                  <span className="text-white text-sm font-medium">Feature Walkthrough</span>
                 </div>
               </div>
             </div>
           </div>
 
           <ul className="space-y-5 text-stone-700">
+            {/* 24/7 AI Companion - FIRST */}
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <img src={ouroborosLogo} alt="Sasha" className="w-6 h-6 object-contain flex-shrink-0 mt-0.5" />
+              <div className="text-base"><span className="font-bold text-stone-800">24/7 AI Companion — Meet Sasha</span> — the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate. <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-rose-100 text-rose-700 rounded-full text-sm font-medium ml-1">Sasha = ReGenesis's AI</span></div>
+            </li>
+            <li className="flex items-start gap-4">
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">Unlimited Memory</span> — every client, every session, every word</div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">Pattern Recognition</span> — surfaces what you might sense but can't fully track or put words to: trajectories, gaps, blind spots, and what's emerging</div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">Language Mastery</span> — articulates insights in precise (and adjustable) language, drawing on deep knowledge of each client while giving you full control to shape the tone</div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">Pre-Session Prep</span> — walk into every session completely and effortlessly prepared, as if you just finished the last one</div>
             </li>
             <li className="flex items-start gap-4">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-xs font-bold">S</span>
-              </div>
-              <div className="text-base"><span className="font-bold text-stone-800">24/7 AI Companion — Meet Sasha</span> — the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate. <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full text-sm font-medium ml-1">Sasha = ReGenesis's AI</span></div>
-            </li>
-            <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">In-Session Copilot</span> — real-time coaching support exactly when and how you want it</div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">Smart Dashboards + Progress Tracking</span> — see progress and diagnose challenges, understanding what's working, what's not, and why — across every client</div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">Voice & Style Matching</span> — communicates in your authentic voice, mirroring and enriching your unique philosophy, approach, frameworks, and methods</div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="text-violet-500 text-xl font-bold mt-0.5">•</span>
+              <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
               <div className="text-base"><span className="font-bold text-stone-800">AI-Drafted Session Notes</span> — powerful observations, insights, analysis, and inquiries for growth delivered to your clients in language that resonates and moves them forward. Full autonomy to adjust the template, structure, and tone — automatically insert resources, attachments, and ancillary documents directly into the notes, and send to your client at the click of a button.</div>
             </li>
           </ul>
@@ -6586,7 +6581,7 @@ function LandingPage({ onSelectUserType }) {
                   </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60">
-                  <span className="text-white text-sm font-medium">Watch: Greater Scale Demo</span>
+                  <span className="text-white text-sm font-medium">Feature Walkthrough</span>
                 </div>
               </div>
             </div>
@@ -6620,19 +6615,29 @@ function LandingPage({ onSelectUserType }) {
       {/* ===== GREATER EASE - Part 20.7 ===== */}
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase">Greater Ease</h2>
-            <button className="flex items-center gap-2 px-4 py-2 bg-stone-100 rounded-lg text-stone-600 hover:bg-stone-200 transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-              </svg>
-              Video
-            </button>
+          <div className="flex flex-col lg:flex-row items-start gap-8 mb-8">
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4">Greater Ease</h2>
+              <p className="text-lg text-stone-600 leading-relaxed">
+                ReGenesis takes care of everything you used to do, effortlessly. The tasks that drained your time and energy? They handle themselves.
+              </p>
+            </div>
+            {/* Video Thumbnail */}
+            <div className="w-full lg:w-80 flex-shrink-0">
+              <div className="relative aspect-video bg-gradient-to-br from-amber-700 to-orange-800 rounded-xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60">
+                  <span className="text-white text-sm font-medium">Feature Walkthrough</span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <p className="text-lg text-stone-600 mb-8 leading-relaxed">
-            ReGenesis takes care of everything you used to do, effortlessly. The tasks that drained your time and energy? They handle themselves.
-          </p>
 
           {/* Ask Anything. Do Anything. */}
           <div className="bg-stone-50 rounded-2xl p-8 mb-8">
@@ -6861,7 +6866,7 @@ function LandingPage({ onSelectUserType }) {
               </ul>
               <button
                 onClick={() => handleCTA('signup')}
-                className="w-full py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-700 hover:to-purple-700 transition-colors mt-8"
+                className="w-full py-3 bg-gradient-to-r from-stone-800 to-stone-900 text-white rounded-lg font-medium hover:from-stone-700 hover:to-stone-800 transition-colors mt-8"
               >
                 Get Started
               </button>
@@ -6882,7 +6887,7 @@ function LandingPage({ onSelectUserType }) {
               </ul>
               <button
                 onClick={() => handleCTA('signup')}
-                className="w-full py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-700 hover:to-purple-700 transition-colors mt-8"
+                className="w-full py-3 bg-gradient-to-r from-stone-800 to-stone-900 text-white rounded-lg font-medium hover:from-stone-700 hover:to-stone-800 transition-colors mt-8"
               >
                 Talk to Us
               </button>
@@ -6915,7 +6920,7 @@ function LandingPage({ onSelectUserType }) {
           {/* Brand with Logo */}
           <div className="mb-12 flex items-center gap-3">
             <img
-              src="/src/assets/rainbow-ouroboros.png"
+              src={ouroborosLogo}
               alt="ReGenesis"
               className="w-10 h-10 object-contain"
             />
@@ -7090,20 +7095,17 @@ function LandingPage({ onSelectUserType }) {
         </div>
       )}
 
-      {/* ===== HELP CHAT BUTTON ===== */}
-      <div className="fixed bottom-6 right-6 z-40">
+      {/* ===== FLOATING COMMAND BAR HINT ===== */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        {/* Command K pill - industry standard floating command trigger */}
         <button
-          onClick={() => {/* Would open chat widget */}}
-          className="group w-14 h-14 bg-stone-900 hover:bg-stone-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+          onClick={() => {/* Would open command bar */}}
+          className="group flex items-center gap-2 px-4 py-2.5 bg-stone-800/90 hover:bg-stone-700 text-stone-300 hover:text-white rounded-full shadow-lg hover:shadow-xl backdrop-blur-sm transition-all border border-stone-700/50"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
+          <img src={ouroborosLogo} alt="Sasha" className="w-5 h-5 object-contain" />
+          <span className="text-sm font-medium">Ask Sasha</span>
+          <kbd className="px-1.5 py-0.5 bg-stone-700/80 rounded text-xs font-mono text-stone-400 ml-1">⌘K</kbd>
         </button>
-        {/* Tooltip on hover */}
-        <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-stone-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none hidden group-hover:block">
-          Chat with us or connect with a human
-        </div>
       </div>
 
       {/* ===== VIDEO MODAL ===== */}
