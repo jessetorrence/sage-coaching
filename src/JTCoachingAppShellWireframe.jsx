@@ -954,7 +954,7 @@ function AllActionsAllDomainsPage({ onBack }) {
           <input
             type="text"
             placeholder="Quick capture: type anything and I'll figure out where it goes..."
-            className="flex-1 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-stone-200 focus:border-transparent"
           />
           <select className="px-3 py-3 border border-gray-200 rounded-lg text-sm">
             <option>Auto-assign</option>
@@ -2798,7 +2798,7 @@ function ClientInSessionCopilotTab({ client }) {
             <select
               value={copilotMode}
               onChange={(e) => setCopilotMode(e.target.value)}
-              className="text-sm border border-stone-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="text-sm border border-stone-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-stone-200"
             >
               <option value="observe">Observe Only</option>
               <option value="suggest">Suggest Questions</option>
@@ -3557,7 +3557,7 @@ function ResourceLibraryPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title, keywords, or themes..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-200"
           />
           {searchQuery && (
             <button
@@ -3581,7 +3581,7 @@ function ResourceLibraryPage() {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-stone-200"
             >
               <option value="all">All Types</option>
               <option value="Frameworks">Frameworks</option>
@@ -3597,7 +3597,7 @@ function ResourceLibraryPage() {
             <select
               value={selectedTheme}
               onChange={(e) => setSelectedTheme(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-stone-200"
             >
               <option value="all">All Themes</option>
               <option value="Leadership">Leadership</option>
@@ -3615,7 +3615,7 @@ function ResourceLibraryPage() {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-stone-200"
             >
               <option value="all">All Time</option>
               <option value="week">Past Week</option>
@@ -7600,36 +7600,17 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
         </div>
       </div>
 
-      {/* FAQ for Coaches */}
+      {/* FAQ Link */}
       <div className="bg-white border-t border-stone-200">
-        <div className="max-w-3xl mx-auto px-8 py-20">
-          <h2 className="text-3xl font-light text-stone-800 mb-12 text-center">Questions coaches ask</h2>
-          <div className="space-y-8">
-            <div>
-              <h3 className="font-semibold text-stone-800 mb-2">Will AI replace the human element of coaching?</h3>
-              <p className="text-stone-600">We hope not. We think there's something sacred about human relationship — the space shared by coach and coachee willing to deeply listen and be seen. ReGenesis exists to amplify that relationship, not replace it. It also makes you a better coach: you receive feedback, pattern insights, and growth pointers that help you perfect your craft. Your discernment and compassion are irreplaceable — and now they're supercharged.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-stone-800 mb-2">What if my clients are hesitant about AI or privacy?</h3>
-              <p className="text-stone-600">We help you communicate in clear, down-to-earth language your clients can understand and trust — how it works, what the benefits are, and how their data is protected. Clients can try it out risk-free and immediately delete their data if they're uncomfortable at any time. But we're confident: once they experience it, they'll never want to go back. And neither will you.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-stone-800 mb-2">Is my clients' data private?</h3>
-              <p className="text-stone-600">Absolutely. Your clients control what they share with you and/or their organization through privacy tiers. We use bank-level encryption, never sell data, and offer our "Evaporation Promise" — when data is deleted, it's truly gone. Forever.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-stone-800 mb-2">Do you use client data to train your models?</h3>
-              <p className="text-stone-600">Only with explicit consent, and only using advanced anonymization techniques (differential privacy) that make it mathematically impossible to trace any data back to individuals. This helps improve our models for everyone while protecting privacy absolutely. You can opt out entirely at any time.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-stone-800 mb-2">What if I don't want to learn a bunch of new tools?</h3>
-              <p className="text-stone-600">We couldn't agree more. That's the point. ReGenesis was designed to be frictionless — it integrates seamlessly and invisibly with the apps, platforms, and workstations you already use, protecting all your client and organization data along the way. Many coaches find they don't need many of their existing tools and apps anymore, because ReGenesis replaces or weaves together many of the functions they currently provide.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-stone-800 mb-2">What if I don't want AI during sessions?</h3>
-              <p className="text-stone-600">The In-Session Copilot is entirely optional and easily adjustable in the moment. Many coaches use ReGenesis only for prep and notes. Others love the real-time support. You control the level of AI involvement at every step.</p>
-            </div>
-          </div>
+        <div className="max-w-3xl mx-auto px-8 py-16 text-center">
+          <h2 className="text-2xl font-light text-stone-800 mb-4">Have questions?</h2>
+          <p className="text-stone-600 mb-6">We've answered the most common questions about security, privacy, pricing, and how it all works.</p>
+          <button
+            onClick={() => { setCurrentPage('faq'); window.scrollTo(0, 0); }}
+            className="px-8 py-3 border border-stone-300 text-stone-700 rounded-xl font-medium hover:bg-stone-50 transition-colors"
+          >
+            View FAQ
+          </button>
         </div>
       </div>
 
@@ -9301,25 +9282,29 @@ function FAQPage({ onGetStarted, setCurrentPage }) {
 
   const faqs = [
     {
-      question: "Does this replace coaches?",
-      answer: "No—and it never will. ReGenesis was built by coaches, for coaches. It's designed to amplify your craft, not replace it. AI handles memory, patterns, and admin. You bring presence, intuition, and the sacred work of human transformation. The technology exists to free your hands and mind so you can be more fully present with your clients."
+      question: "Will AI replace coaches, therapists, or human caregivers?",
+      answer: "We hope not. We believe there's something sacred about human relationship—the space shared by two people willing to deeply listen and be seen. ReGenesis exists to amplify that relationship, not replace it. That said, we also recognize a hard truth: there will never be enough coaches, therapists, and caregivers to match the growing demand for human support. Millions of people lack access due to cost, geography, or availability. AI can serve as a bridge—providing meaningful support to those who otherwise have none, while making human practitioners more effective and accessible. Our goal is to expand access to transformation, not to replace the transformers."
     },
     {
       question: "Can I use this without a coach?",
-      answer: "We strongly recommend working with a trained coach. ReGenesis is designed to enhance the coaching relationship, not bypass it. That said, we recognize access to quality coaching is limited by cost and availability. We're exploring ways to expand access while honoring the irreplaceable value of human coaches. For now, the platform works best when you're working with a coach."
+      answer: "We strongly recommend working with a trained coach or therapist. ReGenesis is designed to enhance the human relationship, not bypass it. That said, we recognize access to quality coaching is limited by cost and availability. We're exploring ways to expand access while honoring the irreplaceable value of human practitioners. For now, the platform works best when you're working with a coach."
     },
     {
       question: "What is Sasha?",
-      answer: "Sasha is ReGenesis's AI assistant—your always-on partner in coaching. Sasha helps you see and understand (surfacing patterns, preparing for sessions, remembering everything) and then do (drafting notes, scheduling, admin tasks)—always with your permission and approval. Think of Sasha as an extension of your coaching practice that never sleeps, never forgets, and always defers to your judgment."
+      answer: "Sasha is ReGenesis's AI assistant—your always-on partner in coaching and life. Sasha helps you see and understand (surfacing patterns, preparing for sessions, remembering everything) and then do (drafting notes, scheduling, admin tasks)—always with your permission and approval. Think of Sasha as an extension of your practice that never sleeps, never forgets, and always defers to your judgment."
     },
     {
       question: "Is this secure?",
-      answer: "Security isn't a feature—it's the foundation. We use zero-knowledge encryption (your keys, not ours), isolated data stores, and architecture-level privacy controls. We're SOC 2 Type II certified, HIPAA-ready, and GDPR compliant. Your coaching conversations are protected by architecture, not just policy. Delete means delete. Export means export. You own your data.",
+      answer: "Security isn't a feature—it's the foundation. We use zero-knowledge encryption (your keys, not ours), isolated data stores, and architecture-level privacy controls. We're SOC 2 Type II certified, HIPAA-ready, and GDPR compliant. Your conversations are protected by architecture, not just policy. Delete means delete. Export means export. You own your data.",
       linkText: "Learn more about our security",
       linkPage: "security"
     },
     {
-      question: "Do you use client data to train your AI models?",
+      question: "Is my data private?",
+      answer: "Absolutely. You control what you share through privacy tiers. We use bank-level encryption, never sell data, and offer our 'Evaporation Promise'—when data is deleted, it's truly gone. Forever. For clients working with coaches, privacy tiers let you decide exactly what your coach (and/or your organization) can see."
+    },
+    {
+      question: "Do you use my data to train your AI models?",
       answer: "Only with explicit consent, and only using advanced anonymization techniques (differential privacy) that make it mathematically impossible to trace any data back to individuals. This helps improve our models for everyone while protecting privacy absolutely. You can opt out entirely at any time."
     },
     {
@@ -9335,20 +9320,24 @@ function FAQPage({ onGetStarted, setCurrentPage }) {
       linkPage: "integrations"
     },
     {
-      question: "How does the AI companion work with my clients?",
-      answer: "Your clients get access to Sasha between sessions—at no additional cost to them. Sasha helps them process challenges, track commitments, and prepare for sessions. Privacy is tiered: clients control exactly what's shared with you. Tier 1 is private (only client + Sasha). Tier 2 shares summaries. Tier 3 gives you full access. You see what they choose to share in your prep."
+      question: "How does the AI companion work between sessions?",
+      answer: "Clients get access to Sasha between sessions—at no additional cost. Sasha helps process challenges, track commitments, and prepare for sessions. Privacy is tiered: clients control exactly what's shared with their coach. Tier 1 is private (only client + Sasha). Tier 2 shares summaries. Tier 3 gives full access. Coaches see only what clients choose to share."
     },
     {
       question: "Will AI-generated content sound like me?",
-      answer: "Yes—that's the point. ReGenesis learns your voice, your frameworks, your philosophy. Session notes, client communications, and Sasha's interactions are all tuned to reflect your authentic coaching style. You always have full control to adjust tone, structure, and content. Nothing is sent without your review and approval."
+      answer: "Yes—that's the point. ReGenesis learns your written voice, your frameworks, your philosophy. Session notes, client communications, and Sasha's interactions are all tuned to reflect your authentic style. (Note: this refers to your written and stylistic voice; actual voice cloning is coming soon.) You always have full control to adjust tone, structure, and content. Nothing is sent without your review and approval."
     },
     {
       question: "What if I don't want AI during my sessions?",
       answer: "The In-Session Copilot is entirely optional and easily adjustable in the moment. Many coaches use ReGenesis only for prep and notes. Others love the real-time support. You control the level of AI involvement at every step—from completely invisible to actively supportive."
     },
     {
-      question: "What if my clients are hesitant about AI?",
+      question: "What if clients are hesitant about AI?",
       answer: "We help you communicate in clear, down-to-earth language your clients can understand and trust—how it works, what the benefits are, and how their data is protected. Clients can try it out risk-free and immediately delete their data if they're uncomfortable at any time. But we're confident: once they experience it, they'll never want to go back."
+    },
+    {
+      question: "What if I don't want to learn a bunch of new tools?",
+      answer: "We couldn't agree more. That's the point. ReGenesis was designed to be frictionless—it integrates seamlessly and invisibly with the apps, platforms, and workstations you already use. Many practitioners find they don't need many of their existing tools anymore, because ReGenesis replaces or weaves together many of the functions they currently provide."
     }
   ];
 
@@ -9361,7 +9350,7 @@ function FAQPage({ onGetStarted, setCurrentPage }) {
             Frequently Asked Questions
           </h1>
           <p className="text-xl text-stone-600">
-            Honest answers to the questions coaches ask most.
+            Honest answers to the questions people ask most.
           </p>
         </div>
       </section>
@@ -9670,25 +9659,24 @@ function IntegrationsPage({ onGetStarted, setCurrentPage }) {
 
 // ============ CAREERS PAGE ============
 function CareersPage({ onGetStarted, setCurrentPage }) {
+  const [showUpload, setShowUpload] = React.useState(false);
+  const [showFeedback, setShowFeedback] = React.useState(false);
+
   const values = [
     {
-      icon: "💡",
       title: "Brilliant Minds",
       desc: "Curious thinkers who love solving hard problems at the intersection of human wisdom and artificial intelligence."
     },
     {
-      icon: "❤️",
       title: "Big Hearts",
       desc: "People who genuinely care about human flourishing and believe technology should serve our highest potential."
     },
     {
-      icon: "🌍",
       title: "Diverse Perspectives",
       desc: "Lived experiences from every corner of the world, every walk of life. Your unique story is your superpower."
     },
     {
-      icon: "🌱",
-      title: "Do Well by Doing Good",
+      title: "To Do Good and Do Well",
       desc: "We believe meaningful work and meaningful impact aren't mutually exclusive. Join us in proving it."
     }
   ];
@@ -9719,10 +9707,10 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
       desc: "Design interfaces that feel like magic—where complexity becomes simplicity, and technology fades into the background so human connection can flourish."
     },
     {
-      title: "Coaching Advisors",
+      title: "Coaching, Therapy & Psychology Professionals",
       type: "Advisory",
       location: "Remote, Worldwide",
-      desc: "Experienced coaches who want to shape the future of the profession. Help us understand what coaches really need, test new features, and ensure we're building something genuinely useful."
+      desc: "Experienced practitioners across coaching, therapy, counseling, and psychology who want to shape the future of human development. Whether you're an ICF-certified coach, licensed therapist, clinical psychologist, or counselor—we need your expertise. Help us understand what practitioners really need, test new features, inform our ethical guidelines, and ensure we're building something that genuinely serves human flourishing."
     },
     {
       title: "Community & Partnerships",
@@ -9733,7 +9721,7 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white pt-20">
       {/* Hero */}
       <section className="py-24 px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -9744,7 +9732,7 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
             We're building technology that helps coaches help people live better lives.
             It's ambitious, it's meaningful, and we need remarkable humans to do it right.
           </p>
-          <p className="text-lg text-teal-700 font-medium">
+          <p className="text-lg text-stone-700 font-medium">
             Remote-first. Worldwide. Come as you are.
           </p>
         </div>
@@ -9758,9 +9746,12 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {values.map((value, i) => (
-              <div key={i} className="p-8 bg-stone-50 rounded-2xl">
-                <span className="text-4xl mb-4 block">{value.icon}</span>
-                <h3 className="text-xl font-semibold text-stone-800 mb-3">{value.title}</h3>
+              <div key={i} className="p-8 bg-stone-50 rounded-2xl border-l-4 border-stone-300">
+                <h3 className="text-xl font-semibold text-stone-800 mb-3">
+                  {value.title === "To Do Good and Do Well" ? (
+                    <>To Do Good <em className="font-normal">and</em> Do Well</>
+                  ) : value.title}
+                </h3>
                 <p className="text-stone-600 leading-relaxed">{value.desc}</p>
               </div>
             ))}
@@ -9785,7 +9776,7 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
                   <div>
                     <h3 className="text-xl font-semibold text-stone-800">{role.title}</h3>
                     <div className="flex gap-3 mt-2">
-                      <span className="text-sm px-3 py-1 bg-teal-100 text-teal-700 rounded-full">{role.type}</span>
+                      <span className="text-sm px-3 py-1 bg-stone-100 text-stone-700 rounded-full">{role.type}</span>
                       <span className="text-sm px-3 py-1 bg-stone-100 text-stone-600 rounded-full">{role.location}</span>
                     </div>
                   </div>
@@ -9800,6 +9791,33 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
               </div>
             ))}
           </div>
+
+          {/* Upload Documents Section */}
+          <div className="mt-12 p-8 bg-white rounded-2xl border border-stone-200">
+            <h3 className="text-xl font-semibold text-stone-800 mb-4">Share Your Story</h3>
+            <p className="text-stone-600 mb-6">
+              Want to share more about yourself? Upload your resume, writing samples, portfolio, ideas, or anything else that shows who you are.
+            </p>
+            <div
+              className="border-2 border-dashed border-stone-300 rounded-xl p-8 text-center hover:border-stone-400 transition-colors cursor-pointer"
+              onClick={() => setShowUpload(true)}
+            >
+              <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+              </div>
+              <p className="text-stone-600 mb-2">Drag files here or click to browse</p>
+              <p className="text-sm text-stone-500">PDF, DOC, DOCX, TXT, PNG, JPG up to 10MB each</p>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2 text-sm text-stone-500">
+              <span className="px-3 py-1 bg-stone-100 rounded-full">Resume/CV</span>
+              <span className="px-3 py-1 bg-stone-100 rounded-full">Writing samples</span>
+              <span className="px-3 py-1 bg-stone-100 rounded-full">Portfolio</span>
+              <span className="px-3 py-1 bg-stone-100 rounded-full">Ideas for ReGenesis</span>
+              <span className="px-3 py-1 bg-stone-100 rounded-full">Personal projects</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -9809,7 +9827,7 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
           <h2 className="text-3xl font-light text-stone-800 mb-8">
             How We Work
           </h2>
-          <div className="space-y-6 text-stone-600 text-lg leading-relaxed">
+          <div className="space-y-6 text-stone-600 text-lg leading-relaxed text-left">
             <p>
               <strong className="text-stone-800">Remote-first, always.</strong> Our team spans continents and time zones.
               We believe great work happens when people have autonomy over where and when they work best.
@@ -9840,14 +9858,60 @@ function CareersPage({ onGetStarted, setCurrentPage }) {
             Send us a note. Tell us your story. Show us something you've made.
             We read every email.
           </p>
-          <a
-            href="mailto:careers@regenesis.ai"
-            className="inline-block px-8 py-4 bg-white text-stone-900 rounded-xl font-medium hover:bg-stone-100 transition-colors"
-          >
-            careers@regenesis.ai
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="mailto:careers@regenesis.ai"
+              className="inline-block px-8 py-4 bg-white text-stone-900 rounded-xl font-medium hover:bg-stone-100 transition-colors"
+            >
+              careers@regenesis.ai
+            </a>
+            <button
+              onClick={() => setShowFeedback(true)}
+              className="px-8 py-4 border border-stone-600 text-white rounded-xl font-medium hover:bg-stone-800 transition-colors"
+            >
+              Share Feedback
+            </button>
+          </div>
         </div>
       </section>
+
+      {/* Feedback Modal */}
+      {showFeedback && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-8">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-stone-800">Share Your Feedback</h3>
+              <button onClick={() => setShowFeedback(false)} className="text-stone-400 hover:text-stone-600">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <p className="text-stone-600 mb-6">
+              We're always looking to improve. Share your thoughts on our hiring process, the website, or anything else.
+            </p>
+            <textarea
+              className="w-full p-4 border border-stone-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-stone-200"
+              rows={5}
+              placeholder="Your feedback..."
+            />
+            <div className="mt-4 flex gap-3 justify-end">
+              <button
+                onClick={() => setShowFeedback(false)}
+                className="px-6 py-2 text-stone-600 hover:text-stone-800 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setShowFeedback(false)}
+                className="px-6 py-2 bg-stone-900 text-white rounded-lg hover:bg-stone-800 transition-colors"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -10262,11 +10326,13 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
 
   // UF-2: Privacy shield component
   const PrivacyShield = ({ level, explanation }) => (
-    <div className="flex items-start gap-2 p-3 bg-teal-50 border border-teal-200 rounded-lg text-xs text-teal-800 mt-4">
-      <span className="text-lg">🔒</span>
+    <div className="flex items-start gap-3 p-4 bg-stone-50 border border-stone-200 rounded-xl text-sm text-stone-700 mt-4">
+      <svg className="w-5 h-5 text-stone-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      </svg>
       <div>
-        <span className="font-semibold">Privacy: {level}</span>
-        <p className="text-teal-700 mt-1">{explanation}</p>
+        <span className="font-medium text-stone-800">Privacy: {level}</span>
+        <p className="text-stone-600 mt-1">{explanation}</p>
       </div>
     </div>
   );
@@ -10379,13 +10445,11 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-teal-50 to-stone-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white flex flex-col">
       {/* Header */}
       <header className="px-8 py-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-emerald-700 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-            R
-          </div>
+          <img src={ouroborosLogo} alt="ReGenesis" className="w-10 h-10 object-contain" />
           <span className="text-2xl font-light tracking-wide text-stone-800">ReGenesis</span>
         </div>
         <button onClick={onBack} className="text-stone-500 hover:text-stone-700">
@@ -10402,16 +10466,16 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
           </div>
           <div className="h-2 bg-stone-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-teal-600 to-emerald-600 transition-all duration-500"
+              className="h-full bg-stone-800 transition-all duration-500"
               style={{ width: `${(step / totalSteps) * 100}%` }}
             />
           </div>
           <div className="flex justify-between mt-2 text-xs text-stone-400">
-            <span className={step >= 1 ? 'text-teal-600' : ''}>Account</span>
-            <span className={step >= 4 ? 'text-teal-600' : ''}>Practice</span>
-            <span className={step >= 7 ? 'text-teal-600' : ''}>Tools</span>
-            <span className={step >= 8 ? 'text-teal-600' : ''}>Clients</span>
-            <span className={step >= 10 ? 'text-teal-600' : ''}>Done</span>
+            <span className={step >= 1 ? 'text-stone-800 font-medium' : ''}>Account</span>
+            <span className={step >= 4 ? 'text-stone-800 font-medium' : ''}>Practice</span>
+            <span className={step >= 7 ? 'text-stone-800 font-medium' : ''}>Tools</span>
+            <span className={step >= 8 ? 'text-stone-800 font-medium' : ''}>Clients</span>
+            <span className={step >= 10 ? 'text-stone-800 font-medium' : ''}>Done</span>
           </div>
         </div>
       </div>
@@ -10427,39 +10491,54 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200">
             {/* Step 1: Account Creation */}
             {step === 1 && (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1">Full Name</label>
-                  <input type="text" className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" placeholder="Jesse Torrence" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1">Email</label>
-                  <input type="email" className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" placeholder="jesse@example.com" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-stone-700 mb-1">Password</label>
-                  <input type="password" className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" placeholder="••••••••" />
+              <div className="space-y-6">
+                {/* OAuth Buttons First */}
+                <div className="space-y-3">
+                  <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-stone-300 rounded-xl hover:bg-stone-50 transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span className="font-medium text-stone-700">Continue with Google</span>
+                  </button>
+                  <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-stone-300 rounded-xl hover:bg-stone-50 transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#00A4EF">
+                      <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/>
+                    </svg>
+                    <span className="font-medium text-stone-700">Continue with Microsoft</span>
+                  </button>
+                  <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-stone-300 rounded-xl hover:bg-stone-50 transition-colors">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#000">
+                      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                    </svg>
+                    <span className="font-medium text-stone-700">Continue with Apple</span>
+                  </button>
                 </div>
 
-                {/* UF-4: Social login for trust building - scour first */}
-                <div className="relative my-6">
+                <div className="relative my-2">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-stone-200"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-white text-stone-500">or continue with</span>
+                    <span className="px-4 bg-white text-stone-500">or with email</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <button className="flex items-center justify-center gap-2 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 transition-colors">
-                    <span className="text-xl">🔗</span>
-                    <span className="font-medium">LinkedIn</span>
-                  </button>
-                  <button className="flex items-center justify-center gap-2 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 transition-colors">
-                    <span className="text-xl">G</span>
-                    <span className="font-medium">Google</span>
-                  </button>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-stone-700 mb-1">Full Name</label>
+                    <input type="text" className="w-full px-4 py-3 border border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-200 focus:border-stone-400 transition-all" placeholder="Jesse Torrence" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-stone-700 mb-1">Email</label>
+                    <input type="email" className="w-full px-4 py-3 border border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-200 focus:border-stone-400 transition-all" placeholder="jesse@example.com" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-stone-700 mb-1">Password</label>
+                    <input type="password" className="w-full px-4 py-3 border border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-200 focus:border-stone-400 transition-all" placeholder="••••••••" />
+                  </div>
                 </div>
 
                 <p className="text-xs text-stone-500 text-center mt-4">
@@ -10478,13 +10557,15 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
             {step === 2 && (
               <div className="space-y-6">
                 <div className="text-center py-6">
-                  <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-4xl">🔍</span>
+                  <div className="w-20 h-20 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-10 h-10 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
                   </div>
                   <h3 className="text-xl font-semibold text-stone-800 mb-2">Let us do the work</h3>
                   <p className="text-stone-600 max-w-md mx-auto">
-                    Before asking you a bunch of questions, we'll search public sources to learn about you.
-                    You'll review and correct anything we get wrong.
+                    To save you time, we'll first search public sources to learn about you.
+                    You'll review and correct anything we get wrong on the next page.
                   </p>
                 </div>
 
@@ -10492,24 +10573,30 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                   <h4 className="font-medium text-stone-800">We'll search for:</h4>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { icon: "🔗", text: "Your LinkedIn profile" },
-                      { icon: "🌐", text: "Your coaching website" },
-                      { icon: "📰", text: "Articles you've written" },
-                      { icon: "🎙️", text: "Podcasts you've appeared on" },
-                      { icon: "📚", text: "Books you've published" },
-                      { icon: "🎓", text: "Certifications & credentials" }
-                    ].map((item, i) => (
+                      "Your LinkedIn profile",
+                      "Your personal/coaching website",
+                      "Articles & publications",
+                      "Podcasts & interviews",
+                      "Books you've authored",
+                      "Certifications & credentials",
+                      "Social media presence",
+                      "Professional associations"
+                    ].map((text, i) => (
                       <div key={i} className="flex items-center gap-2 text-sm text-stone-600">
-                        <span>{item.icon}</span>
-                        <span>{item.text}</span>
+                        <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>{text}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                  <span className="text-2xl">⚡</span>
-                  <div className="text-sm text-amber-800">
+                <div className="flex items-center gap-3 p-4 bg-stone-100 border border-stone-200 rounded-lg">
+                  <svg className="w-6 h-6 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <div className="text-sm text-stone-700">
                     <strong>This saves you time.</strong> Instead of filling out 20 fields, you just confirm or correct what we find.
                   </div>
                 </div>
@@ -10524,66 +10611,122 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
             {/* Step 3: Review Found Information */}
             {step === 3 && (
               <div className="space-y-6">
-                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <span className="text-2xl">✨</span>
-                  <div className="text-sm text-green-800">
-                    <strong>Found 12 data points!</strong> Review and correct below.
+                <div className="flex items-center gap-3 p-4 bg-stone-100 border border-stone-200 rounded-xl">
+                  <svg className="w-6 h-6 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div className="text-sm text-stone-700">
+                    <strong>Found 18 data points!</strong> Confirm what's correct and edit anything that needs updating.
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="border border-stone-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="text-sm font-medium text-stone-700">Current Role</label>
-                      <span className="text-xs text-teal-600 bg-teal-50 px-2 py-1 rounded">From LinkedIn</span>
-                    </div>
-                    <input type="text" className="w-full px-4 py-2 border border-stone-300 rounded-lg" defaultValue="Executive Coach & Leadership Consultant" />
-                  </div>
+                  {/* Professional Info */}
+                  <h4 className="font-medium text-stone-600 text-sm uppercase tracking-wide mt-6">Professional</h4>
 
-                  <div className="border border-stone-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="text-sm font-medium text-stone-700">Company/Practice</label>
-                      <span className="text-xs text-teal-600 bg-teal-50 px-2 py-1 rounded">From LinkedIn</span>
+                  {[
+                    { label: "Current Role", value: "Executive Coach & Leadership Consultant", source: "LinkedIn" },
+                    { label: "Company/Practice", value: "Torrence Coaching Group", source: "LinkedIn" },
+                    { label: "Website", value: "jessetorrence.com", source: "Google" },
+                    { label: "LinkedIn", value: "linkedin.com/in/jessetorrence", source: "Found" },
+                  ].map((item, i) => (
+                    <div key={i} className="border border-stone-200 rounded-xl p-4 hover:border-stone-300 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-sm font-medium text-stone-700">{item.label}</label>
+                        <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded">{item.source}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <input type="text" className="flex-1 px-4 py-2 border border-stone-200 rounded-lg bg-stone-50 text-stone-700" defaultValue={item.value} />
+                        <button className="px-3 py-2 text-xs text-stone-500 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                          Confirm
+                        </button>
+                        <button className="px-3 py-2 text-xs text-stone-500 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                          Edit
+                        </button>
+                      </div>
                     </div>
-                    <input type="text" className="w-full px-4 py-2 border border-stone-300 rounded-lg" defaultValue="Torrence Coaching Group" />
-                  </div>
+                  ))}
 
-                  <div className="border border-stone-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="text-sm font-medium text-stone-700">Website</label>
-                      <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">From Google</span>
-                    </div>
-                    <input type="text" className="w-full px-4 py-2 border border-stone-300 rounded-lg" defaultValue="jessetorrence.com" />
-                  </div>
-
-                  <div className="border border-stone-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="text-sm font-medium text-stone-700">Certifications</label>
-                      <span className="text-xs text-teal-600 bg-teal-50 px-2 py-1 rounded">From LinkedIn</span>
+                  <div className="border border-stone-200 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="text-sm font-medium text-stone-700">Certifications & Credentials</label>
+                      <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded">LinkedIn + Web</span>
                     </div>
                     <div className="space-y-2">
-                      {["ICF Professional Certified Coach (PCC)", "Conscious Leadership Group Certified", "Team Diagnostic Survey Certified"].map((cert, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                          <input type="checkbox" defaultChecked className="rounded" />
-                          <span className="text-sm">{cert}</span>
-                        </div>
+                      {[
+                        "ICF Professional Certified Coach (PCC)",
+                        "Conscious Leadership Group Certified",
+                        "Team Diagnostic Survey Certified",
+                        "Enneagram Certified Practitioner"
+                      ].map((cert, i) => (
+                        <label key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-stone-50 cursor-pointer">
+                          <input type="checkbox" defaultChecked className="w-4 h-4 rounded border-stone-300 text-stone-600 focus:ring-stone-500" />
+                          <span className="text-sm text-stone-700">{cert}</span>
+                        </label>
                       ))}
-                      <button className="text-sm text-teal-600 hover:underline mt-2">+ Add certification</button>
+                      <button className="text-sm text-stone-600 hover:text-stone-800 mt-2 flex items-center gap-1">
+                        <span>+</span> Add certification
+                      </button>
                     </div>
                   </div>
 
-                  <div className="border border-stone-200 rounded-lg p-4">
+                  {/* Personal Info */}
+                  <h4 className="font-medium text-stone-600 text-sm uppercase tracking-wide mt-8">Personal</h4>
+
+                  {[
+                    { label: "Location", value: "San Francisco Bay Area", source: "LinkedIn" },
+                    { label: "Education", value: "Stanford University, MBA", source: "LinkedIn" },
+                  ].map((item, i) => (
+                    <div key={i} className="border border-stone-200 rounded-xl p-4 hover:border-stone-300 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-sm font-medium text-stone-700">{item.label}</label>
+                        <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded">{item.source}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <input type="text" className="flex-1 px-4 py-2 border border-stone-200 rounded-lg bg-stone-50 text-stone-700" defaultValue={item.value} />
+                        <button className="px-3 py-2 text-xs text-stone-500 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                          Confirm
+                        </button>
+                        <button className="px-3 py-2 text-xs text-stone-500 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className="border border-stone-200 rounded-xl p-4">
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-sm font-medium text-stone-700">Bio Summary</label>
-                      <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">From Website</span>
+                      <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded">From Website</span>
                     </div>
-                    <textarea className="w-full px-4 py-2 border border-stone-300 rounded-lg h-24" defaultValue="Jesse partners with executives and emerging leaders to develop self-awareness, build high-trust teams, and create sustainable success. Drawing from 15 years of experience..." />
+                    <textarea className="w-full px-4 py-2 border border-stone-200 rounded-lg bg-stone-50 h-24 text-stone-700" defaultValue="Jesse partners with executives and emerging leaders to develop self-awareness, build high-trust teams, and create sustainable success. Drawing from 15 years of experience in technology and organizational development..." />
+                    <div className="flex gap-2 mt-2 justify-end">
+                      <button className="px-3 py-2 text-xs text-stone-500 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                        Confirm
+                      </button>
+                      <button className="px-3 py-2 text-xs text-stone-500 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                        Edit
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Add More Links */}
+                  <div className="border border-dashed border-stone-300 rounded-xl p-6 text-center mt-6">
+                    <p className="text-stone-600 text-sm mb-4">Want to add more? Link additional profiles to help us understand you better:</p>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <button className="px-4 py-2 text-sm border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">+ Personal Website</button>
+                      <button className="px-4 py-2 text-sm border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">+ Facebook</button>
+                      <button className="px-4 py-2 text-sm border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">+ Instagram</button>
+                      <button className="px-4 py-2 text-sm border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">+ Twitter/X</button>
+                      <button className="px-4 py-2 text-sm border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">+ Upload Documents</button>
+                    </div>
                   </div>
                 </div>
 
-                <button className="text-sm text-stone-500 hover:text-stone-700 underline">
-                  Something wrong? Tell us what to correct
-                </button>
+                <PrivacyShield
+                  level="You Control Everything"
+                  explanation="Only confirmed information is saved. You can edit or remove anything at any time from your profile settings."
+                />
               </div>
             )}
 
@@ -10610,10 +10753,15 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                       "Performance Coaching",
                       "Transition Coaching",
                       "Spiritual/Integral",
+                      "Grief & Loss",
+                      "Parenting & Family",
+                      "Financial/Wealth",
+                      "Creative/Artist",
+                      "Academic/Student",
                       "Other"
                     ].map(type => (
-                      <label key={type} className="flex items-center gap-2 p-3 border border-stone-200 rounded-lg hover:bg-teal-50 hover:border-teal-300 cursor-pointer transition-colors">
-                        <input type="checkbox" className="rounded text-teal-600 focus:ring-teal-500" />
+                      <label key={type} className="flex items-center gap-2 p-3 border border-stone-200 rounded-xl hover:bg-stone-50 hover:border-stone-300 cursor-pointer transition-colors">
+                        <input type="checkbox" className="rounded text-stone-600 focus:ring-stone-500" />
                         <span className="text-sm text-stone-700">{type}</span>
                       </label>
                     ))}
@@ -10625,23 +10773,65 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                   <div className="flex items-center gap-2 mb-3">
                     <label className="text-sm font-medium text-stone-700">Who do you typically work with?</label>
                     <span className="text-xs text-stone-500">(Select all that apply)</span>
-                    <WhyWeAsk reason="Different client types have different contexts. ReGenesis adjusts its suggestions based on who you're coaching." />
+                    <WhyWeAsk reason="Different clients have different lived experiences and contexts. ReGenesis adjusts its suggestions based on who you're coaching." />
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
+
+                  <p className="text-xs text-stone-500 mb-3">Professional Level</p>
+                  <div className="grid grid-cols-2 gap-2 mb-4">
                     {[
                       "C-Suite Executives",
                       "Senior Leaders",
                       "Mid-Level Managers",
                       "Emerging Leaders",
-                      "Entrepreneurs",
-                      "Founders/CEOs",
+                      "Entrepreneurs/Founders",
                       "Individual Contributors",
                       "Career Changers",
-                      "New Graduates",
-                      "Parents/Families"
+                      "New Graduates"
                     ].map(type => (
-                      <label key={type} className="flex items-center gap-2 p-3 border border-stone-200 rounded-lg hover:bg-teal-50 hover:border-teal-300 cursor-pointer transition-colors">
-                        <input type="checkbox" className="rounded text-teal-600 focus:ring-teal-500" />
+                      <label key={type} className="flex items-center gap-2 p-3 border border-stone-200 rounded-xl hover:bg-stone-50 hover:border-stone-300 cursor-pointer transition-colors">
+                        <input type="checkbox" className="rounded text-stone-600 focus:ring-stone-500" />
+                        <span className="text-sm text-stone-700">{type}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <p className="text-xs text-stone-500 mb-3">Life Stage & Demographics</p>
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    {[
+                      "Young Adults (18-30)",
+                      "Mid-Career (30-50)",
+                      "Late Career (50+)",
+                      "Retirees/Seniors",
+                      "Parents/Families",
+                      "Couples",
+                      "Youth/Teens",
+                      "Women",
+                      "Men",
+                      "LGBTQ+ Community",
+                      "People of Color",
+                      "First-Generation Professionals"
+                    ].map(type => (
+                      <label key={type} className="flex items-center gap-2 p-3 border border-stone-200 rounded-xl hover:bg-stone-50 hover:border-stone-300 cursor-pointer transition-colors">
+                        <input type="checkbox" className="rounded text-stone-600 focus:ring-stone-500" />
+                        <span className="text-sm text-stone-700">{type}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <p className="text-xs text-stone-500 mb-3">Topics & Situations</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      "Grief & Loss",
+                      "Divorce/Separation",
+                      "Major Life Transitions",
+                      "Burnout Recovery",
+                      "Anxiety & Stress",
+                      "Confidence Building",
+                      "Work-Life Balance",
+                      "Purpose & Meaning"
+                    ].map(type => (
+                      <label key={type} className="flex items-center gap-2 p-3 border border-stone-200 rounded-xl hover:bg-stone-50 hover:border-stone-300 cursor-pointer transition-colors">
+                        <input type="checkbox" className="rounded text-stone-600 focus:ring-stone-500" />
                         <span className="text-sm text-stone-700">{type}</span>
                       </label>
                     ))}
@@ -10655,7 +10845,7 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                   </div>
                   <div className="grid grid-cols-4 gap-2">
                     {["1-5", "6-15", "16-30", "30+"].map(range => (
-                      <label key={range} className="flex items-center justify-center p-3 border border-stone-200 rounded-lg hover:bg-teal-50 hover:border-teal-300 cursor-pointer transition-colors">
+                      <label key={range} className="flex items-center justify-center p-3 border border-stone-200 rounded-xl hover:bg-stone-50 hover:border-stone-300 cursor-pointer transition-colors">
                         <input type="radio" name="clientCount" className="sr-only" />
                         <span className="text-sm font-medium text-stone-700">{range}</span>
                       </label>
@@ -10702,8 +10892,8 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                       "GTD/Productivity",
                       "Other"
                     ].map(fw => (
-                      <label key={fw} className="flex items-center gap-2 p-3 border border-stone-200 rounded-lg hover:bg-teal-50 hover:border-teal-300 cursor-pointer transition-colors">
-                        <input type="checkbox" className="rounded text-teal-600 focus:ring-teal-500" />
+                      <label key={fw} className="flex items-center gap-2 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 hover:border-stone-300 cursor-pointer transition-colors">
+                        <input type="checkbox" className="rounded text-stone-600 focus:ring-stone-500" />
                         <span className="text-sm text-stone-700">{fw}</span>
                       </label>
                     ))}
@@ -10716,7 +10906,7 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                     <WhyWeAsk reason="This becomes the foundation of your AI's 'voice.' Session notes and suggestions will be written in YOUR style, not generic coach-speak." />
                   </div>
                   <textarea
-                    className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-teal-500 h-32"
+                    className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 h-32"
                     placeholder="Example: I'm direct but compassionate. I believe in meeting clients where they are while gently challenging them to see their blind spots. I use humor when appropriate and always bring it back to values and what matters most..."
                   />
                   <p className="text-xs text-stone-500 mt-2">Don't worry about perfection — you can refine this later.</p>
@@ -10746,7 +10936,7 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                       <WhyWeAsk reason={q.whyWeAsk} />
                     </div>
                     <textarea
-                      className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-teal-500 h-24"
+                      className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 h-24"
                       placeholder={q.placeholder}
                     />
                   </div>
@@ -10949,39 +11139,84 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
 
             {/* Step 10: Welcome Complete */}
             {step === 10 && (
-              <div className="text-center py-8">
-                <div className="text-6xl mb-6">🎉</div>
-                <h2 className="text-2xl font-semibold text-stone-800 mb-4">Welcome to ReGenesis, Jesse!</h2>
-                <p className="text-stone-600 mb-8">
-                  Your AI-powered coaching companion is ready. Here's what you can do next:
-                </p>
+              <div className="space-y-8">
+                {/* Welcome */}
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-10 h-10 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-semibold text-stone-800 mb-2">Welcome to ReGenesis, Jesse!</h2>
+                  <p className="text-stone-600">Your AI-powered coaching companion is ready.</p>
+                </div>
 
-                <div className="grid grid-cols-1 gap-4 text-left mb-8">
-                  <div className="flex items-start gap-4 p-4 bg-teal-50 rounded-lg border border-teal-200">
-                    <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold">1</div>
+                {/* Meet Sasha Section */}
+                <div className="bg-stone-900 text-white rounded-2xl p-6">
+                  <div className="flex items-start gap-4 mb-4">
+                    <img src={ouroborosLogo} alt="Sasha" className="w-12 h-12 rounded-full" />
                     <div>
-                      <h4 className="font-semibold text-teal-900">Schedule your first AI-assisted session</h4>
-                      <p className="text-sm text-teal-700">Get a Pre-Session Brief brief 15 minutes before your session</p>
+                      <h3 className="text-lg font-semibold">Meet Sasha</h3>
+                      <p className="text-stone-400 text-sm">Your always-on AI assistant</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">2</div>
-                    <div>
-                      <h4 className="font-semibold text-blue-900">Explore the dashboard</h4>
-                      <p className="text-sm text-blue-700">See your clients, calendar, and AI companion</p>
+                  <p className="text-stone-300 text-sm mb-4">
+                    Sasha is the name we affectionately give to the embedded AI intelligence that powers ReGenesis.
+                    Technically, Sasha is a multi-agent AI system—but in practice, it's simply your partner who helps you:
+                  </p>
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="bg-stone-800 rounded-lg p-3">
+                      <p className="font-medium text-white mb-1">See & Understand</p>
+                      <p className="text-stone-400 text-xs">Patterns, insights, preparation, memory</p>
+                    </div>
+                    <div className="bg-stone-800 rounded-lg p-3">
+                      <p className="font-medium text-white mb-1">Do & Execute</p>
+                      <p className="text-stone-400 text-xs">Notes, scheduling, tasks, communications</p>
+                    </div>
+                    <div className="bg-stone-800 rounded-lg p-3">
+                      <p className="font-medium text-white mb-1">You Stay in Control</p>
+                      <p className="text-stone-400 text-xs">Review, judge, approve everything</p>
+                    </div>
+                    <div className="bg-stone-800 rounded-lg p-3">
+                      <p className="font-medium text-white mb-1">Knows You Deeply</p>
+                      <p className="text-stone-400 text-xs">Tailored to your voice, values, style</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                    <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold">3</div>
-                    <div>
-                      <h4 className="font-semibold text-purple-900">Add your wisdom corpus</h4>
-                      <p className="text-sm text-purple-700">Upload your books, frameworks, and notes</p>
-                    </div>
+                  <p className="text-stone-400 text-xs mt-4">
+                    Sasha supports both your professional coaching practice AND your personal life—whatever you give it permission to access.
+                  </p>
+                </div>
+
+                {/* What's Next */}
+                <div>
+                  <h4 className="font-medium text-stone-700 mb-4">What would you like to do first?</h4>
+                  <div className="space-y-3">
+                    <button className="w-full flex items-start gap-4 p-4 bg-stone-50 rounded-xl border border-stone-200 hover:bg-stone-100 transition-colors text-left">
+                      <div className="w-10 h-10 bg-stone-800 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">1</div>
+                      <div>
+                        <h4 className="font-medium text-stone-800">Schedule your first AI-assisted session</h4>
+                        <p className="text-sm text-stone-600">Get a Pre-Session Brief 15 minutes before</p>
+                      </div>
+                    </button>
+                    <button className="w-full flex items-start gap-4 p-4 bg-stone-50 rounded-xl border border-stone-200 hover:bg-stone-100 transition-colors text-left">
+                      <div className="w-10 h-10 bg-stone-800 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">2</div>
+                      <div>
+                        <h4 className="font-medium text-stone-800">Explore the dashboard</h4>
+                        <p className="text-sm text-stone-600">See your clients, calendar, and Sasha</p>
+                      </div>
+                    </button>
+                    <button className="w-full flex items-start gap-4 p-4 bg-stone-50 rounded-xl border border-stone-200 hover:bg-stone-100 transition-colors text-left">
+                      <div className="w-10 h-10 bg-stone-800 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">3</div>
+                      <div>
+                        <h4 className="font-medium text-stone-800">Customize Sasha's personality</h4>
+                        <p className="text-sm text-stone-600">Choose voice, avatar, and communication style</p>
+                      </div>
+                    </button>
                   </div>
                 </div>
 
-                <div className="bg-stone-50 p-4 rounded-lg text-sm text-stone-600">
-                  <strong>Pro tip:</strong> The more sessions you run with ReGenesis, the better it learns your voice. Your first few session notes might need some editing — that's how it learns!
+                <div className="bg-stone-50 p-4 rounded-xl text-sm text-stone-600">
+                  <strong>Pro tip:</strong> The more sessions you run with ReGenesis, the better Sasha learns your voice. Your first few session notes might need some editing—that's how it learns!
                 </div>
               </div>
             )}
@@ -11000,14 +11235,14 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
               {step < totalSteps ? (
                 <button
                   onClick={() => setStep(step + 1)}
-                  className="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all"
+                  className="px-8 py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all"
                 >
                   Continue →
                 </button>
               ) : (
                 <button
                   onClick={onComplete}
-                  className="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all"
+                  className="px-8 py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all"
                 >
                   Go to Dashboard →
                 </button>
@@ -13223,7 +13458,7 @@ function SashaLiveModal({ isOpen, onClose }) {
                 <input
                   type="text"
                   placeholder="Type a message or speak..."
-                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="flex-1 bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-200"
                 />
                 <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
                   Send
