@@ -342,6 +342,105 @@ export default function JTCoachingAppShellWireframe() {
   );
 }
 
+// ============ DASHBOARD HELPER COMPONENTS ============
+// ActionItem - GTD-style action with checkbox, category, and action buttons
+function ActionItem({ title, subtitle, category, categoryColor, onClick, compact = false }) {
+  const [showActions, setShowActions] = React.useState(false);
+
+  const colorMap = {
+    blue: { bg: 'bg-blue-100', text: 'text-blue-700' },
+    pink: { bg: 'bg-pink-100', text: 'text-pink-700' },
+    green: { bg: 'bg-green-100', text: 'text-green-700' },
+    purple: { bg: 'bg-purple-100', text: 'text-purple-700' },
+    orange: { bg: 'bg-orange-100', text: 'text-orange-700' },
+  };
+  const colors = colorMap[categoryColor] || colorMap.blue;
+
+  return (
+    <div
+      className={`flex items-center justify-between ${compact ? 'p-2' : 'p-3'} bg-white rounded-lg border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all group cursor-pointer`}
+      onClick={onClick}
+      onMouseEnter={() => setShowActions(true)}
+      onMouseLeave={() => setShowActions(false)}
+    >
+      <div className="flex items-center gap-3 flex-1">
+        <input
+          type="checkbox"
+          className="w-4 h-4 rounded border-stone-300 text-stone-600 focus:ring-stone-500"
+          onClick={(e) => e.stopPropagation()}
+        />
+        <div className="flex-1 min-w-0">
+          <p className={`font-medium text-gray-900 ${compact ? 'text-sm' : ''}`}>{title}</p>
+          {subtitle && <p className={`text-gray-500 ${compact ? 'text-xs' : 'text-sm'}`}>{subtitle}</p>}
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        {/* Action buttons - show on hover */}
+        {showActions && (
+          <div className="flex items-center gap-1 mr-2">
+            <button
+              className="p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded-lg transition-colors"
+              onClick={(e) => { e.stopPropagation(); }}
+              title="Delegate"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </button>
+            <button
+              className="p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded-lg transition-colors"
+              onClick={(e) => { e.stopPropagation(); }}
+              title="Move to Waiting"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <button
+              className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+              onClick={(e) => { e.stopPropagation(); }}
+              title="Delete"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        )}
+        <span className={`text-xs px-2 py-1 ${colors.bg} ${colors.text} rounded-full`}>{category}</span>
+        {onClick && (
+          <svg className="w-4 h-4 text-gray-400 group-hover:text-stone-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// WaitingItem - Item waiting on someone else with nudge option
+function WaitingItem({ title, sent, onNudge }) {
+  return (
+    <div className="flex items-center justify-between p-3 bg-stone-50 rounded-lg border border-stone-200">
+      <div className="flex items-center gap-3">
+        <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+        <div>
+          <p className="font-medium text-gray-900 text-sm">{title}</p>
+          <p className="text-xs text-stone-500">Sent {sent}</p>
+        </div>
+      </div>
+      <button
+        onClick={onNudge}
+        className="px-3 py-1.5 text-xs font-medium text-stone-600 border border-stone-300 rounded-lg hover:bg-stone-100 transition-colors"
+      >
+        Nudge
+      </button>
+    </div>
+  );
+}
+
 // ============ DASHBOARD PAGE ============
 // "Command and Control Center" - GTD-inspired with North Star goals
 function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
@@ -362,46 +461,113 @@ function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
         <p className="text-gray-600 font-medium">Capture · Clarify · Organize · Reflect · Engage</p>
       </div>
 
-      {/* V6: Next Best Action - Calm, focused, 1-3 items */}
-      <div className="mb-6 bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200 rounded-xl p-5">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-teal-100 rounded-xl flex items-center justify-center">
-            <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+      {/* Next Actions - GTD-style with context on why each is surfaced */}
+      <div className="mb-6 bg-gradient-to-r from-stone-50 to-stone-100 border border-stone-200 rounded-xl p-5">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-stone-200 rounded-xl flex items-center justify-center">
+              <svg className="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="font-semibold text-stone-900">Next Actions</h3>
+              <p className="text-sm text-stone-600">Highest-impact items across all your domains, surfaced by urgency and context</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-teal-900">Your Next Best Action</h3>
-            <p className="text-sm text-teal-700">Focus here first</p>
+          <button
+            onClick={() => setShowAllActions(true)}
+            className="text-sm px-4 py-2 bg-stone-800 text-white rounded-lg hover:bg-stone-700 shadow"
+          >
+            All Actions →
+          </button>
+        </div>
+        <div className="space-y-3">
+          <button
+            onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
+            className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all group"
+          >
+            <div className="flex items-center gap-4">
+              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" onClick={(e) => e.stopPropagation()} />
+              <div className="text-left">
+                <p className="font-medium text-gray-900">Prepare for Marcus Williams</p>
+                <p className="text-sm text-gray-500">Session in 30 minutes — Pre-Session Brief is ready</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full font-medium">Urgent</span>
+              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Coaching</span>
+              <svg className="w-5 h-5 text-gray-400 group-hover:text-stone-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </button>
+          <button
+            onClick={() => onOpenSession && onOpenSession(1, sarahClient)}
+            className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all group"
+          >
+            <div className="flex items-center gap-4">
+              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" onClick={(e) => e.stopPropagation()} />
+              <div className="text-left">
+                <p className="font-medium text-gray-900">Review draft notes - Sarah Chen</p>
+                <p className="text-sm text-gray-500">Session from Jan 8 ready for your review</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full font-medium">Today</span>
+              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Coaching</span>
+              <svg className="w-5 h-5 text-gray-400 group-hover:text-stone-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </button>
+          <div className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all cursor-pointer">
+            <div className="flex items-center gap-4">
+              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" />
+              <div className="text-left">
+                <p className="font-medium text-gray-900">Pick up birthday gift for Oana</p>
+                <p className="text-sm text-gray-500">Birthday is tomorrow!</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full font-medium">Today</span>
+              <span className="text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full">Family</span>
+            </div>
+          </div>
+          <div className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all cursor-pointer">
+            <div className="flex items-center gap-4">
+              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" />
+              <div className="text-left">
+                <p className="font-medium text-gray-900">Invoice 3 clients (overdue)</p>
+                <p className="text-sm text-gray-500">Outstanding since last week</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full font-medium">Today</span>
+              <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Financial</span>
+            </div>
+          </div>
+          <div className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all cursor-pointer">
+            <div className="flex items-center gap-4">
+              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" />
+              <div className="text-left">
+                <p className="font-medium text-gray-900">Book dermatology checkup</p>
+                <p className="text-sm text-gray-500">Been putting this off — time to do it</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs px-2 py-1 bg-stone-100 text-stone-700 rounded-full font-medium">This Week</span>
+              <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">Wellbeing</span>
+            </div>
           </div>
         </div>
-        <button
-          onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
-          className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-teal-200 hover:shadow-md transition-all group"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-xl group-hover:bg-teal-200 transition-colors">
-              📋
-            </div>
-            <div className="text-left">
-              <p className="font-medium text-gray-900">Prepare for Marcus Williams</p>
-              <p className="text-sm text-gray-600">Session in 30 minutes — Pre-Session Brief is ready</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs px-3 py-1 bg-teal-100 text-teal-700 rounded-full font-medium">Next session upcoming</span>
-            <svg className="w-5 h-5 text-gray-400 group-hover:text-teal-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </button>
       </div>
 
-      {/* V6: Status Badges - Supportive language, not guilt-inducing (Part 4.4) */}
+      {/* Status Badges - Clarified what each count means */}
       <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="flex items-center gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg">
           <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-          <span className="text-sm text-amber-800 font-medium">2 ready for you</span>
+          <span className="text-sm text-amber-800 font-medium">2 Pre-Session Briefs ready</span>
         </div>
         <div className="flex items-center gap-2 px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg">
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
@@ -409,7 +575,7 @@ function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
         </div>
         <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-lg">
           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-          <span className="text-sm text-green-800 font-medium">1 draft ready to review</span>
+          <span className="text-sm text-green-800 font-medium">1 draft note to review</span>
         </div>
         <div className="flex items-center gap-2 px-4 py-3 bg-purple-50 border border-purple-200 rounded-lg">
           <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
@@ -417,85 +583,223 @@ function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
         </div>
       </div>
 
-      {/* FUNNEL MIDDLE: Coaching Business Priorities (MAIN REAL ESTATE) */}
+      {/* TIME HORIZON SECTIONS - GTD-style organization */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-2xl font-bold">Coaching Priorities</h3>
-          <button
-            onClick={() => setShowAllActions(true)}
-            className="text-sm px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 shadow"
-          >
-            All Actions - All Domains →
-          </button>
+          <h3 className="text-2xl font-bold">By Time Horizon</h3>
+          <div className="flex items-center gap-2 text-sm text-stone-500">
+            <span>Filter:</span>
+            <select className="px-3 py-1 border border-stone-200 rounded-lg text-sm bg-white">
+              <option>All Domains</option>
+              <option>Coaching Only</option>
+              <option>Life Only</option>
+            </select>
+          </div>
         </div>
 
-        {/* Urgent Coaching Actions */}
-        <div className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-300 p-6 rounded-xl shadow-lg mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-            <h4 className="font-bold text-red-900">Urgent - Today</h4>
+        {/* TODAY - High urgency */}
+        <div className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 p-6 rounded-xl shadow-lg mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+              <h4 className="font-bold text-red-900 text-lg">Today</h4>
+              <span className="text-sm text-red-600 ml-2">4 items</span>
+            </div>
           </div>
-          <div className="space-y-3">
-            <button
+          <div className="space-y-2">
+            <ActionItem
+              title="Pre-Session Brief - Marcus Williams"
+              subtitle="Session in 30 minutes at 10:00 AM"
+              category="Coaching"
+              categoryColor="blue"
               onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
-              className="w-full text-left p-4 bg-white rounded-lg hover:shadow-md transition border border-red-200"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="font-semibold text-gray-900">Pre-Session Brief - Marcus Williams</div>
-                  <div className="text-sm text-gray-600 mt-1">Session in 30 minutes at 10:00 AM</div>
-                </div>
-                <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full">Prepare</span>
-              </div>
-            </button>
-
-            <button
+            />
+            <ActionItem
+              title="Review draft notes - Sarah Chen"
+              subtitle="Session from Jan 8 ready for your review"
+              category="Coaching"
+              categoryColor="blue"
               onClick={() => onOpenSession && onOpenSession(1, sarahClient)}
-              className="w-full text-left p-4 bg-white rounded-lg hover:shadow-md transition border border-red-200"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="font-semibold text-gray-900">Review draft notes - Sarah Chen</div>
-                  <div className="text-sm text-gray-600 mt-1">Session from Jan 8 ready for your review</div>
-                </div>
-                <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">Draft Ready</span>
-              </div>
-            </button>
+            />
+            <ActionItem
+              title="Pick up birthday gift for Oana"
+              subtitle="Birthday is tomorrow!"
+              category="Family"
+              categoryColor="pink"
+            />
+            <ActionItem
+              title="Invoice 3 clients (overdue)"
+              subtitle="Outstanding since last week"
+              category="Financial"
+              categoryColor="green"
+            />
           </div>
         </div>
 
-        {/* This Week Coaching Actions */}
-        <div className="bg-white border-2 border-blue-300 p-6 rounded-xl shadow-lg mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <h4 className="font-bold text-blue-900">This Week</h4>
+        {/* THIS WEEK */}
+        <div className="bg-white border-2 border-blue-200 p-6 rounded-xl shadow-lg mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <h4 className="font-bold text-blue-900 text-lg">This Week</h4>
+              <span className="text-sm text-blue-600 ml-2">6 items</span>
+            </div>
           </div>
-          <div className="space-y-3">
-            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="font-medium text-gray-900">Follow up with Jennifer Martinez</div>
-              <div className="text-sm text-gray-600 mt-1">Check in on career pivot decision</div>
-            </div>
-            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="font-medium text-gray-900">Send resources to Lisa Patel</div>
-              <div className="text-sm text-gray-600 mt-1">Executive team building frameworks</div>
-            </div>
-            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="font-medium text-gray-900">Schedule next session - David Park</div>
-              <div className="text-sm text-gray-600 mt-1">Last session was Jan 11</div>
-            </div>
+          <div className="space-y-2">
+            <ActionItem
+              title="Follow up with Jennifer Martinez"
+              subtitle="Check in on career pivot decision"
+              category="Coaching"
+              categoryColor="blue"
+            />
+            <ActionItem
+              title="Send resources to Lisa Patel"
+              subtitle="Executive team building frameworks"
+              category="Coaching"
+              categoryColor="blue"
+            />
+            <ActionItem
+              title="Schedule next session - David Park"
+              subtitle="Last session was Jan 11"
+              category="Coaching"
+              categoryColor="blue"
+            />
+            <ActionItem
+              title="Book dermatology checkup"
+              subtitle="Been putting this off — time to do it"
+              category="Wellbeing"
+              categoryColor="purple"
+            />
+            <ActionItem
+              title="Date night Saturday"
+              subtitle="Reservation at 7pm"
+              category="Family"
+              categoryColor="pink"
+            />
+            <ActionItem
+              title="Gym 3x this week"
+              subtitle="Mon, Wed, Fri planned"
+              category="Wellbeing"
+              categoryColor="purple"
+            />
           </div>
         </div>
 
-        {/* Waiting On (Coaching) */}
-        <div className="bg-white border border-gray-300 p-6 rounded-xl shadow">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-            <h4 className="font-bold text-gray-700">Waiting On</h4>
+        {/* THIS QUARTER */}
+        <div className="bg-white border-2 border-stone-200 p-6 rounded-xl shadow mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-stone-400 rounded-full"></div>
+              <h4 className="font-bold text-stone-800 text-lg">This Quarter</h4>
+              <span className="text-sm text-stone-500 ml-2">8 items</span>
+            </div>
+            <button className="text-xs text-stone-500 hover:text-stone-700">Show all →</button>
           </div>
-          <div className="space-y-2 text-sm">
-            <div className="text-gray-700">→ Client feedback from James Rodriguez (sent 2 days ago)</div>
-            <div className="text-gray-700">→ Contract renewal decision - Emily Thompson</div>
-            <div className="text-gray-700">→ Referral intro from Marcus Williams</div>
+          <div className="space-y-2">
+            <ActionItem
+              title="Review Q1 finances"
+              subtitle="Quarterly review due end of March"
+              category="Financial"
+              categoryColor="green"
+            />
+            <ActionItem
+              title="Update website testimonials"
+              subtitle="3 new client quotes to add"
+              category="Business"
+              categoryColor="blue"
+            />
+            <ActionItem
+              title="Draft book chapter 3"
+              subtitle="Deadline: March 15"
+              category="Legacy"
+              categoryColor="orange"
+            />
+          </div>
+          <div className="mt-3 text-sm text-stone-500 italic">+ 5 more items...</div>
+        </div>
+
+        {/* THIS YEAR */}
+        <div className="bg-stone-50 border border-stone-200 p-6 rounded-xl mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-stone-300 rounded-full"></div>
+              <h4 className="font-bold text-stone-700 text-lg">This Year</h4>
+              <span className="text-sm text-stone-500 ml-2">12 items</span>
+            </div>
+            <button className="text-xs text-stone-500 hover:text-stone-700">Show all →</button>
+          </div>
+          <div className="space-y-2">
+            <ActionItem
+              title="Launch group coaching program"
+              subtitle="Target: Q3 2026"
+              category="Business"
+              categoryColor="blue"
+              compact
+            />
+            <ActionItem
+              title="Complete certification renewal"
+              subtitle="Due: September"
+              category="Coaching"
+              categoryColor="blue"
+              compact
+            />
+            <ActionItem
+              title="Family vacation planning"
+              subtitle="Summer trip to Portugal"
+              category="Family"
+              categoryColor="pink"
+              compact
+            />
+          </div>
+          <div className="mt-3 text-sm text-stone-500 italic">+ 9 more items...</div>
+        </div>
+
+        {/* SOMEDAY/MAYBE */}
+        <div className="bg-stone-100 border border-stone-200 p-6 rounded-xl">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-stone-300 rounded-full"></div>
+              <h4 className="font-bold text-stone-600 text-lg">Someday / Maybe</h4>
+              <span className="text-sm text-stone-400 ml-2">23 items</span>
+            </div>
+            <button className="text-xs text-stone-500 hover:text-stone-700">Show all →</button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Write a second book</span>
+            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Learn Spanish</span>
+            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Start a podcast</span>
+            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Sabbatical planning</span>
+            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">+ 19 more</span>
+          </div>
+        </div>
+
+        {/* Waiting On Section */}
+        <div className="mt-6 bg-white border border-stone-200 p-6 rounded-xl shadow">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h4 className="font-bold text-stone-700">Waiting On</h4>
+              <span className="text-sm text-stone-500 ml-2">3 items</span>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <WaitingItem
+              title="Client feedback from James Rodriguez"
+              sent="2 days ago"
+              onNudge={() => {}}
+            />
+            <WaitingItem
+              title="Contract renewal decision - Emily Thompson"
+              sent="1 week ago"
+              onNudge={() => {}}
+            />
+            <WaitingItem
+              title="Referral intro from Marcus Williams"
+              sent="4 days ago"
+              onNudge={() => {}}
+            />
           </div>
         </div>
       </div>
@@ -727,6 +1031,31 @@ function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
 
 // ============ ALL ACTIONS - ALL DOMAINS PAGE (Part 4.3 - Left-to-Right Column Layout) ============
 function AllActionsAllDomainsPage({ onBack }) {
+  const [viewMode, setViewMode] = React.useState('columns'); // 'columns' or 'accordion'
+  const [expandedDomains, setExpandedDomains] = React.useState({});
+  const [expandedSections, setExpandedSections] = React.useState({});
+
+  const toggleDomain = (domainName) => {
+    setExpandedDomains(prev => ({
+      ...prev,
+      [domainName]: !prev[domainName]
+    }));
+  };
+
+  const toggleSection = (key) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  // Initialize all domains as expanded
+  React.useEffect(() => {
+    const initial = {};
+    domains.forEach(d => { initial[d.name] = true; });
+    setExpandedDomains(initial);
+  }, []);
+
   // Domain columns data
   const domains = [
     {
@@ -832,7 +1161,31 @@ function AllActionsAllDomainsPage({ onBack }) {
               ← Back to Dashboard
             </button>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">Complete GTD View · All Life Domains</span>
+              {/* View Mode Toggle */}
+              <div className="flex items-center bg-stone-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('columns')}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${viewMode === 'columns' ? 'bg-white shadow text-stone-900' : 'text-stone-600 hover:text-stone-800'}`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                    </svg>
+                    Columns
+                  </span>
+                </button>
+                <button
+                  onClick={() => setViewMode('accordion')}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${viewMode === 'accordion' ? 'bg-white shadow text-stone-900' : 'text-stone-600 hover:text-stone-800'}`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    Accordion
+                  </span>
+                </button>
+              </div>
               <select className="text-sm border rounded px-3 py-1">
                 <option>All Actions</option>
                 <option>Next Actions Only</option>
@@ -842,110 +1195,270 @@ function AllActionsAllDomainsPage({ onBack }) {
             </div>
           </div>
           <h1 className="text-3xl font-bold mb-2">All Actions - All Domains</h1>
-          <p className="text-gray-600">Left-to-right view across all areas of your life (Basecamp-style)</p>
+          <p className="text-gray-600">{viewMode === 'columns' ? 'Left-to-right view across all areas of your life (Basecamp-style)' : 'Collapsible nested view organized by domain'}</p>
         </div>
       </div>
 
-      {/* Horizontal Scrolling Column Layout */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden p-6">
-        <div className="flex gap-4 h-full min-w-max">
-          {domains.map((domain, idx) => (
-            <div
-              key={idx}
-              className={`w-80 flex-shrink-0 bg-white rounded-xl shadow-lg border-t-4 border-${domain.color}-500 flex flex-col h-full`}
-            >
-              {/* Column Header */}
-              <div className={`p-4 border-b bg-${domain.color}-50`}>
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">{domain.icon}</span>
-                  <h2 className={`text-lg font-bold text-${domain.color}-900`}>{domain.name}</h2>
-                  <span className="ml-auto text-xs bg-white px-2 py-1 rounded-full text-gray-600">
-                    {domain.items.length} actions
-                  </span>
+      {/* Content Area - Columns or Accordion view */}
+      {viewMode === 'columns' ? (
+        /* Horizontal Scrolling Column Layout */
+        <div className="flex-1 overflow-x-auto overflow-y-hidden p-6">
+          <div className="flex gap-4 h-full min-w-max">
+            {domains.map((domain, idx) => (
+              <div
+                key={idx}
+                className={`w-80 flex-shrink-0 bg-white rounded-xl shadow-lg border-t-4 border-${domain.color}-500 flex flex-col h-full`}
+              >
+                {/* Column Header */}
+                <div className={`p-4 border-b bg-${domain.color}-50`}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{domain.icon}</span>
+                    <h2 className={`text-lg font-bold text-${domain.color}-900`}>{domain.name}</h2>
+                    <span className="ml-auto text-xs bg-white px-2 py-1 rounded-full text-gray-600">
+                      {domain.items.length} actions
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Column Content - Scrollable */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {/* Next Actions */}
-                {domain.items.length > 0 && (
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
-                      <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                      Next Actions
-                    </h3>
-                    <div className="space-y-2">
-                      {domain.items.map((item, i) => (
-                        <div
-                          key={i}
-                          className={`p-3 rounded-lg border ${item.urgent ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'} hover:shadow-sm transition cursor-pointer`}
-                        >
-                          <div className="flex items-start gap-2">
-                            <input type="checkbox" className="mt-1 rounded" />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm text-gray-900">{item.text}</p>
-                              <div className="mt-1">{getPriorityBadge(item.priority, item.urgent)}</div>
+                {/* Column Content - Scrollable */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {/* Next Actions */}
+                  {domain.items.length > 0 && (
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        Next Actions
+                      </h3>
+                      <div className="space-y-2">
+                        {domain.items.map((item, i) => (
+                          <div
+                            key={i}
+                            className={`p-3 rounded-lg border ${item.urgent ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'} hover:shadow-sm transition cursor-pointer`}
+                          >
+                            <div className="flex items-start gap-2">
+                              <input type="checkbox" className="mt-1 rounded" />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm text-gray-900">{item.text}</p>
+                                <div className="mt-1">{getPriorityBadge(item.priority, item.urgent)}</div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Waiting For */}
-                {domain.waiting.length > 0 && (
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
-                      <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                      Waiting For
-                    </h3>
-                    <div className="space-y-2">
-                      {domain.waiting.map((item, i) => (
-                        <div key={i} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200 text-sm text-gray-700">
-                          {item}
-                        </div>
-                      ))}
+                  {/* Waiting For */}
+                  {domain.waiting.length > 0 && (
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
+                        <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                        Waiting For
+                      </h3>
+                      <div className="space-y-2">
+                        {domain.waiting.map((item, i) => (
+                          <div key={i} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200 text-sm text-gray-700">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Someday/Maybe */}
-                {domain.someday.length > 0 && (
-                  <div>
-                    <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-                      Someday/Maybe
-                    </h3>
-                    <div className="space-y-2">
-                      {domain.someday.map((item, i) => (
-                        <div key={i} className="p-3 bg-gray-100 rounded-lg border border-gray-200 text-sm text-gray-600">
-                          {item}
-                        </div>
-                      ))}
+                  {/* Someday/Maybe */}
+                  {domain.someday.length > 0 && (
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2 flex items-center gap-1">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                        Someday/Maybe
+                      </h3>
+                      <div className="space-y-2">
+                        {domain.someday.map((item, i) => (
+                          <div key={i} className="p-3 bg-gray-100 rounded-lg border border-gray-200 text-sm text-gray-600">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Add Task Button */}
-                <button className={`w-full p-2 border-2 border-dashed border-${domain.color}-200 rounded-lg text-sm text-${domain.color}-600 hover:bg-${domain.color}-50 transition`}>
-                  + Add to {domain.name}
-                </button>
+                  {/* Add Task Button */}
+                  <button className={`w-full p-2 border-2 border-dashed border-${domain.color}-200 rounded-lg text-sm text-${domain.color}-600 hover:bg-${domain.color}-50 transition`}>
+                    + Add to {domain.name}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {/* Add New Domain Column */}
-          <div className="w-80 flex-shrink-0 bg-white/50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center h-full">
-            <button className="text-gray-500 hover:text-gray-700 transition">
+            {/* Add New Domain Column */}
+            <div className="w-80 flex-shrink-0 bg-white/50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center h-full">
+              <button className="text-gray-500 hover:text-gray-700 transition">
+                <div className="text-center">
+                  <div className="text-3xl mb-2">+</div>
+                  <div className="text-sm">Add Life Domain</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Accordion/Nested View */
+        <div className="flex-1 overflow-y-auto p-6">
+          <div className="max-w-4xl mx-auto space-y-4">
+            {domains.map((domain, idx) => (
+              <div key={idx} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                {/* Domain Header - Clickable to expand/collapse */}
+                <button
+                  onClick={() => toggleDomain(domain.name)}
+                  className={`w-full p-4 flex items-center justify-between bg-${domain.color}-50 hover:bg-${domain.color}-100 transition-colors`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{domain.icon}</span>
+                    <div className="text-left">
+                      <h2 className={`text-lg font-bold text-${domain.color}-900`}>{domain.name}</h2>
+                      <p className="text-sm text-gray-600">{domain.items.length} actions · {domain.waiting.length} waiting · {domain.someday.length} someday</p>
+                    </div>
+                  </div>
+                  <svg className={`w-5 h-5 text-gray-500 transition-transform ${expandedDomains[domain.name] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Domain Content - Collapsible */}
+                {expandedDomains[domain.name] && (
+                  <div className="p-4 space-y-4 border-t">
+                    {/* Next Actions Section */}
+                    {domain.items.length > 0 && (
+                      <div className="border border-stone-200 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => toggleSection(`${domain.name}-actions`)}
+                          className="w-full p-3 flex items-center justify-between bg-stone-50 hover:bg-stone-100 transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span className="font-semibold text-sm text-gray-700">Next Actions</span>
+                            <span className="text-xs text-gray-500">({domain.items.length})</span>
+                          </div>
+                          <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections[`${domain.name}-actions`] !== false ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {expandedSections[`${domain.name}-actions`] !== false && (
+                          <div className="p-3 space-y-2">
+                            {domain.items.map((item, i) => (
+                              <div
+                                key={i}
+                                className={`p-3 rounded-lg border ${item.urgent ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200'} hover:shadow-sm transition cursor-pointer`}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <input type="checkbox" className="mt-1 rounded" />
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm text-gray-900">{item.text}</p>
+                                    <div className="mt-1 flex items-center gap-2">
+                                      {getPriorityBadge(item.priority, item.urgent)}
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <button className="p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded" title="Delegate">
+                                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                      </svg>
+                                    </button>
+                                    <button className="p-1 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded" title="Delete">
+                                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Waiting For Section */}
+                    {domain.waiting.length > 0 && (
+                      <div className="border border-stone-200 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => toggleSection(`${domain.name}-waiting`)}
+                          className="w-full p-3 flex items-center justify-between bg-yellow-50 hover:bg-yellow-100 transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                            <span className="font-semibold text-sm text-gray-700">Waiting For</span>
+                            <span className="text-xs text-gray-500">({domain.waiting.length})</span>
+                          </div>
+                          <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections[`${domain.name}-waiting`] !== false ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {expandedSections[`${domain.name}-waiting`] !== false && (
+                          <div className="p-3 space-y-2">
+                            {domain.waiting.map((item, i) => (
+                              <div key={i} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200 flex items-center justify-between">
+                                <span className="text-sm text-gray-700">{item}</span>
+                                <button className="px-3 py-1 text-xs font-medium text-yellow-700 border border-yellow-300 rounded-lg hover:bg-yellow-100">
+                                  Nudge
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Someday/Maybe Section */}
+                    {domain.someday.length > 0 && (
+                      <div className="border border-stone-200 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => toggleSection(`${domain.name}-someday`)}
+                          className="w-full p-3 flex items-center justify-between bg-stone-50 hover:bg-stone-100 transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                            <span className="font-semibold text-sm text-gray-700">Someday/Maybe</span>
+                            <span className="text-xs text-gray-500">({domain.someday.length})</span>
+                          </div>
+                          <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections[`${domain.name}-someday`] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {expandedSections[`${domain.name}-someday`] && (
+                          <div className="p-3 space-y-2">
+                            {domain.someday.map((item, i) => (
+                              <div key={i} className="p-3 bg-gray-100 rounded-lg border border-gray-200 text-sm text-gray-600 flex items-center justify-between">
+                                <span>{item}</span>
+                                <button className="px-3 py-1 text-xs font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-200">
+                                  Activate
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Add Task Button */}
+                    <button className={`w-full p-3 border-2 border-dashed border-${domain.color}-200 rounded-lg text-sm text-${domain.color}-600 hover:bg-${domain.color}-50 transition`}>
+                      + Add to {domain.name}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Add New Domain */}
+            <button className="w-full p-6 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:text-gray-700 hover:border-gray-400 transition">
               <div className="text-center">
-                <div className="text-3xl mb-2">+</div>
-                <div className="text-sm">Add Life Domain</div>
+                <div className="text-2xl mb-1">+</div>
+                <div className="text-sm font-medium">Add Life Domain</div>
               </div>
             </button>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Quick Capture Bar */}
       <div className="bg-white border-t p-4 flex-shrink-0">
@@ -1110,7 +1623,11 @@ function ClientOverviewTab({ client, onOpenPreSessionBrief, setActiveTab }) {
         </div>
         <div className="text-right">
           <p className="text-sm text-gray-500">Next session</p>
-          <p className="font-semibold text-gray-900">{client.nextSession || "Tomorrow, 2:00 PM"}</p>
+          <p className="font-semibold text-gray-900">
+            {client.nextSession
+              ? new Date(client.nextSession).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ' at ' + new Date(client.nextSession).toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'})
+              : "Not scheduled"}
+          </p>
         </div>
       </div>
 
@@ -5789,6 +6306,189 @@ function SettingsPage() {
           </div>
         </div>
 
+        {/* Client Data Import */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                <span>📥</span> Import Client Data
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">Bring your existing client records into ReGenesis</p>
+            </div>
+            <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">New</span>
+          </div>
+
+          {/* Import Sources */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {/* Cloud Storage Sources */}
+            <div className="border border-stone-200 rounded-xl p-4">
+              <h4 className="font-medium text-stone-700 mb-3 flex items-center gap-2">
+                <svg className="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+                From Cloud Storage
+              </h4>
+              <div className="space-y-2">
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 via-green-500 to-yellow-500 rounded flex items-center justify-center text-white font-bold text-xs">G</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">Google Drive</div>
+                    <div className="text-xs text-stone-500">Docs, sheets, folders</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold text-xs">DB</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">Dropbox</div>
+                    <div className="text-xs text-stone-500">Files, folders</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-gradient-to-br from-gray-400 to-gray-600 rounded flex items-center justify-center text-white font-bold text-xs">iC</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">iCloud Drive</div>
+                    <div className="text-xs text-stone-500">Apple cloud storage</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-xs">OD</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">OneDrive</div>
+                    <div className="text-xs text-stone-500">Microsoft cloud</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Other Coaching Software */}
+            <div className="border border-stone-200 rounded-xl p-4">
+              <h4 className="font-medium text-stone-700 mb-3 flex items-center gap-2">
+                <svg className="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                From Other Platforms
+              </h4>
+              <div className="space-y-2">
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-orange-500 rounded flex items-center justify-center text-white font-bold text-xs">C</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">CoachAccountable</div>
+                    <div className="text-xs text-stone-500">Export & import</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center text-white font-bold text-xs">P</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">Practice Better</div>
+                    <div className="text-xs text-stone-500">Export & import</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center text-white font-bold text-xs">E</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">Evernote</div>
+                    <div className="text-xs text-stone-500">Notes & notebooks</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 border border-stone-200 rounded-lg hover:bg-stone-50 transition text-left">
+                  <div className="w-8 h-8 bg-stone-800 rounded flex items-center justify-center text-white font-bold text-xs">N</div>
+                  <div className="flex-1">
+                    <div className="font-medium text-sm">Notion</div>
+                    <div className="text-xs text-stone-500">Databases & pages</div>
+                  </div>
+                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Manual Upload */}
+          <div className="border-2 border-dashed border-stone-300 rounded-xl p-6 text-center hover:border-stone-400 hover:bg-stone-50 transition cursor-pointer">
+            <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-6 h-6 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            </div>
+            <h4 className="font-medium text-stone-700 mb-1">Upload Files Directly</h4>
+            <p className="text-sm text-stone-500 mb-3">CSV, Excel, PDF, Word docs, or text files</p>
+            <div className="flex justify-center gap-3">
+              <button className="px-4 py-2 bg-stone-800 text-white rounded-lg text-sm font-medium hover:bg-stone-700">
+                Choose Files
+              </button>
+              <button className="px-4 py-2 border border-stone-300 text-stone-700 rounded-lg text-sm font-medium hover:bg-stone-50">
+                Download Template
+              </button>
+            </div>
+          </div>
+
+          {/* What gets imported */}
+          <div className="mt-6 p-4 bg-stone-50 rounded-lg">
+            <h4 className="font-medium text-stone-700 mb-3 text-sm">What Sasha will extract and organize:</h4>
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-stone-600">Client profiles & contact info</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-stone-600">Session notes & history</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-stone-600">Goals & commitments</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-stone-600">Assessment results</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-stone-600">Patterns & themes</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-stone-600">Important dates & milestones</span>
+              </div>
+            </div>
+            <p className="text-xs text-stone-500 mt-4 italic">All imports are processed with your approval. You'll review what Sasha found before anything is saved.</p>
+          </div>
+        </div>
+
         {/* Sasha AI Settings */}
         <div className="bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50 border-2 border-teal-300 p-6 rounded-lg shadow">
           <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
@@ -10411,38 +11111,541 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
   };
 
   // UF-5: Deep personal questions
-  const deepQuestions = [
+  // Comprehensive Deep Questions - Synthesized from Jesse's Launch Questionnaire + Best Practices
+  const [expandedSection, setExpandedSection] = React.useState('north_star');
+
+  // OPTIMAL ORDER based on psychological research:
+  // 1. Start positive/present (warm-up, build trust)
+  // 2. Then inspiring future (north star, dreams - energizing)
+  // 3. Identity & calling (who you are, who you serve)
+  // 4. Current reality (whole life assessment)
+  // 5. Past & patterns (reflective, deeper)
+  // 6. Practical partnership (how to work together)
+  // This flow: Trust → Inspiration → Identity → Reality → Reflection → Action
+
+  const deepQuestionSections = [
+    // PHASE 1: WARM-UP - Easy, positive, builds trust
     {
-      id: "life_vision",
-      question: "When you imagine your life 10 years from now at its absolute best, what does it look like?",
-      placeholder: "Describe your ideal life — where you live, how you spend your days, who you're with, what impact you're having...",
-      whyWeAsk: "Understanding your personal vision helps ReGenesis align coaching suggestions with YOUR definition of success, not generic advice."
+      id: "present_state",
+      title: "Where You Are Now",
+      subtitle: "Start with gratitude & aliveness",
+      icon: "🔥",
+      questions: [
+        {
+          id: "happiness_scale",
+          question: "On a scale of 1-10, how satisfied are you with your life right now?",
+          placeholder: "Be honest with yourself...",
+          whyWeAsk: "This baseline helps Sasha track your progress and celebrate growth over time.",
+          type: "scale"
+        },
+        {
+          id: "gratitude",
+          question: "What are 10 things you are genuinely grateful for right now? Be specific.",
+          placeholder: "Not generic things, but specific: 'My daughter's laugh when she wakes up', 'The view from my office window'...",
+          whyWeAsk: "Gratitude rewires the brain. Sasha can remind you of these on hard days.",
+          type: "textarea"
+        },
+        {
+          id: "joy_sources",
+          question: "What are 3 things that consistently bring you joy?",
+          placeholder: "Activities, people, places, experiences that light you up...",
+          whyWeAsk: "Sasha will help protect time for these and notice when they've been missing.",
+          type: "textarea"
+        },
+        {
+          id: "love_about_life",
+          question: "What do you love about your work and life that makes you feel excited to be alive?",
+          placeholder: "What's working? What energizes you?",
+          whyWeAsk: "We want to amplify what's already good, not just fix problems.",
+          type: "textarea"
+        },
+        {
+          id: "longing",
+          question: "What do you long to bring more of into your work and life? What would make you feel more fulfilled?",
+          placeholder: "What's missing? What do you crave?",
+          whyWeAsk: "This reveals the gap between where you are and where you want to be.",
+          type: "textarea"
+        }
+      ]
+    },
+    // PHASE 2: INSPIRING VISION - Energizing, future-focused
+    {
+      id: "north_star",
+      title: "Your North Star",
+      subtitle: "Values, Vision & Purpose",
+      icon: "⭐",
+      questions: [
+        {
+          id: "core_values",
+          question: "What 3-5 values are absolutely non-negotiable in how you live and work?",
+          placeholder: "Examples: Integrity, courage, truth, compassion, growth, family, adventure, authenticity, service, freedom...",
+          whyWeAsk: "Your values become the lens through which Sasha filters all suggestions. We'll never recommend something that violates your core values.",
+          type: "textarea"
+        },
+        {
+          id: "life_vision",
+          question: "Looking back on your life from the end of it, how would you know you had lived your absolute best life?",
+          placeholder: "What would give you the deepest satisfaction? What would you want people to say about you? What legacy do you want to leave?",
+          whyWeAsk: "This becomes your compass. Sasha can help you make decisions aligned with your true north.",
+          type: "textarea"
+        },
+        {
+          id: "mission_statement",
+          question: "If you had to distill your purpose into a single 'I am' statement, what would it be?",
+          placeholder: "Example: 'I am a catalyst for transformation, guiding people to clarity and impact' or 'I am a loving presence who creates space for others to grow'",
+          whyWeAsk: "This becomes part of your voice profile. Sasha will reflect your philosophy in everything it creates.",
+          type: "textarea"
+        },
+        {
+          id: "gift_to_world",
+          question: "What is the gift you ultimately want to share with the world? What impact do you want to have?",
+          placeholder: "Beyond making a living, what contribution matters most to you?",
+          whyWeAsk: "Sasha can help ensure your daily actions align with your larger purpose.",
+          type: "textarea"
+        }
+      ]
+    },
+    // PHASE 3: DREAMS - Energizing future focus
+    {
+      id: "dreams_desires",
+      title: "Dreams & Desires",
+      subtitle: "Small, Medium & BIG dreams",
+      icon: "🌈",
+      questions: [
+        {
+          id: "career_dreams",
+          question: "Career/Work: What's a small dream, a medium dream, and a BIG dream for your professional life?",
+          placeholder: "Small (achievable now) → Medium (stretch goal) → BIG (wildly ambitious)",
+          whyWeAsk: "Having dreams at multiple scales keeps you motivated and moving forward.",
+          type: "textarea"
+        },
+        {
+          id: "family_dreams",
+          question: "Family: What's a small, medium, and BIG dream for your family life?",
+          placeholder: "Small → Medium → BIG",
+          whyWeAsk: "Family dreams often get neglected. Sasha will help you protect time for what matters most.",
+          type: "textarea"
+        },
+        {
+          id: "health_dreams",
+          question: "Health & Wellbeing: What's a small, medium, and BIG dream for your physical/mental health?",
+          placeholder: "Small → Medium → BIG",
+          whyWeAsk: "Your health underlies everything. Sasha will help you invest in it.",
+          type: "textarea"
+        },
+        {
+          id: "crazy_dream",
+          question: "If you had unlimited resources and couldn't fail, what would you set out to do? Is there a dream you're afraid to voice?",
+          placeholder: "Dream bigger than feels comfortable. What would you do with your full capacity?",
+          whyWeAsk: "The dreams we're afraid to speak often hold the key to our deepest fulfillment.",
+          type: "textarea"
+        },
+        {
+          id: "fun_dreams",
+          question: "What are 10 things you'd like to do in life purely for the fun of it? Bucket list experiences, skills to master, places to see?",
+          placeholder: "Adventures, experiences, learning, creation — just for joy...",
+          whyWeAsk: "Fun and play are essential to a full life. Sasha will help you actually do these things.",
+          type: "textarea"
+        },
+        {
+          id: "regret_prevention",
+          question: "At age 80, looking back on your life, which dream would cause the greatest regret if you had NOT pursued it? What's the cost of not pursuing it?",
+          placeholder: "What would you never forgive yourself for not trying?",
+          whyWeAsk: "Deathbed clarity cuts through the noise. Sasha will help you prioritize accordingly.",
+          type: "textarea"
+        }
+      ]
+    },
+    // PHASE 4: IDENTITY - Who you are, who you were made to be
+    {
+      id: "design_destiny",
+      title: "Design & Destiny",
+      subtitle: "What you were made to do",
+      icon: "🧬",
+      questions: [
+        {
+          id: "inner_knowing",
+          question: "What do you already know about what you were 'made' to do? What has been most meaningful to you in life?",
+          placeholder: "Deep down, what do you sense you're here for?",
+          whyWeAsk: "Your inner knowing often holds the key to your deepest purpose. Sasha will help you honor it.",
+          type: "textarea"
+        },
+        {
+          id: "childhood_dreams",
+          question: "When you were a child, what did you want to be when you grew up? What roles, professions, or activities attracted you?",
+          placeholder: "Before the world told you what was 'realistic'...",
+          whyWeAsk: "Childhood dreams often reveal authentic desires before conditioning. Sasha can help you reconnect with them.",
+          type: "textarea"
+        },
+        {
+          id: "couldnt_fail",
+          question: "If you knew you couldn't fail, what would you want to really do or be?",
+          placeholder: "Remove all fear of failure — what emerges?",
+          whyWeAsk: "This reveals desires that fear has been suppressing. Sasha will gently challenge the fears.",
+          type: "textarea"
+        },
+        {
+          id: "experience_as_preparation",
+          question: "If you believed every experience in your life was preparing you for your destiny, what would you say your whole life has equipped you to do?",
+          placeholder: "All the jobs, relationships, successes, failures, joys, pains — what have they prepared you for?",
+          whyWeAsk: "Reframing your past as preparation (not accident) reveals patterns of purpose.",
+          type: "textarea"
+        },
+        {
+          id: "others_affirm",
+          question: "What do those who know you best say about what you are made to do? When have you been most affirmed in who you are?",
+          placeholder: "Sometimes others see our gifts more clearly than we do...",
+          whyWeAsk: "External perspective often confirms internal knowing. Sasha can remind you of these affirmations.",
+          type: "textarea"
+        },
+        {
+          id: "destiny_experience",
+          question: "Describe a time when it felt like you were doing exactly what you were born to do — fully alive, firing on all cylinders, in the flow. What happened?",
+          placeholder: "A specific moment when everything clicked — what were you doing, who were you serving, how did it feel?",
+          whyWeAsk: "These peak experiences reveal your zone of genius. Sasha will help you create more of them.",
+          type: "textarea"
+        }
+      ]
+    },
+    // PHASE 5: SERVICE - Who you're called to serve
+    {
+      id: "who_you_serve",
+      title: "Who You Serve",
+      subtitle: "Your people & your cause",
+      icon: "💫",
+      questions: [
+        {
+          id: "who_to_help",
+          question: "Who do you most want to help in your life? What kinds of people would you most like to make a difference for?",
+          placeholder: "Think about the people whose struggles move you, whose success would bring you joy...",
+          whyWeAsk: "Knowing who you're called to serve gives focus and meaning to your work.",
+          type: "textarea"
+        },
+        {
+          id: "injustice_anger",
+          question: "What makes you angry? What issues, injustices, or principles keep you up at night or get you out of bed in the morning?",
+          placeholder: "Righteous anger often points to your calling...",
+          whyWeAsk: "Passion fuels action. Sasha can help you channel anger into constructive change.",
+          type: "textarea"
+        },
+        {
+          id: "failure_qualification",
+          question: "What have your failures and struggles qualified you to do? Who has your life prepared you to serve because you've been through what they're going through?",
+          placeholder: "Our wounds become our wisdom. What have your failures taught you that you can now offer others?",
+          whyWeAsk: "Our greatest impact often comes from our deepest wounds. Sasha will help you leverage your story.",
+          type: "textarea"
+        },
+        {
+          id: "world_changing",
+          question: "If you could invest the rest of your life to change ONE thing in the world, what would it be? What led you to choose that?",
+          placeholder: "Not everything, just one thing. What matters most?",
+          whyWeAsk: "Focus creates impact. Sasha will help you stay true to your chosen cause.",
+          type: "textarea"
+        }
+      ]
+    },
+    // PHASE 6: REALITY CHECK - Current state across life domains
+    {
+      id: "whole_life",
+      title: "Whole Life Assessment",
+      subtitle: "Current state across all domains",
+      icon: "🌀",
+      questions: [
+        {
+          id: "career_work",
+          question: "Career & Work: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Sasha needs the full picture to help you make integrated decisions.",
+          type: "domain"
+        },
+        {
+          id: "family",
+          question: "Family: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Sasha needs the full picture to help you make integrated decisions.",
+          type: "domain"
+        },
+        {
+          id: "relationships_love",
+          question: "Significant Other / Love: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Sasha needs the full picture to help you make integrated decisions.",
+          type: "domain"
+        },
+        {
+          id: "friends_community",
+          question: "Friends & Community: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Sasha needs the full picture to help you make integrated decisions.",
+          type: "domain"
+        },
+        {
+          id: "physical_mental_wellbeing",
+          question: "Physical, Mental & Emotional Wellbeing: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Your wellbeing affects everything. Sasha will help you protect it.",
+          type: "domain"
+        },
+        {
+          id: "financial",
+          question: "Financial Wellbeing: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Financial stress impacts everything. Sasha can help you stay intentional.",
+          type: "domain"
+        },
+        {
+          id: "learning_growth",
+          question: "Learning, Personal Growth & Spirituality: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Growth-oriented people need space for development. Sasha will help protect it.",
+          type: "domain"
+        },
+        {
+          id: "fun_recreation",
+          question: "Fun & Recreation: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Play is essential. Sasha will notice when you've been all work and no play.",
+          type: "domain"
+        },
+        {
+          id: "contribution_service",
+          question: "Contribution & Service: What would this area ideally look and feel like? What's the current reality? What's in the gap?",
+          placeholder: "Ideal state → Current state → What explains the gap",
+          whyWeAsk: "Meaning often comes from giving. Sasha can help you stay connected to impact.",
+          type: "domain"
+        }
+      ]
     },
     {
-      id: "core_values",
-      question: "What 3-5 values are non-negotiable in how you live and work?",
-      placeholder: "Examples: Integrity, growth, family, adventure, authenticity, service...",
-      whyWeAsk: "Your values become the lens through which ReGenesis filters all suggestions. We'll never recommend something that violates your core values."
+      id: "your_story",
+      title: "Your Story",
+      subtitle: "Past experiences that shaped you",
+      icon: "📖",
+      questions: [
+        {
+          id: "life_timeline",
+          question: "What are the major events, turning points, or formative experiences that shaped who you are today?",
+          placeholder: "Childhood experiences, pivotal moments, losses, triumphs, relationships, realizations... anything that made you who you are.",
+          whyWeAsk: "Understanding your story helps Sasha recognize patterns and connect current challenges to deeper themes.",
+          type: "textarea"
+        },
+        {
+          id: "heroes",
+          question: "Who are 3 people (real or fictional, living or historical) you most admire? What qualities do they embody that you want to cultivate in yourself?",
+          placeholder: "If you could have dinner with anyone and ask them questions, who would it be and what would you ask?",
+          whyWeAsk: "Your heroes reveal your aspirations. Sasha can remind you of their wisdom when you need it.",
+          type: "textarea"
+        },
+        {
+          id: "coaching_history",
+          question: "Have you ever worked with a coach, therapist, or mentor before? What worked? What didn't?",
+          placeholder: "Any previous experience with personal development work, therapy, coaching...",
+          whyWeAsk: "Sasha learns from what's worked and what hasn't to tailor its approach.",
+          type: "textarea"
+        }
+      ]
     },
     {
-      id: "meaning_of_coaching",
-      question: "What does coaching mean to you? Why did you become a coach?",
-      placeholder: "Share the deeper purpose behind your work...",
-      whyWeAsk: "This becomes part of your 'voice' in ReGenesis. Session notes and suggestions will reflect your philosophy of coaching."
+      id: "patterns_energy",
+      title: "Patterns & Energy",
+      subtitle: "What drives and drains you",
+      icon: "⚡",
+      questions: [
+        {
+          id: "energy_givers",
+          question: "What are the qualities and characteristics of the people, places, and activities that INCREASE your energy?",
+          placeholder: "What fills you up? What makes you feel alive?",
+          whyWeAsk: "Sasha will help you design your days around energy-giving activities.",
+          type: "textarea"
+        },
+        {
+          id: "energy_drains",
+          question: "What are the qualities and characteristics of the people, places, and activities that DRAIN your energy?",
+          placeholder: "What depletes you? What do you dread?",
+          whyWeAsk: "Sasha will help you minimize or transform energy-draining activities.",
+          type: "textarea"
+        },
+        {
+          id: "barriers",
+          question: "What has stopped you from getting what you want in your life? List all the barriers, real or imagined.",
+          placeholder: "Be brutally honest. Limiting beliefs, fears, circumstances, habits, relationships...",
+          whyWeAsk: "Naming barriers is the first step to overcoming them. Sasha will gently challenge these over time.",
+          type: "textarea"
+        },
+        {
+          id: "shadows_triggers",
+          question: "What are your growing edges? Where do you get triggered or stuck? What patterns keep repeating?",
+          placeholder: "Examples: impatience, perfectionism, people-pleasing, avoiding conflict, overworking...",
+          whyWeAsk: "Sasha can gently flag when these patterns might be showing up. This stays completely private.",
+          type: "textarea"
+        },
+        {
+          id: "stress_coping",
+          question: "How do you typically cope with stress or difficult emotions? What helps you regulate?",
+          placeholder: "Healthy and unhealthy coping mechanisms — be honest...",
+          whyWeAsk: "Sasha can suggest healthy coping strategies when it senses you're struggling.",
+          type: "textarea"
+        }
+      ]
     },
     {
-      id: "shadows",
-      question: "What are your growing edges as a coach? Where do you get triggered or stuck?",
-      placeholder: "Be honest — this is private to you. Examples: impatience with slow progress, over-identifying with clients...",
-      whyWeAsk: "ReGenesis can gently flag when these patterns might be showing up. Private to you — never shared."
+      id: "coaching_philosophy",
+      title: "Your Coaching Philosophy",
+      subtitle: "How you work with clients",
+      icon: "🎯",
+      questions: [
+        {
+          id: "why_coach",
+          question: "What does coaching mean to you? Why did you become a coach?",
+          placeholder: "Share the deeper purpose behind your work...",
+          whyWeAsk: "This becomes the heart of your voice profile. Sasha will reflect your philosophy in everything it creates.",
+          type: "textarea"
+        },
+        {
+          id: "coaching_superpower",
+          question: "What's your superpower as a coach? What do clients say you're uniquely gifted at?",
+          placeholder: "The thing you do better than most...",
+          whyWeAsk: "Sasha will lean into your strengths and suggest approaches aligned with your gifts.",
+          type: "textarea"
+        },
+        {
+          id: "coaching_growing_edge",
+          question: "Where are your growing edges as a coach? What types of clients or situations challenge you?",
+          placeholder: "Where do you get stuck with clients? What triggers you?",
+          whyWeAsk: "Sasha can provide extra support in areas where you're developing.",
+          type: "textarea"
+        },
+        {
+          id: "learning_style",
+          question: "What's your preferred way of learning and receiving information — reading, listening, watching, or doing?",
+          placeholder: "How do you best absorb new ideas?",
+          whyWeAsk: "Sasha will present information in the format that works best for you.",
+          type: "select",
+          options: ["Reading/Text", "Listening/Audio", "Watching/Visual", "Doing/Experiential", "Mix of all"]
+        }
+      ]
     },
     {
-      id: "life_beyond_work",
-      question: "What matters to you outside of coaching? Family, hobbies, causes, dreams?",
-      placeholder: "Your whole life, not just work...",
-      whyWeAsk: "ReGenesis supports your WHOLE life. We'll help protect time for what matters beyond work."
+      id: "working_together",
+      title: "Working With Sasha",
+      subtitle: "How to support you best",
+      icon: "🤝",
+      questions: [
+        {
+          id: "what_want_from_coaching",
+          question: "What do you most want out of ReGenesis and Sasha at this time in your life?",
+          placeholder: "What would make this worth it? What would change everything?",
+          whyWeAsk: "We want to exceed your expectations, so we need to know what they are.",
+          type: "textarea"
+        },
+        {
+          id: "how_to_support",
+          question: "What tips can you give Sasha about how to work with you most effectively?",
+          placeholder: "How do you like to be supported? What helps you stay accountable? What annoys you?",
+          whyWeAsk: "Sasha will adapt its communication style to what works for you.",
+          type: "textarea"
+        },
+        {
+          id: "motivation_demotivation",
+          question: "What motivates you? What demotivates you?",
+          placeholder: "What lights a fire under you vs. what shuts you down?",
+          whyWeAsk: "Sasha will use motivation strategies that work for you, not generic approaches.",
+          type: "textarea"
+        },
+        {
+          id: "accountability_style",
+          question: "How do you want Sasha to hold you accountable? Gentle nudges or firm reminders?",
+          placeholder: "Do you respond better to encouragement or challenge?",
+          whyWeAsk: "Sasha can calibrate its accountability style to what actually works for you.",
+          type: "select",
+          options: ["Gentle encouragement", "Direct and challenging", "Mix depending on context", "Don't hold me accountable"]
+        }
+      ]
+    },
+    {
+      id: "values_selection",
+      title: "Values Deep Dive",
+      subtitle: "Choose your core values",
+      icon: "🎯",
+      questions: [
+        {
+          id: "values_menu",
+          question: "From this list, select ALL the values that deeply resonate with you (aim for 10-15 to start):",
+          placeholder: "Click all that call to you...",
+          whyWeAsk: "This becomes your values filter. Sasha will help you make decisions aligned with these.",
+          type: "values_checklist"
+        },
+        {
+          id: "top_5_values",
+          question: "Now narrow it down: What are your TOP 5 non-negotiable values? The ones you'd never compromise?",
+          placeholder: "If you could only keep 5 values, which would they be?",
+          whyWeAsk: "These become the core lens through which Sasha evaluates all decisions.",
+          type: "textarea"
+        },
+        {
+          id: "values_in_action",
+          question: "For your top value: How do you live it? When have you violated it and how did that feel?",
+          placeholder: "Values are only real when they cost you something...",
+          whyWeAsk: "Understanding values in action helps Sasha recognize when you're aligned (or not).",
+          type: "textarea"
+        }
+      ]
+    },
+    {
+      id: "ideal_life",
+      title: "Ideal Life Visualization",
+      subtitle: "Design your dream life",
+      icon: "🏔️",
+      questions: [
+        {
+          id: "ideal_day",
+          question: "Describe your ideal day 5 years from now. Walk through it from waking to sleeping — where are you, what are you doing, who are you with?",
+          placeholder: "Morning routine, work, relationships, evening — paint the picture in detail...",
+          whyWeAsk: "Vivid vision creates motivation. Sasha can help you move toward this picture every day.",
+          type: "textarea"
+        },
+        {
+          id: "ideal_role",
+          question: "Create a job description for your perfect role — what would you do, who would you work with, what would make it significant and fulfilling?",
+          placeholder: "Design the role you'd never want to leave...",
+          whyWeAsk: "Knowing your ideal role helps Sasha help you shape your current work toward it.",
+          type: "textarea"
+        },
+        {
+          id: "ideal_week",
+          question: "What's your ideal weekly rhythm? How would you allocate time between work, family, health, friends, growth, play?",
+          placeholder: "Monday through Sunday — how would time flow in your ideal life?",
+          whyWeAsk: "Sasha can help you protect time for what matters and flag when life gets unbalanced.",
+          type: "textarea"
+        },
+        {
+          id: "definitely_not",
+          question: "What is definitely NOT part of your ideal life or role? What have you learned you never want to do again?",
+          placeholder: "Knowing what you don't want is as important as knowing what you do want...",
+          whyWeAsk: "Sasha will help you say no to things that pull you away from your ideal.",
+          type: "textarea"
+        }
+      ]
     }
   ];
+
+  // Values menu for selection
+  const valuesMenu = [
+    "Integrity", "Honesty", "Authenticity", "Accountability", "Courage", "Truth", "Sincerity", "Character",
+    "Family", "Marriage", "Legacy", "Heritage", "Duty", "Honor", "Responsibility", "Nurture", "Love",
+    "Freedom", "Adventure", "Exploration", "Creativity", "Spontaneity", "Flexibility", "Travel", "Change",
+    "Growth", "Learning", "Knowledge", "Wisdom", "Mastery", "Competence", "Excellence", "Achievement",
+    "Community", "Belonging", "Friendship", "Team", "Relationship", "Intimacy", "Connection", "Depth",
+    "Service", "Generosity", "Compassion", "Caring", "Making a Difference", "Contribution", "Impact",
+    "Peace", "Harmony", "Security", "Stability", "Balance", "Health", "Wellbeing", "Vitality",
+    "Success", "Recognition", "Influence", "Leadership", "Power", "Independence", "Autonomy",
+    "Beauty", "Creativity", "Art", "Expression", "Innovation", "Inspiration", "Passion",
+    "Faith", "Spirituality", "Purpose", "Meaning", "Transcendence", "Devotion", "Gratitude",
+    "Fun", "Joy", "Humor", "Play", "Pleasure", "Enthusiasm", "Zest", "Aliveness"
+  ];
+
+  // Flattened questions for simple iteration
+  const deepQuestions = deepQuestionSections.flatMap(section => section.questions);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white flex flex-col">
@@ -10919,26 +12122,152 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 6: UF-5 Deep Personal Questions */}
+            {/* Step 6: UF-5 Deep Personal Questions - Comprehensive Accordion */}
             {step === 6 && (
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg mb-6">
-                  <span className="text-2xl">💜</span>
-                  <div className="text-sm text-purple-800">
-                    <strong>These questions are optional but powerful.</strong> The more ReGenesis understands about YOU as a whole person, the better it can support your coaching and your life.
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-4 bg-stone-800 text-white rounded-xl mb-6">
+                  <span className="text-2xl">✨</span>
+                  <div className="text-sm">
+                    <strong>These questions are optional but powerful.</strong> The more Sasha understands about YOU as a whole person, the better it can support your coaching and your life. Take your time — you can always come back to these later.
                   </div>
                 </div>
 
-                {deepQuestions.map((q, i) => (
-                  <div key={q.id} className="border border-stone-200 rounded-lg p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <label className="text-sm font-medium text-stone-800">{q.question}</label>
-                      <WhyWeAsk reason={q.whyWeAsk} />
-                    </div>
-                    <textarea
-                      className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 h-24"
-                      placeholder={q.placeholder}
-                    />
+                {/* Progress indicator */}
+                <div className="flex items-center justify-between text-sm text-stone-500 mb-4">
+                  <span>7 sections · Answer what resonates, skip what doesn't</span>
+                  <span className="text-stone-400">All answers stay private to you</span>
+                </div>
+
+                {/* Accordion Sections */}
+                {deepQuestionSections.map((section, sectionIdx) => (
+                  <div key={section.id} className="border border-stone-200 rounded-xl overflow-hidden">
+                    {/* Section Header - Clickable */}
+                    <button
+                      onClick={() => setExpandedSection(expandedSection === section.id ? null : section.id)}
+                      className={`w-full p-4 flex items-center justify-between transition-colors ${
+                        expandedSection === section.id ? 'bg-stone-100' : 'bg-white hover:bg-stone-50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{section.icon}</span>
+                        <div className="text-left">
+                          <h4 className="font-semibold text-stone-800">{section.title}</h4>
+                          <p className="text-sm text-stone-500">{section.subtitle}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-stone-400">{section.questions.length} questions</span>
+                        <svg
+                          className={`w-5 h-5 text-stone-400 transition-transform ${expandedSection === section.id ? 'rotate-180' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </button>
+
+                    {/* Section Content - Collapsible */}
+                    {expandedSection === section.id && (
+                      <div className="p-4 border-t border-stone-200 bg-stone-50 space-y-4">
+                        {section.questions.map((q, qIdx) => (
+                          <div key={q.id} className="bg-white border border-stone-200 rounded-lg p-4">
+                            <div className="flex items-start justify-between mb-3">
+                              <label className="text-sm font-medium text-stone-800 flex-1 pr-4">{q.question}</label>
+                              <WhyWeAsk reason={q.whyWeAsk} />
+                            </div>
+
+                            {q.type === 'textarea' && (
+                              <textarea
+                                className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 focus:border-stone-400 text-sm"
+                                placeholder={q.placeholder}
+                                rows={4}
+                              />
+                            )}
+
+                            {q.type === 'domain' && (
+                              <div className="space-y-3">
+                                <div>
+                                  <label className="text-xs text-stone-500 block mb-1">Ideal State</label>
+                                  <textarea
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 text-sm"
+                                    placeholder="What would this look and feel like in the life of your dreams?"
+                                    rows={2}
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-stone-500 block mb-1">Current Reality</label>
+                                  <textarea
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 text-sm"
+                                    placeholder="What is the current state of this area?"
+                                    rows={2}
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-stone-500 block mb-1">The Gap</label>
+                                  <textarea
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-stone-200 text-sm"
+                                    placeholder="What explains the gap between ideal and current?"
+                                    rows={2}
+                                  />
+                                </div>
+                              </div>
+                            )}
+
+                            {q.type === 'scale' && (
+                              <div className="flex items-center gap-2">
+                                {[1,2,3,4,5,6,7,8,9,10].map(num => (
+                                  <label key={num} className="flex-1">
+                                    <input type="radio" name={q.id} value={num} className="sr-only peer" />
+                                    <div className="p-2 text-center border border-stone-200 rounded-lg cursor-pointer text-sm font-medium transition-all peer-checked:bg-stone-800 peer-checked:text-white peer-checked:border-stone-800 hover:bg-stone-50">
+                                      {num}
+                                    </div>
+                                  </label>
+                                ))}
+                              </div>
+                            )}
+
+                            {q.type === 'select' && q.options && (
+                              <div className="flex flex-wrap gap-2">
+                                {q.options.map(option => (
+                                  <label key={option} className="cursor-pointer">
+                                    <input type="radio" name={q.id} value={option} className="sr-only peer" />
+                                    <div className="px-4 py-2 border border-stone-200 rounded-lg text-sm transition-all peer-checked:bg-stone-800 peer-checked:text-white peer-checked:border-stone-800 hover:bg-stone-50">
+                                      {option}
+                                    </div>
+                                  </label>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+
+                        {/* Navigation within section */}
+                        <div className="flex justify-between pt-2">
+                          <button
+                            onClick={() => {
+                              const currentIdx = deepQuestionSections.findIndex(s => s.id === section.id);
+                              if (currentIdx > 0) setExpandedSection(deepQuestionSections[currentIdx - 1].id);
+                            }}
+                            className="text-sm text-stone-500 hover:text-stone-700 disabled:opacity-50"
+                            disabled={sectionIdx === 0}
+                          >
+                            ← Previous section
+                          </button>
+                          <button
+                            onClick={() => {
+                              const currentIdx = deepQuestionSections.findIndex(s => s.id === section.id);
+                              if (currentIdx < deepQuestionSections.length - 1) setExpandedSection(deepQuestionSections[currentIdx + 1].id);
+                            }}
+                            className="text-sm text-stone-600 font-medium hover:text-stone-800"
+                            disabled={sectionIdx === deepQuestionSections.length - 1}
+                          >
+                            Next section →
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
 
@@ -11258,7 +12587,11 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
 // ============ COACHEE ONBOARDING FLOW ============
 // UF-9: Much deeper coachee journey with personal context, goals, values, and preferences
 function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
-  const totalSteps = 8;
+  const totalSteps = 10;
+  const [expandedDeepSection, setExpandedDeepSection] = React.useState(null);
+  const [deepAnswers, setDeepAnswers] = React.useState({});
+  const [sectionStatus, setSectionStatus] = React.useState({}); // 'complete', 'in_progress', 'skipped', 'not_started'
+  const [coachInfoConfirmed, setCoachInfoConfirmed] = React.useState({});
 
   // Privacy tooltip component
   const WhyWeAsk = ({ reason }) => {
@@ -11292,15 +12625,183 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
     </div>
   );
 
+  // Mock data: What the coach already shared about this client
+  const coachProvidedInfo = {
+    name: "Sarah Chen",
+    role: "VP of Engineering",
+    company: "TechCorp Inc.",
+    coachingFocus: ["Leadership presence", "Managing up", "Work-life balance"],
+    northStar: "Become a transformational leader who inspires her team while maintaining personal wellbeing",
+    currentChallenge: "Navigating a major organizational change while keeping her team motivated",
+    values: ["Integrity", "Growth", "Family", "Excellence"],
+    notes: "Sarah is being groomed for a C-level role. She's highly capable but tends to overwork. Focus on delegation and boundaries."
+  };
+
+  // Deep question sections (same as coach version for consistency)
+  const clientDeepQuestionSections = [
+    {
+      id: "present_state",
+      title: "Where You Are Now",
+      subtitle: "Gratitude, joy, and current state",
+      icon: "🌅",
+      questions: [
+        { id: "grateful_for", question: "What are you most grateful for in your life right now?", placeholder: "The people, experiences, or things that bring you gratitude...", type: "textarea" },
+        { id: "brings_joy", question: "What brings you the most joy in your current life?", placeholder: "Activities, relationships, moments that light you up...", type: "textarea" },
+        { id: "life_satisfaction", question: "On a scale of 1-10, how satisfied are you with your life overall right now?", type: "scale" },
+        { id: "work_satisfaction", question: "On a scale of 1-10, how satisfied are you with your work/career right now?", type: "scale" }
+      ]
+    },
+    {
+      id: "north_star",
+      title: "Your North Star",
+      subtitle: "Values, vision, purpose, mission",
+      icon: "⭐",
+      questions: [
+        { id: "legacy", question: "What legacy do you want to leave behind? How will the world be a better place because you lived?", placeholder: "When you're gone, what will people say about the impact you made?", type: "textarea" },
+        { id: "life_purpose", question: "If you had to describe your life purpose in one sentence, what would it be?", placeholder: "The 'why' that drives everything else...", type: "textarea" },
+        { id: "five_year_vision", question: "Where do you want to be in 5 years? Paint a vivid picture.", placeholder: "Your work, relationships, health, location, lifestyle...", type: "textarea" }
+      ]
+    },
+    {
+      id: "dreams_desires",
+      title: "Dreams & Desires",
+      subtitle: "Small, Medium & BIG dreams",
+      icon: "🌈",
+      questions: [
+        { id: "career_dreams", question: "Career: What's a small dream, medium dream, and BIG dream?", placeholder: "Small (achievable now) → Medium (stretch goal) → BIG (wildly ambitious)", type: "textarea" },
+        { id: "crazy_dream", question: "If you couldn't fail and had unlimited resources, what would you do?", placeholder: "Dream bigger than feels comfortable...", type: "textarea" },
+        { id: "regret_prevention", question: "At 80, looking back, which dream would cause the greatest regret if NOT pursued?", placeholder: "What would you never forgive yourself for not trying?", type: "textarea" }
+      ]
+    },
+    {
+      id: "design_destiny",
+      title: "Design & Destiny",
+      subtitle: "What you were made to do",
+      icon: "🧬",
+      questions: [
+        { id: "inner_knowing", question: "What do you already know about what you were 'made' to do?", placeholder: "Deep down, what do you sense you're here for?", type: "textarea" },
+        { id: "childhood_dreams", question: "When you were a child, what did you want to be when you grew up?", placeholder: "Before the world told you what was 'realistic'...", type: "textarea" },
+        { id: "destiny_experience", question: "Describe a time when you felt like you were doing exactly what you were born to do.", placeholder: "A moment when everything clicked — what were you doing, who were you serving?", type: "textarea" }
+      ]
+    },
+    {
+      id: "who_you_serve",
+      title: "Who You Serve",
+      subtitle: "Your people & your cause",
+      icon: "💫",
+      questions: [
+        { id: "who_to_help", question: "Who do you most want to help in your life?", placeholder: "The people whose struggles move you, whose success would bring you joy...", type: "textarea" },
+        { id: "injustice_anger", question: "What makes you angry? What issues keep you up at night?", placeholder: "Righteous anger often points to your calling...", type: "textarea" },
+        { id: "world_changing", question: "If you could change ONE thing in the world, what would it be?", placeholder: "Not everything, just one thing. What matters most?", type: "textarea" }
+      ]
+    },
+    {
+      id: "whole_life",
+      title: "Whole Life Assessment",
+      subtitle: "Rate each life domain",
+      icon: "🎯",
+      questions: [
+        { id: "career_domain", question: "Career/Work", type: "domain" },
+        { id: "finances_domain", question: "Finances/Money", type: "domain" },
+        { id: "health_domain", question: "Health & Fitness", type: "domain" },
+        { id: "family_domain", question: "Family", type: "domain" },
+        { id: "relationships_domain", question: "Friends & Community", type: "domain" },
+        { id: "personal_growth_domain", question: "Personal Growth/Spirituality", type: "domain" },
+        { id: "fun_domain", question: "Fun, Recreation, Hobbies", type: "domain" },
+        { id: "environment_domain", question: "Living Environment", type: "domain" },
+        { id: "contribution_domain", question: "Contribution/Service", type: "domain" }
+      ]
+    },
+    {
+      id: "your_story",
+      title: "Your Story",
+      subtitle: "Timeline, heroes, and journey",
+      icon: "📖",
+      questions: [
+        { id: "defining_moments", question: "What are the 3-5 defining moments that shaped who you are today?", placeholder: "The turning points, breakthroughs, or crucible moments...", type: "textarea" },
+        { id: "heroes", question: "Who are your heroes or role models? What do you admire about them?", placeholder: "Real people, historical figures, or even fictional characters...", type: "textarea" },
+        { id: "coaching_history", question: "Have you worked with a coach before? What worked well?", placeholder: "Previous coaching experiences, therapy, mentors...", type: "textarea" }
+      ]
+    },
+    {
+      id: "patterns_energy",
+      title: "Patterns & Energy",
+      subtitle: "What gives and drains you",
+      icon: "⚡",
+      questions: [
+        { id: "energy_givers", question: "What gives you energy? When do you feel most alive?", placeholder: "Activities, people, environments that energize you...", type: "textarea" },
+        { id: "energy_drains", question: "What drains your energy? What do you avoid?", placeholder: "Tasks, situations, people that leave you depleted...", type: "textarea" },
+        { id: "self_sabotage", question: "What patterns do you notice yourself repeating that don't serve you?", placeholder: "Procrastination, people-pleasing, perfectionism, etc...", type: "textarea" }
+      ]
+    },
+    {
+      id: "working_together",
+      title: "Working Together",
+      subtitle: "How to support you best",
+      icon: "🤝",
+      questions: [
+        { id: "support_style", question: "What kind of support works best for you?", type: "select", options: ["Gentle encouragement", "Direct challenge", "Ask questions to help me think", "Mix depending on context"] },
+        { id: "accountability_style", question: "How do you want to be held accountable?", type: "select", options: ["Gentle nudges", "Firm reminders", "Check-ins without judgment", "Don't hold me accountable"] },
+        { id: "what_helps", question: "What tips can you give about how to work with you most effectively?", placeholder: "What helps you stay motivated? What annoys you?", type: "textarea" }
+      ]
+    },
+    {
+      id: "values_selection",
+      title: "Values Deep Dive",
+      subtitle: "Choose your core values",
+      icon: "💎",
+      questions: [
+        { id: "values_resonance", question: "Which values deeply resonate with you? (Select all that apply)", type: "values_checklist" },
+        { id: "top_5_values", question: "What are your TOP 5 non-negotiable values?", placeholder: "If you could only keep 5 values, which would they be?", type: "textarea" }
+      ]
+    },
+    {
+      id: "ideal_life",
+      title: "Ideal Life",
+      subtitle: "Design your dream life",
+      icon: "🏔️",
+      questions: [
+        { id: "ideal_day", question: "Describe your ideal day 5 years from now, from waking to sleeping.", placeholder: "Where are you? What are you doing? Who are you with?", type: "textarea" },
+        { id: "definitely_not", question: "What is definitely NOT part of your ideal life?", placeholder: "What have you learned you never want to do again?", type: "textarea" }
+      ]
+    }
+  ];
+
+  // Values menu
+  const valuesMenu = [
+    "Integrity", "Honesty", "Authenticity", "Accountability", "Courage", "Truth",
+    "Family", "Legacy", "Duty", "Honor", "Love", "Nurture",
+    "Freedom", "Adventure", "Creativity", "Growth", "Learning", "Mastery",
+    "Community", "Belonging", "Friendship", "Connection", "Service", "Compassion",
+    "Peace", "Harmony", "Balance", "Health", "Wellbeing", "Joy",
+    "Success", "Leadership", "Impact", "Excellence", "Achievement", "Purpose"
+  ];
+
+  // Calculate section completion
+  const getSectionCompletion = (sectionId) => {
+    const section = clientDeepQuestionSections.find(s => s.id === sectionId);
+    if (!section) return { answered: 0, total: 0, percent: 0 };
+    const answered = section.questions.filter(q => deepAnswers[q.id] && deepAnswers[q.id].trim()).length;
+    return { answered, total: section.questions.length, percent: Math.round((answered / section.questions.length) * 100) };
+  };
+
+  const getOverallCompletion = () => {
+    const totalQuestions = clientDeepQuestionSections.reduce((sum, s) => sum + s.questions.length, 0);
+    const answeredQuestions = Object.keys(deepAnswers).filter(k => deepAnswers[k] && deepAnswers[k].toString().trim()).length;
+    return { answered: answeredQuestions, total: totalQuestions, percent: Math.round((answeredQuestions / totalQuestions) * 100) };
+  };
+
   const stepContent = {
     1: { title: "Welcome to your growth journey", subtitle: "Create your account to get started" },
     2: { title: "Your privacy comes first", subtitle: "You control what's shared — always" },
-    3: { title: "Tell us about yourself", subtitle: "Help ReGenesis understand your context" },
-    4: { title: "What brings you to coaching?", subtitle: "Share what you're working on" },
-    5: { title: "Your values & vision", subtitle: "What matters most to you?" },
-    6: { title: "How can we support you?", subtitle: "Customize your experience" },
-    7: { title: "Connect with your coach", subtitle: "Confirm your coaching relationship" },
-    8: { title: "You're all set!", subtitle: "Your growth companion is ready" }
+    3: { title: "What your coach shared", subtitle: "Review and confirm what your coach told us about you" },
+    4: { title: "Tell us about yourself", subtitle: "Help ReGenesis understand your context" },
+    5: { title: "What brings you to coaching?", subtitle: "Share what you're working on" },
+    6: { title: "Discovering You", subtitle: "A journey of self-knowledge — take your time, we'll save your progress" },
+    7: { title: "Your values & vision", subtitle: "What matters most to you?" },
+    8: { title: "How can we support you?", subtitle: "Customize your experience" },
+    9: { title: "Connect with your coach", subtitle: "Confirm your coaching relationship" },
+    10: { title: "You're all set!", subtitle: "Your growth companion is ready" }
   };
 
   return (
@@ -11462,8 +12963,163 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 3: Personal Context */}
+            {/* Step 3: From Your Coach - Review coach-provided info */}
             {step === 3 && (
+              <div className="space-y-6">
+                <div className="p-4 bg-teal-50 border border-teal-200 rounded-xl">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 bg-teal-200 rounded-full flex items-center justify-center text-xl">👤</div>
+                    <div>
+                      <div className="font-semibold text-teal-900">Jesse Torrence</div>
+                      <div className="text-sm text-teal-700">has shared some information about you</div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-teal-800">
+                    Your coach provided some context to help Sasha understand you better. Please review and confirm or edit this information.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Name */}
+                  <div className="p-4 border border-stone-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-stone-700">Your Name</label>
+                      <label className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={coachInfoConfirmed.name !== false}
+                          onChange={(e) => setCoachInfoConfirmed({...coachInfoConfirmed, name: e.target.checked})}
+                          className="rounded text-teal-600"
+                        />
+                        <span className="text-stone-500">Confirm</span>
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      defaultValue={coachProvidedInfo.name}
+                      className="w-full px-4 py-2 border border-stone-300 rounded-lg text-stone-800"
+                    />
+                  </div>
+
+                  {/* Role */}
+                  <div className="p-4 border border-stone-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-stone-700">Current Role</label>
+                      <label className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={coachInfoConfirmed.role !== false}
+                          onChange={(e) => setCoachInfoConfirmed({...coachInfoConfirmed, role: e.target.checked})}
+                          className="rounded text-teal-600"
+                        />
+                        <span className="text-stone-500">Confirm</span>
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      defaultValue={coachProvidedInfo.role}
+                      className="w-full px-4 py-2 border border-stone-300 rounded-lg text-stone-800"
+                    />
+                  </div>
+
+                  {/* Company */}
+                  <div className="p-4 border border-stone-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-stone-700">Company</label>
+                      <label className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={coachInfoConfirmed.company !== false}
+                          onChange={(e) => setCoachInfoConfirmed({...coachInfoConfirmed, company: e.target.checked})}
+                          className="rounded text-teal-600"
+                        />
+                        <span className="text-stone-500">Confirm</span>
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      defaultValue={coachProvidedInfo.company}
+                      className="w-full px-4 py-2 border border-stone-300 rounded-lg text-stone-800"
+                    />
+                  </div>
+
+                  {/* Coaching Focus */}
+                  <div className="p-4 border border-stone-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-stone-700">Coaching Focus Areas</label>
+                      <label className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={coachInfoConfirmed.coachingFocus !== false}
+                          onChange={(e) => setCoachInfoConfirmed({...coachInfoConfirmed, coachingFocus: e.target.checked})}
+                          className="rounded text-teal-600"
+                        />
+                        <span className="text-stone-500">Confirm</span>
+                      </label>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {coachProvidedInfo.coachingFocus.map(focus => (
+                        <span key={focus} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">{focus}</span>
+                      ))}
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Add more focus areas..."
+                      className="w-full mt-2 px-4 py-2 border border-stone-300 rounded-lg text-sm"
+                    />
+                  </div>
+
+                  {/* North Star */}
+                  <div className="p-4 border border-stone-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-stone-700">Your North Star (as shared by coach)</label>
+                      <label className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={coachInfoConfirmed.northStar !== false}
+                          onChange={(e) => setCoachInfoConfirmed({...coachInfoConfirmed, northStar: e.target.checked})}
+                          className="rounded text-teal-600"
+                        />
+                        <span className="text-stone-500">Confirm</span>
+                      </label>
+                    </div>
+                    <textarea
+                      defaultValue={coachProvidedInfo.northStar}
+                      className="w-full px-4 py-2 border border-stone-300 rounded-lg text-stone-800 h-20"
+                    />
+                  </div>
+
+                  {/* Values */}
+                  <div className="p-4 border border-stone-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium text-stone-700">Your Values (as identified)</label>
+                      <label className="flex items-center gap-2 text-xs">
+                        <input
+                          type="checkbox"
+                          checked={coachInfoConfirmed.values !== false}
+                          onChange={(e) => setCoachInfoConfirmed({...coachInfoConfirmed, values: e.target.checked})}
+                          className="rounded text-teal-600"
+                        />
+                        <span className="text-stone-500">Confirm</span>
+                      </label>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {coachProvidedInfo.values.map(value => (
+                        <span key={value} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">{value}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <PrivacyShield
+                  level="Coach-Shared"
+                  explanation="Your coach provided this information to help you get started faster. You can edit anything that doesn't feel right."
+                />
+              </div>
+            )}
+
+            {/* Step 4: Personal Context */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
@@ -11536,8 +13192,8 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 4: Coaching Goals */}
-            {step === 4 && (
+            {/* Step 5: Coaching Goals */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div>
                   <div className="flex items-center gap-2 mb-3">
@@ -11595,16 +13251,189 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 5: Values & Vision */}
-            {step === 5 && (
+            {/* Step 6: Discovering You - Deep Questions Hub */}
+            {step === 6 && (
+              <div className="space-y-6">
+                {/* Progress Overview */}
+                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="font-semibold text-indigo-900">Your Self-Discovery Progress</h3>
+                      <p className="text-sm text-indigo-700">Take your time — everything saves automatically</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-indigo-600">{getOverallCompletion().percent}%</div>
+                      <div className="text-xs text-indigo-500">{getOverallCompletion().answered}/{getOverallCompletion().total} questions</div>
+                    </div>
+                  </div>
+                  <div className="h-2 bg-indigo-200 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all" style={{ width: `${getOverallCompletion().percent}%` }} />
+                  </div>
+                </div>
+
+                {/* Section Cards */}
+                <div className="space-y-3">
+                  {clientDeepQuestionSections.map((section, idx) => {
+                    const completion = getSectionCompletion(section.id);
+                    const status = sectionStatus[section.id] || (completion.percent === 100 ? 'complete' : completion.percent > 0 ? 'in_progress' : 'not_started');
+                    const isExpanded = expandedDeepSection === section.id;
+
+                    return (
+                      <div key={section.id} className="border border-stone-200 rounded-xl overflow-hidden">
+                        {/* Section Header */}
+                        <button
+                          onClick={() => setExpandedDeepSection(isExpanded ? null : section.id)}
+                          className={`w-full p-4 flex items-center justify-between transition-colors ${
+                            isExpanded ? 'bg-indigo-50' : 'bg-white hover:bg-stone-50'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">{section.icon}</span>
+                            <div className="text-left">
+                              <div className="font-medium text-stone-800">{section.title}</div>
+                              <div className="text-xs text-stone-500">{section.subtitle}</div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            {/* Status Badge */}
+                            {status === 'complete' && (
+                              <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Complete</span>
+                            )}
+                            {status === 'in_progress' && (
+                              <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded-full">{completion.answered}/{completion.total}</span>
+                            )}
+                            {status === 'skipped' && (
+                              <span className="px-2 py-1 bg-stone-100 text-stone-500 text-xs rounded-full">Later</span>
+                            )}
+                            {status === 'not_started' && (
+                              <span className="px-2 py-1 bg-stone-100 text-stone-400 text-xs rounded-full">Not started</span>
+                            )}
+                            {/* Expand Icon */}
+                            <span className={`text-stone-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}>▼</span>
+                          </div>
+                        </button>
+
+                        {/* Expanded Content */}
+                        {isExpanded && (
+                          <div className="p-4 border-t border-stone-200 bg-white space-y-4">
+                            {section.questions.map((q, qIdx) => (
+                              <div key={q.id} className="space-y-2">
+                                <label className="block text-sm font-medium text-stone-700">{q.question}</label>
+                                {q.type === 'textarea' && (
+                                  <textarea
+                                    value={deepAnswers[q.id] || ''}
+                                    onChange={(e) => setDeepAnswers({...deepAnswers, [q.id]: e.target.value})}
+                                    placeholder={q.placeholder}
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm h-24 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                  />
+                                )}
+                                {q.type === 'scale' && (
+                                  <div className="flex items-center gap-2">
+                                    {[1,2,3,4,5,6,7,8,9,10].map(n => (
+                                      <button
+                                        key={n}
+                                        onClick={() => setDeepAnswers({...deepAnswers, [q.id]: n.toString()})}
+                                        className={`w-8 h-8 rounded-full text-sm font-medium transition-colors ${
+                                          deepAnswers[q.id] === n.toString()
+                                            ? 'bg-indigo-600 text-white'
+                                            : 'bg-stone-100 text-stone-600 hover:bg-indigo-100'
+                                        }`}
+                                      >
+                                        {n}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                                {q.type === 'select' && (
+                                  <select
+                                    value={deepAnswers[q.id] || ''}
+                                    onChange={(e) => setDeepAnswers({...deepAnswers, [q.id]: e.target.value})}
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                                  >
+                                    <option value="">Select...</option>
+                                    {q.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                  </select>
+                                )}
+                                {q.type === 'domain' && (
+                                  <div className="grid grid-cols-3 gap-4">
+                                    <div>
+                                      <div className="text-xs text-stone-500 mb-1">Ideal (1-10)</div>
+                                      <input type="number" min="1" max="10" className="w-full px-2 py-1 border border-stone-300 rounded text-sm" />
+                                    </div>
+                                    <div>
+                                      <div className="text-xs text-stone-500 mb-1">Current (1-10)</div>
+                                      <input type="number" min="1" max="10" className="w-full px-2 py-1 border border-stone-300 rounded text-sm" />
+                                    </div>
+                                    <div>
+                                      <div className="text-xs text-stone-500 mb-1">Gap</div>
+                                      <div className="px-2 py-1 bg-stone-100 rounded text-sm text-center">—</div>
+                                    </div>
+                                  </div>
+                                )}
+                                {q.type === 'values_checklist' && (
+                                  <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto p-2 border border-stone-200 rounded-lg">
+                                    {valuesMenu.map(v => (
+                                      <label key={v} className="flex items-center gap-2 p-1 text-xs hover:bg-indigo-50 rounded cursor-pointer">
+                                        <input type="checkbox" className="rounded text-indigo-600" />
+                                        <span>{v}</span>
+                                      </label>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+
+                            {/* Section Actions */}
+                            <div className="flex items-center justify-between pt-4 border-t border-stone-100">
+                              <button
+                                onClick={() => {
+                                  setSectionStatus({...sectionStatus, [section.id]: 'skipped'});
+                                  setExpandedDeepSection(null);
+                                }}
+                                className="text-sm text-stone-500 hover:text-stone-700"
+                              >
+                                I'll answer this later
+                              </button>
+                              <button
+                                onClick={() => {
+                                  const nextIdx = idx + 1;
+                                  if (nextIdx < clientDeepQuestionSections.length) {
+                                    setExpandedDeepSection(clientDeepQuestionSections[nextIdx].id);
+                                  } else {
+                                    setExpandedDeepSection(null);
+                                  }
+                                }}
+                                className="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700"
+                              >
+                                {idx < clientDeepQuestionSections.length - 1 ? 'Save & Next Section →' : 'Done with this section'}
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p className="text-sm text-amber-800">
+                    <strong>No pressure!</strong> You can always come back to these questions from your dashboard.
+                    The more Sasha knows about you, the better she can support your growth — but take your time.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Step 7: Values & Vision (Quick Version) */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="p-4 bg-purple-50 border border-purple-200 rounded-xl mb-4">
                   <div className="flex items-center gap-2 text-purple-800 mb-2">
                     <span className="text-xl">💜</span>
-                    <span className="font-semibold">These questions go deeper</span>
+                    <span className="font-semibold">Quick check on what matters most</span>
                   </div>
                   <p className="text-sm text-purple-700">
-                    The more ReGenesis understands about what matters to you, the better it can support your growth. Take your time.
+                    You can always go deeper in "Discovering You" — but let's capture the essentials now.
                   </p>
                 </div>
 
@@ -11655,8 +13484,8 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 6: Preferences */}
-            {step === 6 && (
+            {/* Step 8: Preferences */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div>
                   <div className="flex items-center gap-2 mb-3">
@@ -11727,8 +13556,8 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 7: Coach Connection */}
-            {step === 7 && (
+            {/* Step 9: Coach Connection */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="bg-teal-50 border border-teal-200 rounded-xl p-6">
                   <div className="flex items-center gap-4 mb-4">
@@ -11786,8 +13615,8 @@ function CoacheeOnboardingFlow({ step, setStep, onComplete, onBack }) {
               </div>
             )}
 
-            {/* Step 8: Complete */}
-            {step === 8 && (
+            {/* Step 10: Complete */}
+            {step === 10 && (
               <div className="text-center py-6">
                 <div className="text-6xl mb-6">🌱</div>
                 <h2 className="text-2xl font-semibold text-stone-800 mb-4">Welcome to your growth journey!</h2>
@@ -13580,24 +15409,29 @@ function NorthStarStrip() {
 
   return (
     <div className="bg-gradient-to-r from-stone-800 via-stone-900 to-stone-800 border-b border-stone-700">
-      {/* Collapsed View - Single line */}
+      {/* Collapsed View - Larger, more readable */}
       <div
-        className="flex items-center justify-between px-6 py-2 cursor-pointer hover:bg-stone-800/50 transition-colors"
+        className="flex items-center justify-between px-8 py-4 cursor-pointer hover:bg-stone-800/50 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex items-center gap-6 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-stone-400 text-xs uppercase tracking-wider">Values:</span>
-            <span className="text-white font-medium">{northStar.values}</span>
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3">
+            <span className="text-stone-400 text-sm uppercase tracking-wider font-medium">Values:</span>
+            <span className="text-white font-semibold text-lg">{northStar.values}</span>
           </div>
-          <span className="text-stone-600">|</span>
-          <div className="flex items-center gap-2">
-            <span className="text-stone-400 text-xs uppercase tracking-wider">Vision:</span>
-            <span className="text-stone-300 truncate max-w-xs">{northStar.vision.substring(0, 50)}...</span>
+          <span className="text-stone-600 text-xl">|</span>
+          <div className="flex items-center gap-3">
+            <span className="text-stone-400 text-sm uppercase tracking-wider font-medium">Vision:</span>
+            <span className="text-stone-200 text-base truncate max-w-md">{northStar.vision}</span>
+          </div>
+          <span className="text-stone-600 text-xl">|</span>
+          <div className="flex items-center gap-3">
+            <span className="text-stone-400 text-sm uppercase tracking-wider font-medium">Mission:</span>
+            <span className="text-stone-200 text-base truncate max-w-md">{northStar.mission.substring(0, 40)}...</span>
           </div>
         </div>
-        <button className="text-stone-500 hover:text-stone-300 transition-colors">
-          <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button className="text-stone-400 hover:text-stone-200 transition-colors p-2">
+          <svg className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
