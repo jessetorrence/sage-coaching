@@ -6480,7 +6480,7 @@ function LandingPage({ onSelectUserType }) {
       </section>
 
       {/* ===== PHILOSOPHY STATEMENT - Part 20.2 ===== */}
-      <section className="py-16 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-3xl mx-auto px-8 text-center">
           <p className="text-xl md:text-2xl text-stone-700 font-light leading-relaxed mb-6">
             ReGenesis is an AI-powered coaching platform that holds memory, reveals patterns, and generates powerful insights — so your presence, compassion, and discernment can lead transformation for your clients and your organization.
