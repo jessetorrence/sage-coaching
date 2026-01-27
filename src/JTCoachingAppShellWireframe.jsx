@@ -6502,7 +6502,7 @@ function LandingPage({ onSelectUserType }) {
             One of the unspoken challenges of being a coach is that we care deeply, we see potential, we want to help more — but we're constrained by time, memory, and energy.
           </p>
           <p className="text-lg text-stone-600 leading-relaxed">
-            We're holding dozens of human stories in our heads and hearts — trying to be fully present in-session, remember everything out-of-session, all while juggling the challenges of running a practice or managing coaching programs across an organization.
+            We're holding dozens of human stories in our heads and hearts — trying to be fully present in-session, remember everything out-of-session, all while juggling the challenges of running a practice or managing coaches and coachees across your organization.
           </p>
         </div>
       </section>
@@ -6521,7 +6521,7 @@ function LandingPage({ onSelectUserType }) {
             <div className="flex-1">
               <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4">Greater Impact</h2>
               <p className="text-lg text-stone-600 leading-relaxed">
-                ReGenesis helps you create more profound outcomes for your clients. It helps you see more, remember more, prepare better, articulate insights in language that lands, stay connected, and support lasting behavioral change.
+                ReGenesis helps you create faster and more profound outcomes for your clients. It helps you see more, remember more, prepare better, articulate insights in language that lands, stay connected, and support lasting behavioral change.
               </p>
             </div>
             {/* Video Thumbnail */}
@@ -6547,11 +6547,11 @@ function LandingPage({ onSelectUserType }) {
               <div className="w-6 h-6 rounded-full overflow-hidden bg-stone-100 flex-shrink-0 mt-0.5">
                 <img src={ouroborosLogo} alt="Sasha" className="w-[115%] h-[115%] object-contain" />
               </div>
-              <div className="text-base"><span className="font-bold text-stone-800">24/7 AI Companion — Meet Sasha</span> — the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them manage their time and energy, stay on track with their goals, and transform how they work and live. You stay in the loop without extra work on your plate.</div>
+              <div className="text-base"><span className="font-bold text-stone-800">24/7 AI Companion — Meet Sasha</span> — the embedded AI intelligence that powers your practice, extended at no cost to your clients. Sasha serves as an extension of you — supporting your clients between sessions, helping them solidify the insights, growth, and behavioral change, stay focused on their goals, and manage their energy, attention, and time. You stay in the loop without extra work on your plate.</div>
             </li>
             <li className="flex items-start gap-4">
               <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
-              <div className="text-base"><span className="font-bold text-stone-800">Unlimited Memory</span> — every client, every session, every word</div>
+              <div className="text-base"><span className="font-bold text-stone-800">Unlimited Memory</span> — every client, every session, every word, from every source and data type they choose to share. As trust builds, you gain a complete picture of who they are and who they're becoming — far richer than any single session could provide — all while preserving their autonomy and your interpretive judgment.</div>
             </li>
             <li className="flex items-start gap-4">
               <span className="text-rose-500 text-xl font-bold mt-0.5">•</span>
@@ -6592,7 +6592,7 @@ function LandingPage({ onSelectUserType }) {
             <div className="flex-1">
               <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4">Greater Ease</h2>
               <p className="text-lg text-stone-600 leading-relaxed">
-                ReGenesis takes care of everything you used to do, effortlessly. The tasks that drained your time and energy? They handle themselves.
+                ReGenesis takes care of everything that used to drain your time and energy — giving you full visibility and authority where it counts, while handling the rest with your preferences and permission.
               </p>
             </div>
             {/* Video Thumbnail */}
@@ -6614,8 +6614,16 @@ function LandingPage({ onSelectUserType }) {
 
           {/* Ask Anything. Do Anything. */}
           <div className="bg-white rounded-2xl p-8 mb-8">
-            <h3 className="text-xl font-semibold text-stone-800 mb-2">Ask Anything. Do Anything.</h3>
-            <p className="text-stone-500 mb-6">Instant Visibility. Instant Action.</p>
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+              <div>
+                <h3 className="text-xl font-semibold text-stone-800 mb-2">Ask Anything. Do Anything.</h3>
+                <p className="text-stone-500">Instant Visibility. Instant Action.</p>
+              </div>
+              <div className="lg:text-right">
+                <p className="text-stone-700 font-medium">You're always in the driver's seat.</p>
+                <p className="text-stone-500 text-sm">Sasha shows and suggests. You decide.</p>
+              </div>
+            </div>
 
             {/* Example commands */}
             <div className="space-y-3 text-stone-600 text-sm italic mb-6">
@@ -6627,55 +6635,50 @@ function LandingPage({ onSelectUserType }) {
               <p>"Bill all my clients who I haven't yet billed for the month and show me those who are overdue"</p>
               <p>"Who needs attention today?"</p>
             </div>
-
-            <p className="text-stone-700 font-medium text-center">
-              You're always in the driver's seat.<br />
-              Sasha shows and suggests. You decide.
-            </p>
           </div>
 
           {/* Zero Friction Features */}
-          <ul className="space-y-4 text-stone-700 mb-8">
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Post-Session Auto-Drafted Notes</span> — session ends, notes appear, you edit, add resources and attachments directly into the notes, and send</div>
+          <ul className="space-y-5 text-stone-700 mb-8">
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Post-Session Auto-Drafted Notes</span> — session ends, notes appear, you edit, add resources and attachments directly into the notes, and send</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Scheduling Automation</span> — booking, rescheduling, reminders all taken care of</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Scheduling Automation</span> — booking, rescheduling, reminders all taken care of</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Client Onboarding</span> — seamless intake and setup for new clients</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Client Onboarding</span> — seamless intake and setup for new clients</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Automated Follow-ups</span> — check-ins, reminders, resource delivery without lifting a finger</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Automated Follow-ups</span> — check-ins, reminders, resource delivery without lifting a finger</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Automated Client Touchpoints</span> — effortless communications with adjustable levels of autonomy based on your and your client's preferences</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Automated Client Touchpoints</span> — effortless communications with adjustable levels of autonomy based on your and your client's preferences</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">One-Click Actions</span> — bill, schedule, send from anywhere</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">One-Click Actions</span> — bill, schedule, send from anywhere</div>
             </li>
           </ul>
 
           {/* Seamless Integration */}
           <h3 className="text-lg font-semibold text-stone-800 mb-4">Seamless Integration</h3>
-          <ul className="space-y-4 text-stone-700">
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Effortless Integration</span> — upload, share, and sync with all your existing apps and systems</div>
+          <ul className="space-y-5 text-stone-700">
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Effortless Integration</span> — upload, share, and sync with all your existing apps and systems</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">Your Data Imports Seamlessly</span> — zero disruption to you or your clients</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">Your Data Imports Seamlessly</span> — zero disruption to you or your clients</div>
             </li>
-            <li className="flex items-start gap-3">
-              <span className="text-stone-400 mt-1">·</span>
-              <div><span className="font-semibold">All-in-One or Alongside</span> — ReGenesis can integrate seamlessly with any or all of your current tools, or replace most of them — potentially saving you hundreds of dollars a month.</div>
+            <li className="flex items-start gap-4">
+              <span className="text-amber-500 text-xl font-bold mt-0.5">•</span>
+              <div className="text-base"><span className="font-bold text-stone-800">All-in-One or Alongside</span> — ReGenesis can integrate seamlessly with any or all of your current tools, or replace most of them — potentially saving you hundreds of dollars a month.</div>
             </li>
           </ul>
         </div>
@@ -6872,11 +6875,14 @@ function LandingPage({ onSelectUserType }) {
         <div className="max-w-4xl mx-auto px-8">
           <h2 className="text-2xl font-semibold tracking-wide text-stone-800 uppercase mb-4 text-center">Pricing</h2>
 
-          <p className="text-xl text-stone-600 text-center mb-12">
+          <p className="text-lg font-medium text-stone-700 text-center mb-2">
             No games. No gates. No B.S.
           </p>
+          <p className="text-stone-600 text-center mb-3">
+            We believe coaching should be accessible. Security and all features are the same at every tier.
+          </p>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto mt-10">
             {/* Individual Card */}
             <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200 flex flex-col h-full">
               <h3 className="text-lg font-semibold text-stone-800 uppercase tracking-wide mb-4">Individual</h3>
@@ -6921,7 +6927,7 @@ function LandingPage({ onSelectUserType }) {
           {/* Pricing curiosity link */}
           <div className="text-center mt-10">
             <button
-              onClick={() => setCurrentPage('pricing')}
+              onClick={() => { setCurrentPage('pricing'); window.scrollTo(0, 0); }}
               className="text-sm text-stone-500 hover:text-stone-700 underline underline-offset-4 transition-colors"
             >
               Too good to be true? Learn about our values and pricing →
@@ -7964,23 +7970,29 @@ function ClientExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
           You know coaching works. But what happens between sessions?
         </p>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
             <h3 className="font-semibold text-stone-800 mb-3">Insights fade</h3>
-            <p className="text-stone-600">
+            <p className="text-stone-600 text-sm">
               That breakthrough you had in your session? By Thursday, it's hard to remember exactly what shifted. The insight that felt so clear starts to blur.
             </p>
           </div>
           <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
             <h3 className="font-semibold text-stone-800 mb-3">Life doesn't wait</h3>
-            <p className="text-stone-600">
+            <p className="text-stone-600 text-sm">
               Challenges don't schedule themselves around your next coaching session. When something comes up at 11pm on a Tuesday, you're on your own.
             </p>
           </div>
           <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
             <h3 className="font-semibold text-stone-800 mb-3">Patterns hide</h3>
-            <p className="text-stone-600">
+            <p className="text-stone-600 text-sm">
               You know you keep running into the same issues, but it's hard to see the patterns when you're living inside them.
+            </p>
+          </div>
+          <div className="bg-stone-50 rounded-xl p-6 border border-stone-100">
+            <h3 className="font-semibold text-stone-800 mb-3">Some things need space</h3>
+            <p className="text-stone-600 text-sm">
+              There are thoughts you need to process before you're ready to share them. Feelings you want to explore without judgment. Things that need a safe place to land first.
             </p>
           </div>
         </div>
@@ -8041,22 +8053,22 @@ function ClientExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
             <div className="bg-stone-800 rounded-xl p-8">
               <div className="text-rose-400 text-sm font-semibold uppercase tracking-wide mb-3">Session Preparation</div>
-              <h3 className="text-xl font-semibold text-white mb-4">Show up ready</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">Show up ready — and so does your coach</h3>
               <p className="text-stone-300 mb-4">
-                Before each session, get a summary of where you've been and what you want to focus on. No more spending the first 15 minutes trying to remember what happened last time.
+                Before each session, get a summary of where you've been and what you want to focus on. Your coach gets the same — they arrive prepared with your full context, patterns you might not see, and the threads worth pulling. No more spending the first 15 minutes trying to remember what happened last time.
               </p>
               <ul className="space-y-2 text-stone-300">
                 <li className="flex items-start gap-2">
                   <span className="text-rose-400 mt-1">✓</span>
-                  <span>Pre-session reflection prompts</span>
+                  <span>Pre-session reflection prompts for you</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-rose-400 mt-1">✓</span>
-                  <span>Summary of recent progress and challenges</span>
+                  <span>Your coach remembers everything — because the system does</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-rose-400 mt-1">✓</span>
-                  <span>Suggested topics based on your journey</span>
+                  <span>Deeper sessions from minute one</span>
                 </li>
               </ul>
             </div>
@@ -9060,16 +9072,16 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
         <div className="max-w-3xl mx-auto px-8">
           <div className="space-y-8 text-lg text-stone-600 leading-relaxed">
             <p>
-              Our founders are coaches. Not tech people who thought coaching seemed like an interesting market—actual practitioners who've spent years in the arena, with thousands of hours holding space for leaders, executives, and people navigating the full gamut of life: beginnings and endings, transitions and stuck places, pain and grief and loss, ambition and excitement and everything in between.
+              Our founders are coaches. Not tech people who thought coaching seemed like an interesting market—actual practitioners who've spent years in the arena, with thousands of hours holding space for leaders, executives, and people navigating the full gamut of life: beginnings and endings, transitions and stuck places, ambition and depression, joy and pain, triumph and loss.
             </p>
             <p>
               We know what it's like to walk out of a session having witnessed something profound—even sacred. A breakthrough. A moment of clarity, of insight, of healing. A client finally seeing what they couldn't see before. A shift, a recognition, a deepening. An encounter with their own truth.
             </p>
             <p>
-              We know the desperate longing to capture what that moment meant—for them and for you—and to see that growth translate into the rest of their life. And we know the reality of sitting down to write notes while the insight is still fresh, preparing for the next sessions of the day, with dozens of emails and administrative tasks awaiting.
+              We know the longing to capture and reinforce what that moment meant—for them and for you—and to see that growth translate into the rest of their life. And we know the reality of sitting down to write notes while the insight is still fresh, preparing for the next sessions of the day, with dozens of emails and administrative tasks awaiting.
             </p>
             <p>
-              We know the cognitive load of holding 30+ client stories in your head. The guilt of forgetting something important a client shared three months ago. The impossible choice between being fully present and keeping decent records.
+              We know the cognitive load of holding 30+ client stories in your head. The guilt of forgetting something important a client shared three months ago. The difficult tradeoff between being fully present and keeping decent records, or expanding your practice while keeping the quality (and your sanity).
             </p>
           </div>
         </div>
@@ -9082,7 +9094,10 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
 
           <div className="space-y-8 text-lg text-stone-600 leading-relaxed">
             <p>
-              And then something indescribable began to happen.
+              We were skeptical at first. Even dismissive. AI for coaching? It felt like a contradiction—maybe even a threat to something sacred.
+            </p>
+            <p>
+              And then something unexpected and indescribable began to happen...
             </p>
             <p>
               As we experimented with these new AI tools, we witnessed a profound emergence. The way language was reflected back. The perfect memory of every word exchanged between us and our clients. The ability to see patterns and connections our brains could never hold—across dozens of sessions, months of conversations, the entire arc of someone's transformation.
@@ -9093,8 +9108,8 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
             <p>
               We tested this across hundreds of sessions with dozens of clients. We asked ourselves: <em>Is there another way of showing up? Can we do more by doing less? Can we be more for our clients by holding less?</em>
             </p>
-            <p className="text-stone-800 font-medium">
-              Despite our early skepticism—even dismissal—we did a 180. We saw what a powerful tool for uplifting humanity this could be, if used for the right reasons, in the right way, with the right safeguards.
+            <p className="text-xl text-stone-800 font-semibold text-center mt-12">
+              Could this be a powerful tool for uplifting humanity—if used for the right reasons, in the right way, with the right safeguards?
             </p>
           </div>
         </div>
@@ -9123,10 +9138,10 @@ function AboutPage({ onGetStarted, setCurrentPage }) {
         <div className="max-w-3xl mx-auto px-8 text-center">
           <h2 className="text-sm font-medium text-stone-500 uppercase tracking-wider mb-6">Our Mission</h2>
           <p className="text-2xl md:text-3xl font-light leading-relaxed text-stone-800 mb-8">
-            Preserve and deepen what is sacred in human-to-human care—while radically expanding access to care itself.
+            Preserve and deepen what is sacred<br className="hidden md:inline" /> in human-to-human care—<br />while radically expanding access to care itself.
           </p>
           <p className="text-lg text-stone-500">
-            Not instead of love, not instead of wisdom—in service of them.
+            Not instead of love, not instead of wisdom—<br className="hidden sm:inline" />in service of them.
           </p>
         </div>
       </section>
