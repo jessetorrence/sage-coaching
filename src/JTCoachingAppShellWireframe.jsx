@@ -18,8 +18,8 @@ export default function JTCoachingAppShellWireframe() {
   const [selectedClient, setSelectedClient] = React.useState(mockClients[0]);
   const [selectedBusinessTab, setSelectedBusinessTab] = React.useState("Client Impact & Outcomes");
   const [selectedSessionId, setSelectedSessionId] = React.useState(null);
-  const [showT15Prep, setShowT15Prep] = React.useState(false);
-  const [t15Client, setT15Client] = React.useState(null);
+  const [showPreSessionBrief, setShowPreSessionBrief] = React.useState(false);
+  const [preSessionClient, setPreSessionClient] = React.useState(null);
   const [showSashaTooltip, setShowSashaTooltip] = React.useState(false);
   const [showCommandBar, setShowCommandBar] = React.useState(false);
   const [showInSessionSupport, setShowInSessionSupport] = React.useState(false);
@@ -146,7 +146,7 @@ export default function JTCoachingAppShellWireframe() {
         onNavigate={(action) => {
           // Navigate to relevant view based on command
           if (action === "dashboard") setActivePage("Dashboard");
-          if (action === "t15") setShowT15Prep(true);
+          if (action === "presession") setShowPreSessionBrief(true);
           if (action === "client") setActivePage("Clients");
           if (action === "insession") {
             setIsSessionActive(true);
@@ -209,7 +209,7 @@ export default function JTCoachingAppShellWireframe() {
                     <div className="text-sm">
                       <div className="font-semibold text-teal-600 mb-1">📋 Session & Client Support</div>
                       <ul className="text-xs text-gray-600 space-y-1 ml-4">
-                        <li>• Prep T-15 briefs with client context</li>
+                        <li>• Prep Pre-Session Briefs with client context</li>
                         <li>• Draft, edit, and send client notes automatically</li>
                         <li>• Identify patterns and insights across sessions</li>
                         <li>• Suggest powerful questions & frameworks</li>
@@ -286,11 +286,11 @@ export default function JTCoachingAppShellWireframe() {
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-hidden">
-        {showT15Prep && activePage === "Clients" ? (
-          <T15PrepFullPage
-            client={t15Client}
-            onClose={() => setShowT15Prep(false)}
-            onBack={() => setShowT15Prep(false)}
+        {showPreSessionBrief && activePage === "Clients" ? (
+          <PreSessionBriefFullPage
+            client={preSessionClient}
+            onClose={() => setShowPreSessionBrief(false)}
+            onBack={() => setShowPreSessionBrief(false)}
           />
         ) : selectedSessionId && activePage === "Clients" ? (
           <SessionNotesEditorPage
@@ -302,9 +302,9 @@ export default function JTCoachingAppShellWireframe() {
           <>
             {activePage === "Dashboard" && (
               <DashboardPage
-                onOpenT15={(client) => {
-                  setT15Client(client);
-                  setShowT15Prep(true);
+                onOpenPreSessionBrief={(client) => {
+                  setPreSessionClient(client);
+                  setShowPreSessionBrief(true);
                   setActivePage("Clients");
                 }}
                 onOpenSession={(sessionId, client) => {
@@ -318,9 +318,9 @@ export default function JTCoachingAppShellWireframe() {
               <ClientsPage
                 selectedClient={selectedClient}
                 setSelectedClient={setSelectedClient}
-                onOpenT15={(client) => {
-                  setT15Client(client);
-                  setShowT15Prep(true);
+                onOpenPreSessionBrief={(client) => {
+                  setPreSessionClient(client);
+                  setShowPreSessionBrief(true);
                 }}
                 onOpenSession={(sessionId) => setSelectedSessionId(sessionId)}
               />
@@ -344,7 +344,7 @@ export default function JTCoachingAppShellWireframe() {
 
 // ============ DASHBOARD PAGE ============
 // "Command and Control Center" - GTD-inspired with North Star goals
-function DashboardPage({ onOpenT15, onOpenSession }) {
+function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
   const [showAllActions, setShowAllActions] = React.useState(false);
 
   const marcusClient = mockClients.find(c => c.name === "Marcus Williams");
@@ -376,7 +376,7 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
           </div>
         </div>
         <button
-          onClick={() => onOpenT15 && onOpenT15(marcusClient)}
+          onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
           className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-teal-200 hover:shadow-md transition-all group"
         >
           <div className="flex items-center gap-4">
@@ -385,7 +385,7 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
             </div>
             <div className="text-left">
               <p className="font-medium text-gray-900">Prepare for Marcus Williams</p>
-              <p className="text-sm text-gray-600">Session in 30 minutes — T-15 prep is ready</p>
+              <p className="text-sm text-gray-600">Session in 30 minutes — Pre-Session Brief is ready</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -437,12 +437,12 @@ function DashboardPage({ onOpenT15, onOpenSession }) {
           </div>
           <div className="space-y-3">
             <button
-              onClick={() => onOpenT15 && onOpenT15(marcusClient)}
+              onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
               className="w-full text-left p-4 bg-white rounded-lg hover:shadow-md transition border border-red-200"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="font-semibold text-gray-900">T-15 Prep - Marcus Williams</div>
+                  <div className="font-semibold text-gray-900">Pre-Session Brief - Marcus Williams</div>
                   <div className="text-sm text-gray-600 mt-1">Session in 30 minutes at 10:00 AM</div>
                 </div>
                 <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full">Prepare</span>
@@ -734,7 +734,7 @@ function AllActionsAllDomainsPage({ onBack }) {
       icon: "🎯",
       color: "blue",
       items: [
-        { text: "T-15 Prep - Marcus Williams", priority: "today", urgent: true },
+        { text: "Pre-Session Brief - Marcus Williams", priority: "today", urgent: true },
         { text: "Review draft notes - Sarah Chen", priority: "today", urgent: true },
         { text: "Follow up with Jennifer Martinez", priority: "week" },
         { text: "Send resources to Lisa Patel", priority: "week" }
@@ -970,7 +970,7 @@ function AllActionsAllDomainsPage({ onBack }) {
 }
 
 // ============ CLIENTS PAGE (Master-Detail) ============
-function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSession }) {
+function ClientsPage({ selectedClient, setSelectedClient, onOpenPreSessionBrief, onOpenSession }) {
   // V6: Overview is the default/first tab
   const [activeTab, setActiveTab] = React.useState("overview");
 
@@ -979,7 +979,7 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSessi
     { key: "overview", label: "Overview" },
     { key: "goals", label: "Goals & Progress" },
     { key: "notes", label: "Session Notes" },
-    { key: "t15", label: "T-15 Prep" },
+    { key: "presession", label: "Pre-Session Brief" },
     { key: "copilot", label: "In-Session Copilot" },
     { key: "sashaLog", label: "Sasha Conversations Log" },
     { key: "resources", label: "Shared Resources" }
@@ -1076,10 +1076,10 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSessi
 
         {/* Tab Content - V6 Part 5.1 ordering */}
         <div className="flex-1 overflow-auto p-8">
-          {activeTab === "overview" && <ClientOverviewTab client={selectedClient} onOpenT15={onOpenT15} setActiveTab={setActiveTab} />}
+          {activeTab === "overview" && <ClientOverviewTab client={selectedClient} onOpenPreSessionBrief={onOpenPreSessionBrief} setActiveTab={setActiveTab} />}
           {activeTab === "goals" && <ClientGoalsTab client={selectedClient} />}
           {activeTab === "notes" && <ClientSessionNotesTab client={selectedClient} onOpenSession={onOpenSession} />}
-          {activeTab === "t15" && <ClientT15PrepTab client={selectedClient} onOpenT15={onOpenT15} />}
+          {activeTab === "presession" && <ClientPreSessionBriefTab client={selectedClient} onOpenPreSessionBrief={onOpenPreSessionBrief} />}
           {activeTab === "copilot" && <ClientInSessionCopilotTab client={selectedClient} />}
           {activeTab === "sashaLog" && <ClientSashaLogTab client={selectedClient} />}
           {activeTab === "resources" && <ClientResourcesTab client={selectedClient} />}
@@ -1092,7 +1092,7 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenT15, onOpenSessi
 // ============ CLIENT TAB COMPONENTS ============
 
 // V6: NEW Overview Tab - First tab, scannable, warm, non-clinical
-function ClientOverviewTab({ client, onOpenT15, setActiveTab }) {
+function ClientOverviewTab({ client, onOpenPreSessionBrief, setActiveTab }) {
   return (
     <div className="max-w-4xl">
       {/* Identity Snapshot */}
@@ -1192,10 +1192,10 @@ function ClientOverviewTab({ client, onOpenT15, setActiveTab }) {
         <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div className="flex flex-wrap gap-3">
           <button
-            onClick={() => onOpenT15 && onOpenT15(client)}
+            onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(client)}
             className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
           >
-            <span>📋</span> Open T-15 Prep
+            <span>📋</span> Open Pre-Session Brief
           </button>
           <button
             onClick={() => setActiveTab("notes")}
@@ -2678,12 +2678,12 @@ function ClientSessionNotesTab({ client, onOpenSession }) {
   );
 }
 
-function ClientT15PrepTab({ client, onOpenT15 }) {
+function ClientPreSessionBriefTab({ client, onOpenPreSessionBrief }) {
   return (
     <div className="space-y-6">
-      {/* Main T-15 Prep Button */}
+      {/* Main Pre-Session Brief Button */}
       <button
-        onClick={() => onOpenT15 && onOpenT15(client)}
+        onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(client)}
         className="w-full bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 p-6 rounded-xl hover:shadow-lg transition text-left"
       >
         <div className="flex items-start justify-between">
@@ -2692,7 +2692,7 @@ function ClientT15PrepTab({ client, onOpenT15 }) {
             <p className="text-sm text-gray-700 mb-3">
               Complete this 15 minutes before your session with {client.name}. Your responses will inform the AI-generated session notes.
             </p>
-            <div className="text-sm font-medium text-blue-700">→ Click to open full T-15 Prep</div>
+            <div className="text-sm font-medium text-blue-700">→ Click to open full Pre-Session Brief</div>
           </div>
           <div className="text-4xl">📋</div>
         </div>
@@ -4674,8 +4674,8 @@ function BusinessManagementPage({ selectedTab, setSelectedTab }) {
   );
 }
 
-// ============ T-15 PREP FULL PAGE ============
-function T15PrepFullPage({ client, onClose }) {
+// ============ PRE-SESSION BRIEF FULL PAGE ============
+function PreSessionBriefFullPage({ client, onClose }) {
   if (!client) return null;
 
   return (
@@ -4694,7 +4694,7 @@ function T15PrepFullPage({ client, onClose }) {
               Est. read time: 5-15 minutes
             </div>
           </div>
-          <h1 className="text-3xl font-bold mb-2">T-15 Session Brief</h1>
+          <h1 className="text-3xl font-bold mb-2">Pre-Session Brief</h1>
           <p className="text-gray-600">
             {client.name} · {client.nextSession && new Date(client.nextSession).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at {client.nextSession && new Date(client.nextSession).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
           </p>
@@ -5148,7 +5148,7 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
               </div>
               <div className="text-sm">
                 <span className="text-stone-700">Draft generated from </span>
-                <button className="text-violet-600 hover:underline font-medium">T-15 prep</button>
+                <button className="text-violet-600 hover:underline font-medium">Pre-Session Brief</button>
                 <span className="text-stone-700"> + </span>
                 <button
                   onClick={() => openTranscriptDrawer("recap")}
@@ -5825,7 +5825,7 @@ function SettingsPage() {
               <div className="space-y-2">
                 <label className="flex items-center gap-2">
                   <input type="checkbox" defaultChecked className="rounded" />
-                  <span className="text-sm">Auto-generate T-15 prep briefs</span>
+                  <span className="text-sm">Auto-generate Pre-Session Brief briefs</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input type="checkbox" defaultChecked className="rounded" />
@@ -6227,7 +6227,7 @@ function LandingPage({ onSelectUserType }) {
       icon: "📋",
       color: "from-teal-500/20 to-emerald-500/10",
       features: [
-        "T-15 prep briefs delivered automatically with full context",
+        "Pre-Session Brief briefs delivered automatically with full context",
         "Client pulse: emotional state, commitment tracking, pattern alerts",
         "Suggested openers tailored to what's alive for them right now"
       ]
@@ -6423,6 +6423,16 @@ function LandingPage({ onSelectUserType }) {
         />
       ) : currentPage === 'integrations' ? (
         <IntegrationsPage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : currentPage === 'careers' ? (
+        <CareersPage
+          onGetStarted={() => handleCTA('signup')}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : currentPage === 'blog' ? (
+        <BlogPage
           onGetStarted={() => handleCTA('signup')}
           setCurrentPage={setCurrentPage}
         />
@@ -6988,8 +6998,7 @@ function LandingPage({ onSelectUserType }) {
               <h4 className="text-white font-medium text-sm mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">About</button></li>
-                <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Philosophy</button></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><button onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Careers</button></li>
               </ul>
             </div>
 
@@ -6999,7 +7008,7 @@ function LandingPage({ onSelectUserType }) {
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => { setCurrentPage('faq'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">FAQ</button></li>
                 <li><button onClick={() => { setCurrentPage('integrations'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Integrations</button></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><button onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Blog</button></li>
               </ul>
             </div>
 
@@ -7008,8 +7017,8 @@ function LandingPage({ onSelectUserType }) {
               <h4 className="text-white font-medium text-sm mb-4">Connect</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.59 3.143 8.433 7.384 9.556.02-.396-.004-1.004.108-1.512L10.62 16.5s-.237-.473-.237-1.172c0-1.098.637-1.918 1.43-1.918.674 0 1 .506 1 1.113 0 .678-.432 1.692-.655 2.632-.187.788.395 1.43 1.172 1.43 1.408 0 2.487-1.484 2.487-3.63 0-1.897-1.363-3.225-3.31-3.225-2.254 0-3.577 1.69-3.577 3.437 0 .68.262 1.41.59 1.807a.237.237 0 01.054.227c-.06.25-.193.788-.22.898-.035.143-.115.174-.266.105-1.002-.466-1.628-1.93-1.628-3.105 0-2.529 1.838-4.853 5.3-4.853 2.783 0 4.946 1.983 4.946 4.632 0 2.765-1.743 4.993-4.162 4.993-.813 0-1.578-.423-1.84-.92l-.5 1.9c-.18.693-.67 1.56-.997 2.088A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
-                  Bluesky
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  Instagram
                 </a></li>
                 <li><a href="#" className="hover:text-white transition-colors flex items-center gap-2">
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -7131,17 +7140,25 @@ function LandingPage({ onSelectUserType }) {
 
       {/* ===== FLOATING COMMAND BAR HINT ===== */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
-        {/* Command K pill - industry standard floating command trigger */}
-        <button
-          onClick={() => {/* Would open command bar */}}
-          className="group flex items-center gap-2 px-4 py-2.5 bg-stone-800/90 hover:bg-stone-700 text-stone-300 hover:text-white rounded-full shadow-lg hover:shadow-xl backdrop-blur-sm transition-all border border-stone-700/50"
-        >
-          <div className="w-5 h-5 rounded-full overflow-hidden bg-stone-700">
-            <img src={ouroborosLogo} alt="Sasha" className="w-[115%] h-[115%] object-contain" />
-          </div>
-          <span className="text-sm font-medium">Ask Sasha</span>
-          <kbd className="px-1.5 py-0.5 bg-stone-700/80 rounded text-xs font-mono text-stone-400 ml-1">⌘K</kbd>
-        </button>
+        {/* Sasha AI assistant - floating chat trigger */}
+        <div className="flex flex-col items-end gap-2">
+          <button
+            onClick={() => {/* Would open command bar */}}
+            className="group flex items-center gap-3 px-5 py-3 bg-stone-800/95 hover:bg-stone-700 text-stone-300 hover:text-white rounded-2xl shadow-lg hover:shadow-xl backdrop-blur-sm transition-all border border-stone-700/50"
+          >
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-stone-700 flex-shrink-0">
+              <img src={ouroborosLogo} alt="Sasha" className="w-[115%] h-[115%] object-contain" />
+            </div>
+            <div className="flex flex-col items-start">
+              <span className="text-sm font-medium text-white">Ask Sasha</span>
+              <span className="text-xs text-stone-400 italic">How can I help you?</span>
+            </div>
+            <kbd className="px-1.5 py-0.5 bg-stone-700/80 rounded text-xs font-mono text-stone-500 ml-2">⌘K</kbd>
+          </button>
+          <p className="text-xs text-stone-500 max-w-[200px] text-right mr-1">
+            Your AI guide — ask anything about ReGenesis or coaching
+          </p>
+        </div>
       </div>
 
       {/* ===== VIDEO MODAL ===== */}
@@ -7339,31 +7356,32 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             <span className="text-stone-500">Without the overwhelm.</span>
           </h1>
           <p className="text-xl text-stone-600 mb-8 max-w-2xl">
-            You became a coach to transform lives — not to drown in admin or spend your evenings on notes. ReGenesis doesn't just give you back your time. It amplifies your natural gifts — letting you see clients more fully, understand them more deeply, and unlock their growth with a precision and continuity you only dreamed of. It's like gaining superhuman powers without adding a single thing to your plate.
+            You became a coach to transform lives — not to drown in admin or spend your evenings on notes. ReGenesis doesn't just give you back your time. It amplifies your natural gifts — letting you see clients more fully, understand them more deeply, and unlock their growth with a precision, speed, and continuity you never thought possible. It's like gaining superhuman powers without adding a single thing to your plate.
           </p>
           <button
             onClick={onGetStarted}
             className="px-8 py-4 bg-stone-900 text-white rounded-xl font-medium text-lg hover:bg-stone-800 transition-colors"
           >
-            Start Free Trial
+            Try it free
           </button>
+          <p className="text-sm text-stone-500 mt-3">No payment required</p>
         </div>
       </div>
 
       {/* Pain Points - We Understand */}
       <div className="max-w-5xl mx-auto px-8 py-20">
-        <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">We understand the reality</h2>
+        <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">We understand your reality</h2>
         <p className="text-lg text-stone-500 text-center mb-12 max-w-2xl mx-auto">
-          Because we live it. ReGenesis was built by coaches who love their craft and who honor the struggles, the dreams, the pain, and the possibilities of each precious human they get to work with.
+          ReGenesis was built by coaches like you who love their craft and who honor the struggles, dreams, pain, and possibilities of each precious human they work with.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           <div className="bg-white rounded-xl p-6 border-l-4 border-l-rose-300 border border-stone-200">
-            <h3 className="font-semibold text-stone-800 mb-2">You're holding too many stories</h3>
+            <h3 className="font-semibold text-stone-800 mb-2">You're holding a lot of stories</h3>
             <p className="text-stone-600 text-sm">Dozens of clients, each with complex histories, family dynamics, career challenges, and breakthrough moments. Clients have dynamic and unpredictable lives with ever-changing circumstances. It's impossible to stay abreast of all of it.</p>
           </div>
           <div className="bg-white rounded-xl p-6 border-l-4 border-l-amber-300 border border-stone-200">
-            <h3 className="font-semibold text-stone-800 mb-2">Sessions end, work begins</h3>
+            <h3 className="font-semibold text-stone-800 mb-2">The work doesn't stop when your sessions end</h3>
             <p className="text-stone-600 text-sm">You give everything in each session and don't always have the time or energy to craft the notes you wish you could, give the follow-ups and resources that would be helpful, or prepare sufficiently for the next client.</p>
           </div>
           <div className="bg-white rounded-xl p-6 border-l-4 border-l-sky-300 border border-stone-200">
@@ -7371,8 +7389,8 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             <p className="text-stone-600 text-sm">Your clients face challenges every day, not just during your hour together. But you can't be there 24/7 — momentum fades, habits resist change, and breakthroughs are hard to translate into lasting psychological and behavioral change and goal attainment.</p>
           </div>
           <div className="bg-white rounded-xl p-6 border-l-4 border-l-violet-300 border border-stone-200">
-            <h3 className="font-semibold text-stone-800 mb-2">Running a practice is a second job</h3>
-            <p className="text-stone-600 text-sm">The admin never ends — scheduling/rescheduling, client communications, invoicing, credential tracking, marketing and business development. The business side of coaching can take as much energy as the coaching itself.</p>
+            <h3 className="font-semibold text-stone-800 mb-2">Running a coaching practice can be like having a second job</h3>
+            <p className="text-stone-600 text-sm">The admin never ends — scheduling/rescheduling, client communications, invoicing, credential tracking, marketing and business development. It can take as much time and energy as the coaching itself.</p>
           </div>
         </div>
       </div>
@@ -7382,17 +7400,17 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
         <div className="max-w-5xl mx-auto px-8 py-20">
           <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">How ReGenesis transforms your practice</h2>
           <p className="text-lg text-stone-500 text-center mb-16 max-w-3xl mx-auto">
-            Every feature was designed for one purpose: to let you focus on what matters most and what you do best — bringing your full presence, compassion, experience, and insight to every conversation. ReGenesis doesn't just free your hands. It works in tandem with you, combining its memory and pattern recognition with your wisdom and judgment — so you can see the whole picture and guide transformation like never before.
+            Every feature was designed for one purpose: to let you focus on what matters most and what you do best — bringing your full presence, compassion, experience, and insight to every conversation. ReGenesis doesn't just free your hands. It works in tandem with you, combining its memory, pattern recognition, language abilities, and speed with your values, discernment, empathy, skills, and lived experience — so you can see the whole picture and guide transformation like never before.
           </p>
 
-          {/* Feature 1: T-15 Prep */}
+          {/* Feature 1: Pre-Session Briefs */}
           <div className="mb-20">
-            <div className="flex flex-col lg:flex-row gap-12 items-center">
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">Before Sessions</div>
-                <h3 className="text-2xl font-semibold text-stone-800 mb-4">T-15 Prep Briefs</h3>
+                <h3 className="text-2xl font-semibold text-stone-800 mb-4">Pre-Session Briefs</h3>
                 <p className="text-stone-600 mb-6">
-                  Fifteen minutes before each session, "Sasha" — your always-on AI assistant — delivers a comprehensive snapshot: who your client is, what they want, what's getting in the way (patterns), where you left off, what has happened since, commitments and progress made, and potential openers. You walk in prepared — as if you'd just finished the last session.
+                  Shortly before each session, "Sasha" — your always-on AI assistant — delivers a comprehensive snapshot that reminds you: who your client is, where they're headed, what's getting in the way (patterns), what has happened in their life since you met, commitments and progress made, and potential openers. You walk in completely prepared — as if you've been with them every day since your last session.
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
@@ -7401,7 +7419,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Key takeaways from their conversations with Sasha, their 24/7 AI companion (what they chose to share)</span>
+                    <span>Key takeaways from their between-session conversations with Sasha (what they chose to share)</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
@@ -7422,12 +7440,12 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
           {/* Feature 2: Post-Session Notes */}
           <div className="mb-20">
-            <div className="flex flex-col lg:flex-row-reverse gap-12 items-center">
+            <div className="flex flex-col lg:flex-row-reverse gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">After Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">AI-Drafted Session Notes</h3>
                 <p className="text-stone-600 mb-6">
-                  Within minutes of ending a session, beautiful, structured notes appear — written in your voice, grounded in your values, philosophy, and frameworks. Session summaries, observations and insights, inquiries for growth, action items, and resources to share. Effortlessly modify to fit exactly your style: "make the tone warmer," "add the framework we discussed," or "condense to two pages."
+                  Within minutes of ending a session, draft notes appear — beautifully crafted, incisive, and structured to your precise preferences, written in your voice, grounded in your values, philosophy, and frameworks. Our well-tested default template provides session summaries, observations and insights, inquiries for growth, action items, and resources to share. Effortlessly modify to fit exactly your style: "make the tone warmer," "add the framework we discussed," or "condense to two pages."
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
@@ -7436,7 +7454,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Nested and traceable — chase any insight back to its source in the transcript or video</span>
+                    <span>Nested format lets you see everything at a glance, then drill down to increasing levels of detail — all the way back to the source transcript or video</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
@@ -7457,17 +7475,17 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
           {/* Feature 3: Sasha for Clients */}
           <div className="mb-20">
-            <div className="flex flex-col lg:flex-row gap-12 items-center">
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">Between Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">24/7 AI Companion (Sasha)</h3>
                 <p className="text-stone-600 mb-6">
-                  Your clients get full access to the same AI intelligence that powers your entire practice — one that knows your coaching style and them inside and out. It's like putting an avatar of you in their pocket, with the convenience and privacy they need to unpack and explore things they might not even yet feel comfortable sharing with you. They continue their journey between sessions. You stay in the loop with summaries and key insights from these discussions — without the extra work.
+                  Your clients get full access to the same embedded AI intelligence that powers your entire practice — one that knows your coaching style and them inside and out. It's like putting an avatar of you in their pocket, with the convenience and privacy they need to unpack and explore things they might not even yet feel comfortable sharing with you. They continue their journey between sessions. You stay in the loop with summaries and key insights from these discussions — without the extra work.
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Privacy tiers: clients choose what to share with you</span>
+                    <span>A completely private, safe space for deeper exploration — clients choose what to share with you</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
@@ -7492,7 +7510,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
           {/* Feature 4: In-Session Copilot */}
           <div>
-            <div className="flex flex-col lg:flex-row-reverse gap-12 items-center">
+            <div className="flex flex-col lg:flex-row-reverse gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">During Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">In-Session Copilot</h3>
@@ -7535,7 +7553,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
         <h2 className="text-3xl font-light text-stone-800 mb-12 text-center">Get your time back</h2>
         <div className="grid md:grid-cols-3 gap-8 text-center">
           <div>
-            <div className="text-5xl font-light text-rose-600 mb-2">5+</div>
+            <div className="text-5xl font-light text-rose-600 mb-2">10+</div>
             <div className="text-lg font-medium text-stone-800 mb-1">hours saved per week</div>
             <div className="text-sm text-stone-500">On notes, prep, and admin alone</div>
           </div>
@@ -7597,15 +7615,19 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             </div>
             <div>
               <h3 className="font-semibold text-stone-800 mb-2">Is my clients' data private?</h3>
-              <p className="text-stone-600">Absolutely. Your clients control what they share with you through privacy tiers. We use bank-level encryption, never sell data, and offer our "Evaporation Promise" — when data is deleted, it's truly gone. Forever.</p>
+              <p className="text-stone-600">Absolutely. Your clients control what they share with you and/or their organization through privacy tiers. We use bank-level encryption, never sell data, and offer our "Evaporation Promise" — when data is deleted, it's truly gone. Forever.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-stone-800 mb-2">Do you use client data to train your models?</h3>
+              <p className="text-stone-600">Only with explicit consent, and only using advanced anonymization techniques (differential privacy) that make it mathematically impossible to trace any data back to individuals. This helps improve our models for everyone while protecting privacy absolutely. You can opt out entirely at any time.</p>
             </div>
             <div>
               <h3 className="font-semibold text-stone-800 mb-2">What if I don't want to learn a bunch of new tools?</h3>
-              <p className="text-stone-600">That's the point. ReGenesis was designed to be frictionless — it integrates seamlessly and invisibly with the apps, platforms, and workstations you already use, protecting all your client and organization data along the way. Many coaches find they don't need half their existing tools anymore, because ReGenesis handles them.</p>
+              <p className="text-stone-600">We couldn't agree more. That's the point. ReGenesis was designed to be frictionless — it integrates seamlessly and invisibly with the apps, platforms, and workstations you already use, protecting all your client and organization data along the way. Many coaches find they don't need many of their existing tools and apps anymore, because ReGenesis replaces or weaves together many of the functions they currently provide.</p>
             </div>
             <div>
               <h3 className="font-semibold text-stone-800 mb-2">What if I don't want AI during sessions?</h3>
-              <p className="text-stone-600">The In-Session Copilot is entirely optional. Many coaches use ReGenesis only for prep and notes. Others love the real-time support. You control the level of AI involvement at every step.</p>
+              <p className="text-stone-600">The In-Session Copilot is entirely optional and easily adjustable in the moment. Many coaches use ReGenesis only for prep and notes. Others love the real-time support. You control the level of AI involvement at every step.</p>
             </div>
           </div>
         </div>
@@ -7620,8 +7642,9 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             onClick={onGetStarted}
             className="px-8 py-4 bg-white text-stone-900 rounded-xl font-medium text-lg hover:bg-stone-100 transition-colors"
           >
-            Start Free Trial
+            Try it free
           </button>
+          <p className="text-sm text-stone-500 mt-3">No payment required</p>
         </div>
       </div>
     </div>
@@ -7710,7 +7733,7 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
           {/* Value Prop 1 */}
           <div className="mb-20">
-            <div className="flex flex-col lg:flex-row gap-12 items-center">
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-teal-600 uppercase tracking-wide mb-2">Scale</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">10x coach capacity without hiring</h3>
@@ -7742,7 +7765,7 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
           {/* Value Prop 2 */}
           <div className="mb-20">
-            <div className="flex flex-col lg:flex-row-reverse gap-12 items-center">
+            <div className="flex flex-col lg:flex-row-reverse gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-teal-600 uppercase tracking-wide mb-2">Visibility</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">Aggregate insights without violating privacy</h3>
@@ -7774,7 +7797,7 @@ function TeamsExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
 
           {/* Value Prop 3 */}
           <div>
-            <div className="flex flex-col lg:flex-row gap-12 items-center">
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
               <div className="flex-1">
                 <div className="text-sm font-semibold text-teal-600 uppercase tracking-wide mb-2">Control</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">Enterprise-grade security & compliance</h3>
@@ -8260,7 +8283,7 @@ function EnterprisePage({ onGetStarted, setCurrentPage, scrollY }) {
     },
     {
       title: "Automated Session Intelligence",
-      description: "T-15 prep briefs, AI-drafted notes, commitment tracking, and pattern recognition—all working behind the scenes so coaches can focus on presence.",
+      description: "Pre-Session Brief briefs, AI-drafted notes, commitment tracking, and pattern recognition—all working behind the scenes so coaches can focus on presence.",
       icon: "✨"
     },
     {
@@ -9296,6 +9319,10 @@ function FAQPage({ onGetStarted, setCurrentPage }) {
       linkPage: "security"
     },
     {
+      question: "Do you use client data to train your AI models?",
+      answer: "Only with explicit consent, and only using advanced anonymization techniques (differential privacy) that make it mathematically impossible to trace any data back to individuals. This helps improve our models for everyone while protecting privacy absolutely. You can opt out entirely at any time."
+    },
+    {
       question: "How does pricing work?",
       answer: "Simple: $39/month for individual coaches (up to 25 clients, everything included) or $9/coachee/month for teams (coach seats are free, unlimited coaches). No per-feature gating. No 'contact sales' games. No enterprise lock-in for security features. Everyone gets the same security, the same features, the same support.",
       linkText: "View pricing details",
@@ -9314,6 +9341,14 @@ function FAQPage({ onGetStarted, setCurrentPage }) {
     {
       question: "Will AI-generated content sound like me?",
       answer: "Yes—that's the point. ReGenesis learns your voice, your frameworks, your philosophy. Session notes, client communications, and Sasha's interactions are all tuned to reflect your authentic coaching style. You always have full control to adjust tone, structure, and content. Nothing is sent without your review and approval."
+    },
+    {
+      question: "What if I don't want AI during my sessions?",
+      answer: "The In-Session Copilot is entirely optional and easily adjustable in the moment. Many coaches use ReGenesis only for prep and notes. Others love the real-time support. You control the level of AI involvement at every step—from completely invisible to actively supportive."
+    },
+    {
+      question: "What if my clients are hesitant about AI?",
+      answer: "We help you communicate in clear, down-to-earth language your clients can understand and trust—how it works, what the benefits are, and how their data is protected. Clients can try it out risk-free and immediately delete their data if they're uncomfortable at any time. But we're confident: once they experience it, they'll never want to go back."
     }
   ];
 
@@ -9392,73 +9427,163 @@ function FAQPage({ onGetStarted, setCurrentPage }) {
 function IntegrationsPage({ onGetStarted, setCurrentPage }) {
   const integrationCategories = [
     {
-      title: "Meetings",
+      title: "Video Conferencing",
       icon: "📹",
       integrations: [
         { name: "Zoom", status: "available", desc: "Auto-join sessions, transcribe, extract insights" },
         { name: "Google Meet", status: "available", desc: "Native integration with real-time transcription" },
-        { name: "Microsoft Teams", status: "available", desc: "Enterprise video conferencing with transcription" }
+        { name: "Microsoft Teams", status: "available", desc: "Enterprise video conferencing with transcription" },
+        { name: "Webex", status: "available", desc: "Cisco enterprise video platform" },
+        { name: "Riverside", status: "available", desc: "High-quality recording & transcription" },
+        { name: "Doxy.me", status: "available", desc: "HIPAA-compliant telehealth video" },
+        { name: "Whereby", status: "coming", desc: "Simple browser-based video calls" },
+        { name: "Around", status: "coming", desc: "Floating video for collaboration" },
+        { name: "Loom", status: "coming", desc: "Async video messaging" },
+        { name: "Vimeo", status: "coming", desc: "Professional video hosting" }
       ]
     },
     {
-      title: "Calendar",
+      title: "Calendar & Scheduling",
       icon: "📅",
       integrations: [
         { name: "Google Calendar", status: "available", desc: "Two-way sync for sessions and availability" },
         { name: "Outlook Calendar", status: "available", desc: "Microsoft calendar integration" },
-        { name: "Apple Calendar", status: "available", desc: "iCloud calendar sync" }
+        { name: "Apple Calendar", status: "available", desc: "iCloud calendar sync" },
+        { name: "Calendly", status: "available", desc: "Scheduling automation and booking" },
+        { name: "Acuity Scheduling", status: "available", desc: "Appointment scheduling for coaches" },
+        { name: "SavvyCal", status: "available", desc: "Smart scheduling links" },
+        { name: "Cal.com", status: "coming", desc: "Open-source scheduling" },
+        { name: "YouCanBook.me", status: "coming", desc: "Simple booking pages" },
+        { name: "Doodle", status: "coming", desc: "Group scheduling polls" },
+        { name: "Fantastical", status: "coming", desc: "Premium calendar app" }
       ]
     },
     {
-      title: "Email",
+      title: "Email & Communication",
       icon: "📧",
       integrations: [
         { name: "Gmail", status: "available", desc: "Draft and send from your account" },
-        { name: "Outlook", status: "available", desc: "Microsoft email integration" }
+        { name: "Outlook", status: "available", desc: "Microsoft email integration" },
+        { name: "Apple Mail", status: "available", desc: "iCloud email sync" },
+        { name: "Superhuman", status: "available", desc: "Lightning-fast email client" },
+        { name: "Spark", status: "coming", desc: "Smart email for teams" },
+        { name: "Front", status: "coming", desc: "Shared inbox for teams" },
+        { name: "Mailchimp", status: "coming", desc: "Email marketing campaigns" },
+        { name: "ConvertKit", status: "coming", desc: "Creator email marketing" },
+        { name: "Substack", status: "coming", desc: "Newsletter publishing" },
+        { name: "Buttondown", status: "coming", desc: "Simple newsletters" }
       ]
     },
     {
-      title: "Documents",
+      title: "Documents & Storage",
       icon: "📄",
       integrations: [
         { name: "Google Drive", status: "available", desc: "Store and share session materials" },
         { name: "Dropbox", status: "available", desc: "File storage and sharing" },
-        { name: "Box", status: "available", desc: "Enterprise document management" }
+        { name: "Box", status: "available", desc: "Enterprise document management" },
+        { name: "OneDrive", status: "available", desc: "Microsoft cloud storage" },
+        { name: "iCloud Drive", status: "available", desc: "Apple cloud storage" },
+        { name: "Google Docs", status: "available", desc: "Collaborative documents" },
+        { name: "Microsoft Word", status: "available", desc: "Document creation and editing" },
+        { name: "Airtable", status: "coming", desc: "Spreadsheet-database hybrid" },
+        { name: "Coda", status: "coming", desc: "All-in-one docs" },
+        { name: "DocuSign", status: "coming", desc: "Electronic signatures" }
       ]
     },
     {
-      title: "Notes",
+      title: "Notes & Knowledge",
       icon: "📝",
       integrations: [
         { name: "Notion", status: "available", desc: "Sync notes and client records" },
-        { name: "Evernote", status: "available", desc: "Note-taking integration" }
+        { name: "Evernote", status: "available", desc: "Note-taking integration" },
+        { name: "Obsidian", status: "available", desc: "Markdown knowledge base" },
+        { name: "Roam Research", status: "available", desc: "Networked thought" },
+        { name: "Apple Notes", status: "available", desc: "Simple iOS/Mac notes" },
+        { name: "Bear", status: "coming", desc: "Beautiful Markdown notes" },
+        { name: "Craft", status: "coming", desc: "Modern document creation" },
+        { name: "Logseq", status: "coming", desc: "Open-source knowledge graph" },
+        { name: "Mem", status: "coming", desc: "AI-powered notes" },
+        { name: "Reflect", status: "coming", desc: "Networked note-taking" }
       ]
     },
     {
-      title: "Communication",
+      title: "Team Communication",
       icon: "💬",
       integrations: [
         { name: "Slack", status: "available", desc: "Team messaging and notifications" },
-        { name: "Microsoft Teams Chat", status: "available", desc: "Enterprise messaging" }
+        { name: "Microsoft Teams", status: "available", desc: "Enterprise messaging and collaboration" },
+        { name: "Discord", status: "available", desc: "Community messaging" },
+        { name: "WhatsApp Business", status: "coming", desc: "Client messaging" },
+        { name: "Telegram", status: "coming", desc: "Secure messaging" },
+        { name: "Signal", status: "coming", desc: "Private messaging" },
+        { name: "Voxer", status: "coming", desc: "Voice messaging for coaches" },
+        { name: "Marco Polo", status: "coming", desc: "Video messaging" },
+        { name: "Twist", status: "coming", desc: "Async team communication" },
+        { name: "Basecamp", status: "coming", desc: "Project communication" }
       ]
     },
     {
-      title: "CRM / LMS (Teams)",
+      title: "CRM & Practice Management",
       icon: "🏢",
       integrations: [
         { name: "Salesforce", status: "available", desc: "Enterprise CRM integration" },
         { name: "HubSpot", status: "available", desc: "Marketing and sales automation" },
-        { name: "Workday", status: "coming", desc: "HR and enterprise management" }
+        { name: "Practice Better", status: "available", desc: "Practice management for coaches" },
+        { name: "CoachAccountable", status: "available", desc: "Coaching-specific CRM" },
+        { name: "Paperbell", status: "available", desc: "All-in-one coaching platform" },
+        { name: "SimplePractice", status: "available", desc: "Practice management" },
+        { name: "Healthie", status: "coming", desc: "Telehealth practice management" },
+        { name: "Workday", status: "coming", desc: "HR and enterprise management" },
+        { name: "Pipedrive", status: "coming", desc: "Sales pipeline CRM" },
+        { name: "Dubsado", status: "coming", desc: "Client workflow automation" }
       ]
     },
     {
-      title: "Wearables",
+      title: "Payments & Billing",
+      icon: "💳",
+      integrations: [
+        { name: "Stripe", status: "available", desc: "Payment processing" },
+        { name: "PayPal", status: "available", desc: "Online payments" },
+        { name: "Square", status: "available", desc: "Invoicing and payments" },
+        { name: "QuickBooks", status: "available", desc: "Accounting and invoicing" },
+        { name: "FreshBooks", status: "available", desc: "Small business accounting" },
+        { name: "Wave", status: "available", desc: "Free invoicing" },
+        { name: "Xero", status: "coming", desc: "Cloud accounting" },
+        { name: "Venmo Business", status: "coming", desc: "Social payments" },
+        { name: "Wise", status: "coming", desc: "International payments" },
+        { name: "Paddle", status: "coming", desc: "Subscription billing" }
+      ]
+    },
+    {
+      title: "Wellness & Wearables",
       icon: "⌚",
       integrations: [
-        { name: "Apple Health", status: "coming", desc: "iOS health data" },
+        { name: "Apple Health", status: "coming", desc: "iOS health data (with consent)" },
         { name: "Oura Ring", status: "coming", desc: "Sleep and readiness tracking" },
         { name: "Fitbit", status: "coming", desc: "Activity and wellness data" },
-        { name: "Garmin", status: "coming", desc: "Fitness and health metrics" }
+        { name: "Garmin", status: "coming", desc: "Fitness and health metrics" },
+        { name: "Whoop", status: "coming", desc: "Strain and recovery tracking" },
+        { name: "Samsung Health", status: "coming", desc: "Android health integration" },
+        { name: "Withings", status: "coming", desc: "Smart scales and health devices" },
+        { name: "Eight Sleep", status: "coming", desc: "Sleep tracking mattress" },
+        { name: "Headspace", status: "coming", desc: "Meditation and mindfulness" },
+        { name: "Calm", status: "coming", desc: "Sleep and meditation" }
+      ]
+    },
+    {
+      title: "Social & Professional",
+      icon: "🔗",
+      integrations: [
+        { name: "LinkedIn", status: "available", desc: "Professional network & client research" },
+        { name: "Twitter/X", status: "coming", desc: "Social insights and engagement" },
+        { name: "Instagram", status: "coming", desc: "Visual social presence" },
+        { name: "Facebook", status: "coming", desc: "Social media management" },
+        { name: "YouTube", status: "coming", desc: "Video content hosting" },
+        { name: "TikTok", status: "coming", desc: "Short-form video" },
+        { name: "Medium", status: "coming", desc: "Blogging platform" },
+        { name: "WordPress", status: "coming", desc: "Website and blog" },
+        { name: "Podcast Platforms", status: "coming", desc: "Apple, Spotify, and more" },
+        { name: "Teachable", status: "coming", desc: "Course creation and hosting" }
       ]
     }
   ];
@@ -9536,6 +9661,571 @@ function IntegrationsPage({ onGetStarted, setCurrentPage }) {
             >
               Request an Integration
             </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ============ CAREERS PAGE ============
+function CareersPage({ onGetStarted, setCurrentPage }) {
+  const values = [
+    {
+      icon: "💡",
+      title: "Brilliant Minds",
+      desc: "Curious thinkers who love solving hard problems at the intersection of human wisdom and artificial intelligence."
+    },
+    {
+      icon: "❤️",
+      title: "Big Hearts",
+      desc: "People who genuinely care about human flourishing and believe technology should serve our highest potential."
+    },
+    {
+      icon: "🌍",
+      title: "Diverse Perspectives",
+      desc: "Lived experiences from every corner of the world, every walk of life. Your unique story is your superpower."
+    },
+    {
+      icon: "🌱",
+      title: "Do Well by Doing Good",
+      desc: "We believe meaningful work and meaningful impact aren't mutually exclusive. Join us in proving it."
+    }
+  ];
+
+  const openings = [
+    {
+      title: "Wisdom Keepers",
+      type: "Research & Content",
+      location: "Remote, Worldwide",
+      desc: "Help us curate and synthesize humanity's greatest wisdom traditions, philosophical frameworks, and coaching methodologies into our knowledge corpus. You might be a philosopher, theologian, contemplative practitioner, or simply someone who has spent decades studying what makes humans thrive."
+    },
+    {
+      title: "AI/ML Engineers",
+      type: "Engineering",
+      location: "Remote, Worldwide",
+      desc: "Build the intelligence that helps coaches serve their clients better. Work on natural language understanding, knowledge graphs, personalization systems, and responsible AI development."
+    },
+    {
+      title: "Full-Stack Engineers",
+      type: "Engineering",
+      location: "Remote, Worldwide",
+      desc: "Craft beautiful, intuitive experiences that coaches and clients love to use. React, Node, and a passion for user experience."
+    },
+    {
+      title: "Product Designers",
+      type: "Design",
+      location: "Remote, Worldwide",
+      desc: "Design interfaces that feel like magic—where complexity becomes simplicity, and technology fades into the background so human connection can flourish."
+    },
+    {
+      title: "Coaching Advisors",
+      type: "Advisory",
+      location: "Remote, Worldwide",
+      desc: "Experienced coaches who want to shape the future of the profession. Help us understand what coaches really need, test new features, and ensure we're building something genuinely useful."
+    },
+    {
+      title: "Community & Partnerships",
+      type: "Growth",
+      location: "Remote, Worldwide",
+      desc: "Build relationships with coaching organizations, training programs, and thought leaders. Help us grow a community of coaches who are excited about the future."
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white">
+      {/* Hero */}
+      <section className="py-24 px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl font-light text-stone-800 mb-6">
+            Join Us in Amplifying<br />Human Potential
+          </h1>
+          <p className="text-xl text-stone-600 leading-relaxed mb-4">
+            We're building technology that helps coaches help people live better lives.
+            It's ambitious, it's meaningful, and we need remarkable humans to do it right.
+          </p>
+          <p className="text-lg text-teal-700 font-medium">
+            Remote-first. Worldwide. Come as you are.
+          </p>
+        </div>
+      </section>
+
+      {/* Who We're Looking For */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8">
+          <h2 className="text-3xl font-light text-stone-800 text-center mb-16">
+            Who We're Looking For
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {values.map((value, i) => (
+              <div key={i} className="p-8 bg-stone-50 rounded-2xl">
+                <span className="text-4xl mb-4 block">{value.icon}</span>
+                <h3 className="text-xl font-semibold text-stone-800 mb-3">{value.title}</h3>
+                <p className="text-stone-600 leading-relaxed">{value.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Open Roles */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-4xl mx-auto px-8">
+          <h2 className="text-3xl font-light text-stone-800 text-center mb-6">
+            Open Roles
+          </h2>
+          <p className="text-stone-600 text-center mb-12 max-w-2xl mx-auto">
+            Don't see a perfect fit? Reach out anyway. We're always interested in meeting exceptional people,
+            even if we haven't imagined the role yet.
+          </p>
+          <div className="space-y-6">
+            {openings.map((role, i) => (
+              <div key={i} className="bg-white p-8 rounded-2xl border border-stone-200 hover:shadow-lg transition-shadow">
+                <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-stone-800">{role.title}</h3>
+                    <div className="flex gap-3 mt-2">
+                      <span className="text-sm px-3 py-1 bg-teal-100 text-teal-700 rounded-full">{role.type}</span>
+                      <span className="text-sm px-3 py-1 bg-stone-100 text-stone-600 rounded-full">{role.location}</span>
+                    </div>
+                  </div>
+                  <a
+                    href={`mailto:careers@regenesis.ai?subject=Interest in ${role.title} Role`}
+                    className="px-6 py-2 bg-stone-900 text-white rounded-lg font-medium hover:bg-stone-800 transition-colors text-sm"
+                  >
+                    Express Interest
+                  </a>
+                </div>
+                <p className="text-stone-600 leading-relaxed">{role.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Culture */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light text-stone-800 mb-8">
+            How We Work
+          </h2>
+          <div className="space-y-6 text-stone-600 text-lg leading-relaxed">
+            <p>
+              <strong className="text-stone-800">Remote-first, always.</strong> Our team spans continents and time zones.
+              We believe great work happens when people have autonomy over where and when they work best.
+            </p>
+            <p>
+              <strong className="text-stone-800">Impact over hours.</strong> We care about what you accomplish,
+              not how many hours you're online. Take the time you need to do your best work—and to live your best life.
+            </p>
+            <p>
+              <strong className="text-stone-800">Radical candor, radical kindness.</strong> We tell each other the truth
+              because we care about each other's growth. Feedback is a gift, not a weapon.
+            </p>
+            <p>
+              <strong className="text-stone-800">Learn constantly.</strong> We're building something that's never existed before.
+              That means we're all students, always. Curiosity is our most valuable currency.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-stone-900 text-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light mb-6">
+            Ready to Build the Future of Coaching?
+          </h2>
+          <p className="text-stone-300 mb-8 text-lg">
+            Send us a note. Tell us your story. Show us something you've made.
+            We read every email.
+          </p>
+          <a
+            href="mailto:careers@regenesis.ai"
+            className="inline-block px-8 py-4 bg-white text-stone-900 rounded-xl font-medium hover:bg-stone-100 transition-colors"
+          >
+            careers@regenesis.ai
+          </a>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ============ BLOG PAGE ============
+function BlogPage({ onGetStarted, setCurrentPage }) {
+  const blogPosts = [
+    {
+      id: 1,
+      title: "Does Coaching Actually Work? What 30 Years of Research Tells Us",
+      category: "Research",
+      date: "January 2026",
+      readTime: "8 min read",
+      excerpt: "We analyzed meta-studies spanning three decades and thousands of coaching engagements. The verdict: coaching works—but not equally for everyone. Here's what the science says about maximizing impact.",
+      content: `
+        The coaching industry has grown from a niche practice to a $20 billion global phenomenon. But does coaching actually deliver results, or is it expensive conversation?
+
+        We dove into the research—meta-analyses, longitudinal studies, randomized controlled trials—to find out.
+
+        **The Bottom Line: Yes, But...**
+
+        The evidence is clear: professional coaching produces measurable improvements in goal attainment, well-being, and performance. A 2020 meta-analysis of 117 studies found an average effect size of 0.57—a "medium to large" impact by social science standards.
+
+        But the research also reveals important nuances:
+
+        **What Makes Coaching Work**
+        - The coaching relationship matters more than methodology
+        - Client readiness is the strongest predictor of outcomes
+        - Accountability structures dramatically improve follow-through
+        - Coaching works best when paired with real-world application
+
+        **Where Coaching Falls Short**
+        - Coaches rarely measure outcomes systematically
+        - Session-to-session continuity is often lost
+        - Insights from sessions don't always translate to lasting behavior change
+        - Administrative burden reduces time for actual coaching
+
+        **The Opportunity for Technology**
+
+        This is exactly why we built ReGenesis. Not to replace the human elements that make coaching work—the relationship, the presence, the intuition—but to eliminate the friction that dilutes its impact.
+
+        When coaches spend less time on notes and more time being present...
+        When every session builds seamlessly on the last...
+        When clients have 24/7 support for implementation...
+
+        That's when coaching reaches its full potential.
+      `,
+      author: "ReGenesis Research Team"
+    },
+    {
+      id: 2,
+      title: "AI in Human Care: Promises, Perils, and the Path Forward",
+      category: "Perspective",
+      date: "January 2026",
+      readTime: "10 min read",
+      excerpt: "Artificial intelligence is entering therapy, coaching, and caregiving. Some see salvation; others see dystopia. Here's our nuanced take on where AI can genuinely help—and where it absolutely shouldn't.",
+      content: `
+        The rise of AI in mental health and personal development has sparked fierce debate. AI therapy chatbots claim millions of users. AI life coaches promise transformation. Critics warn we're outsourcing our humanity to algorithms.
+
+        Who's right?
+
+        **The Case for AI in Human Care**
+
+        At its best, AI can:
+        - Extend human capacity (not replace it)
+        - Provide support in the gaps between sessions
+        - Remember everything so humans don't have to
+        - Identify patterns invisible to the human eye
+        - Make professional help accessible to more people
+
+        **The Dangers We Must Acknowledge**
+
+        But AI in caregiving carries real risks:
+        - False intimacy: AI can simulate empathy without truly understanding
+        - Dependency: Easy access to AI support could atrophy human connection skills
+        - Surveillance: Personal data in the wrong hands becomes a weapon
+        - Homogenization: AI trained on narrow datasets could impose one culture's values on everyone
+        - Displacement: If AI is "good enough," will we undervalue human practitioners?
+
+        **Our Approach: AI as Amplifier, Never Replacement**
+
+        At ReGenesis, we've made intentional choices:
+
+        ✓ Sasha is clearly identified as AI—never pretending to be human
+        ✓ Our AI supports coaches rather than bypassing them
+        ✓ Sensitive conversations are flagged for human follow-up
+        ✓ Client data is encrypted and never used for AI training without explicit consent
+        ✓ We design for human flourishing, not engagement addiction
+
+        The future of AI in human care isn't predetermined. It's being written right now, by the choices practitioners and technologists make. We intend to write a good story.
+      `,
+      author: "Jesse Torrence, Founder"
+    },
+    {
+      id: 3,
+      title: "The Dance of Intelligence: How Humans and AI Can Genuinely Cooperate",
+      category: "Philosophy",
+      date: "January 2026",
+      readTime: "7 min read",
+      excerpt: "Most AI tools position themselves as either assistants or autonomous agents. We think both framings miss what's possible: genuine collaboration where human and artificial intelligence make each other better.",
+      content: `
+        The dominant metaphors for AI are telling: "assistant," "copilot," "agent." Each implies a hierarchy—human in charge, or AI in charge.
+
+        But the most powerful human collaborations don't work that way. Think of jazz musicians improvising, or scientists building on each other's ideas, or a therapy session where both parties are transformed.
+
+        **Beyond Hierarchy: Intelligence as Dance**
+
+        What if we designed AI as a dance partner rather than a servant or a boss?
+
+        In a dance:
+        - Both parties contribute unique capabilities
+        - Leadership flows naturally based on context
+        - The whole becomes greater than the sum of parts
+        - Trust develops through iteration
+        - Mistakes become opportunities for grace
+
+        **What This Looks Like in Practice**
+
+        When a coach uses ReGenesis:
+
+        *Before the session:* Sasha synthesizes patterns and surfaces insights the coach might miss. The coach adds intuition, context, and judgment about what to prioritize.
+
+        *During the session:* The coach is fully present while AI quietly supports. Optional prompts appear only when relevant. The human leads; AI follows.
+
+        *After the session:* AI drafts notes; human refines and adds meaning. AI suggests actions; human decides what's appropriate. AI tracks progress; human interprets and adapts.
+
+        *Between sessions:* Sasha provides continuity and support. When conversations go deep, Sasha knows to involve the coach.
+
+        **The Goal: Expanded Human Capacity**
+
+        The point isn't to make coaches dependent on AI. It's to free them to do what only humans can do: be fully present, trust their intuition, build genuine relationships, and respond to the sacred complexity of another person's life.
+
+        AI handles the cognitive overhead so humans can bring their full humanity.
+
+        That's the dance.
+      `,
+      author: "ReGenesis Philosophy Team"
+    },
+    {
+      id: 4,
+      title: "Building Technology That Heals: Our Environmental and Social Commitments",
+      category: "Values",
+      date: "January 2026",
+      readTime: "6 min read",
+      excerpt: "Tech companies love to talk about changing the world. We'd rather show you what we're actually doing—from carbon-negative infrastructure to living wages to indigenous wisdom partnerships.",
+      content: `
+        We believe technology companies have a responsibility that goes beyond their product. The how of building matters as much as the what.
+
+        Here's what we're actually doing:
+
+        **Environmental Responsibility**
+
+        AI is energy-intensive. We take that seriously:
+
+        - Our infrastructure runs on 100% renewable energy
+        - We purchase carbon offsets for all computational costs
+        - We optimize our models for efficiency, not just performance
+        - We're working toward carbon-negative operations by 2027
+
+        **Fair Compensation**
+
+        Everyone who works on ReGenesis—employees, contractors, partners—receives:
+
+        - Living wages based on their location's cost of living
+        - Equity participation in the company's success
+        - Comprehensive health and wellness benefits
+        - Unlimited paid time off (actually used, not just offered)
+
+        **Wisdom Keeper Partnerships**
+
+        Our knowledge corpus draws on humanity's wisdom traditions. We compensate that contribution:
+
+        - Revenue sharing with indigenous communities whose knowledge we reference
+        - Partnerships with contemplative traditions and their practitioners
+        - Academic collaborations with proper attribution and compensation
+        - Community review boards for culturally sensitive content
+
+        **Data Ethics**
+
+        Your data is yours:
+
+        - We never sell personal data
+        - We never train on your data without explicit consent
+        - Differential privacy ensures anonymized insights can't be traced back
+        - You can export or delete your data at any time
+
+        **Accessibility**
+
+        Coaching shouldn't be only for the privileged:
+
+        - Sliding scale pricing for coaches serving underserved communities
+        - Free tier for coaches in training
+        - Partnerships with coaching-for-good organizations
+        - Multi-language support (expanding)
+
+        We're not perfect. We're learning and improving. But we believe transparency about our values—and how we fall short of them—is the beginning of integrity.
+      `,
+      author: "ReGenesis Leadership Team"
+    },
+    {
+      id: 5,
+      title: "The Wisdom Corpus: How We're Teaching AI to Be Wise (Not Just Smart)",
+      category: "Product",
+      date: "January 2026",
+      readTime: "9 min read",
+      excerpt: "Most AI is trained to be clever. We're training ours to be wise. Here's how we're building a knowledge graph that spans philosophy, psychology, spirituality, and the lived experience of master coaches.",
+      content: `
+        Intelligence without wisdom is dangerous. An AI that can manipulate but doesn't understand consequences. An AI that optimizes for metrics but misses meaning. An AI that's brilliant but not good.
+
+        We're building something different.
+
+        **What Is the Wisdom Corpus?**
+
+        The Wisdom Corpus is ReGenesis's knowledge foundation—a carefully curated and structured collection of:
+
+        - **Philosophical Traditions**: Stoicism, existentialism, pragmatism, phenomenology, and more
+        - **Psychological Frameworks**: Evidence-based models from cognitive science, developmental psychology, and positive psychology
+        - **Contemplative Wisdom**: Insights from Buddhist, Christian, Islamic, Hindu, Jewish, and indigenous traditions
+        - **Coaching Methodologies**: ICF competencies, ontological coaching, somatic approaches, and emerging practices
+        - **Lived Experience**: Anonymized patterns from thousands of coaching conversations (with consent)
+
+        **How It Works**
+
+        The Wisdom Corpus isn't just a database—it's a knowledge graph that understands relationships:
+
+        - How Stoic acceptance relates to Buddhist non-attachment
+        - When cognitive reframing is helpful vs. when it's spiritual bypassing
+        - Which interventions work for which types of challenges
+        - How the same truth appears differently across cultures
+
+        When Sasha offers an insight, it's drawing on this interconnected web of wisdom—not just pattern-matching from training data.
+
+        **Human Curation, AI Scale**
+
+        Every addition to the Wisdom Corpus is reviewed by human experts:
+
+        - Philosophers and theologians for accuracy
+        - Practitioners for practical applicability
+        - Cultural advisors for sensitivity and context
+        - Coaches for real-world relevance
+
+        AI helps us find patterns and connections. Humans ensure those patterns reflect genuine wisdom.
+
+        **An Ever-Evolving Foundation**
+
+        The Wisdom Corpus grows constantly:
+
+        - New research is added as it's published
+        - Coach feedback refines recommendations
+        - Cultural gaps are identified and filled
+        - Outdated frameworks are retired gracefully
+
+        Our goal isn't to create a static encyclopedia of wisdom. It's to build a living, breathing foundation that helps AI support human flourishing—wisely.
+      `,
+      author: "Dr. Sarah Chen, Chief Wisdom Officer"
+    }
+  ];
+
+  const [selectedPost, setSelectedPost] = React.useState(null);
+
+  if (selectedPost) {
+    const post = blogPosts.find(p => p.id === selectedPost);
+    return (
+      <div className="min-h-screen bg-white">
+        <article className="max-w-3xl mx-auto px-8 py-16">
+          <button
+            onClick={() => setSelectedPost(null)}
+            className="flex items-center gap-2 text-stone-500 hover:text-stone-700 mb-8 transition-colors"
+          >
+            <span>←</span> Back to all posts
+          </button>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-sm px-3 py-1 bg-teal-100 text-teal-700 rounded-full">{post.category}</span>
+            <span className="text-sm text-stone-500">{post.date}</span>
+            <span className="text-sm text-stone-500">·</span>
+            <span className="text-sm text-stone-500">{post.readTime}</span>
+          </div>
+          <h1 className="text-4xl font-light text-stone-800 mb-6 leading-tight">{post.title}</h1>
+          <p className="text-lg text-stone-600 mb-8 pb-8 border-b border-stone-200">{post.excerpt}</p>
+          <div className="prose prose-stone prose-lg max-w-none">
+            {post.content.split('\n\n').map((paragraph, i) => {
+              if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**')) {
+                return <h2 key={i} className="text-2xl font-semibold text-stone-800 mt-10 mb-4">{paragraph.replace(/\*\*/g, '')}</h2>;
+              }
+              if (paragraph.trim().startsWith('*') && !paragraph.trim().startsWith('**')) {
+                return <p key={i} className="text-stone-600 italic my-4">{paragraph.replace(/\*/g, '')}</p>;
+              }
+              if (paragraph.includes('✓')) {
+                return (
+                  <ul key={i} className="list-none space-y-2 my-4">
+                    {paragraph.split('\n').map((line, j) => (
+                      <li key={j} className="flex items-start gap-2 text-stone-600">
+                        {line.includes('✓') && <span className="text-teal-600">✓</span>}
+                        <span>{line.replace('✓ ', '')}</span>
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
+              if (paragraph.startsWith('- ')) {
+                return (
+                  <ul key={i} className="list-disc list-inside space-y-1 my-4 text-stone-600">
+                    {paragraph.split('\n').map((line, j) => (
+                      <li key={j}>{line.replace('- ', '')}</li>
+                    ))}
+                  </ul>
+                );
+              }
+              return <p key={i} className="text-stone-600 leading-relaxed my-4">{paragraph}</p>;
+            })}
+          </div>
+          <div className="mt-12 pt-8 border-t border-stone-200">
+            <p className="text-stone-500 text-sm">Written by <span className="text-stone-700">{post.author}</span></p>
+          </div>
+        </article>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white">
+      {/* Hero */}
+      <section className="py-24 px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl font-light text-stone-800 mb-6">
+            Thoughts on Coaching,<br />AI, and Human Flourishing
+          </h1>
+          <p className="text-xl text-stone-600 leading-relaxed">
+            Research, perspectives, and stories from the frontier of AI-augmented coaching.
+          </p>
+        </div>
+      </section>
+
+      {/* Blog Grid */}
+      <section className="py-16 px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid gap-8">
+            {blogPosts.map((post) => (
+              <article
+                key={post.id}
+                onClick={() => setSelectedPost(post.id)}
+                className="bg-white p-8 rounded-2xl border border-stone-200 hover:shadow-lg transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-sm px-3 py-1 bg-teal-100 text-teal-700 rounded-full">{post.category}</span>
+                  <span className="text-sm text-stone-500">{post.date}</span>
+                  <span className="text-sm text-stone-500">·</span>
+                  <span className="text-sm text-stone-500">{post.readTime}</span>
+                </div>
+                <h2 className="text-2xl font-semibold text-stone-800 mb-3 hover:text-teal-700 transition-colors">
+                  {post.title}
+                </h2>
+                <p className="text-stone-600 leading-relaxed mb-4">{post.excerpt}</p>
+                <span className="text-teal-700 font-medium text-sm">Read more →</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="py-20 bg-stone-900 text-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl font-light mb-6">
+            Stay in the Conversation
+          </h2>
+          <p className="text-stone-300 mb-8 text-lg">
+            Thoughtful updates on the future of coaching—no spam, no hype, just substance.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email"
+              className="flex-1 px-4 py-3 rounded-lg bg-stone-800 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-teal-500"
+            />
+            <button className="px-6 py-3 bg-white text-stone-900 rounded-lg font-medium hover:bg-stone-100 transition-colors">
+              Subscribe
+            </button>
           </div>
         </div>
       </section>
@@ -10271,7 +10961,7 @@ function CoachOnboardingFlow({ step, setStep, onComplete, onBack }) {
                     <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold">1</div>
                     <div>
                       <h4 className="font-semibold text-teal-900">Schedule your first AI-assisted session</h4>
-                      <p className="text-sm text-teal-700">Get a T-15 prep brief 15 minutes before your session</p>
+                      <p className="text-sm text-teal-700">Get a Pre-Session Brief brief 15 minutes before your session</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
@@ -11770,7 +12460,7 @@ function CoacheeDashboardShell({ onLogout }) {
           </div>
         )}
 
-        {/* V6: Session Prep tab for clients (not T-15) */}
+        {/* V6: Session Prep tab for clients */}
         {activePage === "SessionPrep" && (
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
