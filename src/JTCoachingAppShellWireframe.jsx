@@ -6310,7 +6310,7 @@ function LandingPage({ onSelectUserType }) {
           <div className="flex items-center gap-8">
             {/* Logo */}
             <button
-              onClick={() => setCurrentPage('home')}
+              onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }}
               className="flex items-center gap-2 group"
             >
               <div className="w-9 h-9 flex items-center justify-center rounded-full overflow-hidden bg-stone-800">
@@ -6326,37 +6326,37 @@ function LandingPage({ onSelectUserType }) {
             {/* Navigation - Phase B aligned: For Coaches / For Clients / For Teams / About Us / Pricing / Security */}
             <nav className="hidden md:flex items-center gap-6">
               <button
-                onClick={() => setCurrentPage('coaches')}
+                onClick={() => { setCurrentPage('coaches'); window.scrollTo(0, 0); }}
                 className={`text-sm font-medium transition-colors ${currentPage === 'coaches' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 For Coaches
               </button>
               <button
-                onClick={() => setCurrentPage('clients')}
+                onClick={() => { setCurrentPage('clients'); window.scrollTo(0, 0); }}
                 className={`text-sm font-medium transition-colors ${currentPage === 'clients' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 For Clients
               </button>
               <button
-                onClick={() => setCurrentPage('teams')}
+                onClick={() => { setCurrentPage('teams'); window.scrollTo(0, 0); }}
                 className={`text-sm font-medium transition-colors ${currentPage === 'teams' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 For Teams
               </button>
               <button
-                onClick={() => setCurrentPage('about')}
+                onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }}
                 className={`text-sm font-medium transition-colors ${currentPage === 'about' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 About Us
               </button>
               <button
-                onClick={() => setCurrentPage('pricing')}
+                onClick={() => { setCurrentPage('pricing'); window.scrollTo(0, 0); }}
                 className={`text-sm font-medium transition-colors ${currentPage === 'pricing' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 Pricing
               </button>
               <button
-                onClick={() => setCurrentPage('security')}
+                onClick={() => { setCurrentPage('security'); window.scrollTo(0, 0); }}
                 className={`text-sm font-medium transition-colors ${currentPage === 'security' ? 'text-white' : 'text-stone-400 hover:text-white'}`}
               >
                 Security
@@ -6975,11 +6975,11 @@ function LandingPage({ onSelectUserType }) {
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Product</h4>
               <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setCurrentPage('coaches')} className="hover:text-white transition-colors">For Coaches</button></li>
-                <li><button onClick={() => setCurrentPage('clients')} className="hover:text-white transition-colors">For Clients</button></li>
-                <li><button onClick={() => setCurrentPage('teams')} className="hover:text-white transition-colors">For Teams</button></li>
-                <li><button onClick={() => setCurrentPage('pricing')} className="hover:text-white transition-colors">Pricing</button></li>
-                <li><button onClick={() => setCurrentPage('security')} className="hover:text-white transition-colors">Security</button></li>
+                <li><button onClick={() => { setCurrentPage('coaches'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">For Coaches</button></li>
+                <li><button onClick={() => { setCurrentPage('clients'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">For Clients</button></li>
+                <li><button onClick={() => { setCurrentPage('teams'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">For Teams</button></li>
+                <li><button onClick={() => { setCurrentPage('pricing'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Pricing</button></li>
+                <li><button onClick={() => { setCurrentPage('security'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Security</button></li>
               </ul>
             </div>
 
@@ -6987,8 +6987,8 @@ function LandingPage({ onSelectUserType }) {
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setCurrentPage('about')} className="hover:text-white transition-colors">About</button></li>
-                <li><button onClick={() => setCurrentPage('about')} className="hover:text-white transition-colors">Philosophy</button></li>
+                <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">About</button></li>
+                <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Philosophy</button></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
               </ul>
             </div>
@@ -6997,8 +6997,8 @@ function LandingPage({ onSelectUserType }) {
             <div>
               <h4 className="text-white font-medium text-sm mb-4">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setCurrentPage('faq')} className="hover:text-white transition-colors">FAQ</button></li>
-                <li><button onClick={() => setCurrentPage('integrations')} className="hover:text-white transition-colors">Integrations</button></li>
+                <li><button onClick={() => { setCurrentPage('faq'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">FAQ</button></li>
+                <li><button onClick={() => { setCurrentPage('integrations'); window.scrollTo(0, 0); }} className="hover:text-white transition-colors">Integrations</button></li>
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
               </ul>
             </div>
@@ -7047,9 +7047,7 @@ function LandingPage({ onSelectUserType }) {
           <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
             <div className="p-8">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-medium text-stone-800">
-                  {loginUserType ? 'Sign In' : 'Welcome back'}
-                </h2>
+                <h2 className="text-xl font-medium text-stone-800">Welcome back</h2>
                 <button
                   onClick={() => {
                     setShowLogin(false);
@@ -7061,77 +7059,71 @@ function LandingPage({ onSelectUserType }) {
                 </button>
               </div>
 
-              {!loginUserType ? (
-                <div className="space-y-3">
-                  <p className="text-sm text-stone-500 mb-4">How do you use ReGenesis?</p>
+              <div className="space-y-3">
+                {/* OAuth Buttons */}
+                <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 transition-colors">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  <span className="font-medium text-stone-700">Continue with Google</span>
+                </button>
 
-                  <button
-                    onClick={() => setLoginUserType('coach')}
-                    className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors"
-                  >
-                    <div className="font-medium text-stone-800">I'm a Coach</div>
-                    <div className="text-sm text-stone-500 mt-1">Access your coaching dashboard</div>
-                  </button>
+                <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 transition-colors">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#00A4EF">
+                    <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zM24 11.4H12.6V0H24v11.4z"/>
+                  </svg>
+                  <span className="font-medium text-stone-700">Continue with Microsoft</span>
+                </button>
 
-                  <button
-                    onClick={() => setLoginUserType('coachee')}
-                    className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors"
-                  >
-                    <div className="font-medium text-stone-800">I'm a Coaching Client</div>
-                    <div className="text-sm text-stone-500 mt-1">Access your growth companion</div>
-                  </button>
+                <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-stone-300 rounded-lg hover:bg-stone-50 transition-colors">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <span className="font-medium text-stone-700">Continue with Apple</span>
+                </button>
 
-                  <button
-                    onClick={() => setLoginUserType('admin')}
-                    className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors"
-                  >
-                    <div className="font-medium text-stone-800">I'm an Organization Admin</div>
-                    <div className="text-sm text-stone-500 mt-1">Access program administration</div>
-                  </button>
-
-                  <p className="text-center text-sm text-stone-500 mt-6">
-                    Don't have an account?{' '}
-                    <button
-                      onClick={() => setShowLogin(false)}
-                      className="text-violet-600 hover:underline font-medium"
-                    >
-                      Get started
-                    </button>
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <button
-                    onClick={() => setLoginUserType(null)}
-                    className="text-sm text-stone-500 hover:text-stone-700 flex items-center gap-1"
-                  >
-                    ← Back
-                  </button>
-
-                  <div>
-                    <label className="block text-sm font-medium text-stone-700 mb-1">Email</label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-transparent"
-                      placeholder="you@example.com"
-                    />
+                <div className="relative my-6">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-stone-200"></div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-stone-700 mb-1">Password</label>
-                    <input
-                      type="password"
-                      className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-transparent"
-                      placeholder="••••••••"
-                    />
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white text-stone-500">or</span>
                   </div>
-                  <button className="w-full py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-lg font-medium transition-colors">
-                    Sign In
-                  </button>
-                  <p className="text-center text-sm text-stone-500">
-                    <a href="#" className="hover:underline">Forgot password?</a>
-                  </p>
                 </div>
-              )}
+
+                {/* Email/Password */}
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-transparent"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Password</label>
+                  <input
+                    type="password"
+                    className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-transparent"
+                    placeholder="••••••••"
+                  />
+                </div>
+                <button className="w-full py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-lg font-medium transition-colors">
+                  Sign In
+                </button>
+                <div className="flex justify-between text-sm text-stone-500 mt-2">
+                  <a href="#" className="hover:underline">Forgot password?</a>
+                  <button
+                    onClick={() => setShowLogin(false)}
+                    className="text-violet-600 hover:underline font-medium"
+                  >
+                    Create account
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -7205,7 +7197,7 @@ function LandingPage({ onSelectUserType }) {
                   className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors group"
                 >
                   <div className="font-medium text-stone-800 group-hover:text-stone-900">I'm a Coach</div>
-                  <div className="text-sm text-stone-500 mt-1">Individual practitioner or coaching professional</div>
+                  <div className="text-sm text-stone-500 mt-1">Independent or with an organization</div>
                 </button>
 
                 <button
@@ -7213,7 +7205,7 @@ function LandingPage({ onSelectUserType }) {
                   className="w-full p-5 text-left border border-stone-200 rounded-xl hover:border-stone-400 hover:bg-stone-50 transition-colors group"
                 >
                   <div className="font-medium text-stone-800 group-hover:text-stone-900">I'm a Coaching Client</div>
-                  <div className="text-sm text-stone-500 mt-1">My coach invited me to ReGenesis</div>
+                  <div className="text-sm text-stone-500 mt-1">Exploring with or without my coach</div>
                 </button>
 
                 <button
@@ -7347,7 +7339,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
             <span className="text-stone-500">Without the overwhelm.</span>
           </h1>
           <p className="text-xl text-stone-600 mb-8 max-w-2xl">
-            You became a coach to transform lives — not to drown in admin, forget crucial details, or spend your evenings writing notes. ReGenesis gives you back your time, your memory, and your presence.
+            You became a coach to transform lives — not to drown in admin or spend your evenings on notes. ReGenesis doesn't just give you back your time. It amplifies your natural gifts — letting you see clients more fully, understand them more deeply, and unlock their growth with a precision and continuity you only dreamed of. It's like gaining superhuman powers without adding a single thing to your plate.
           </p>
           <button
             onClick={onGetStarted}
@@ -7362,29 +7354,25 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
       <div className="max-w-5xl mx-auto px-8 py-20">
         <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">We understand the reality</h2>
         <p className="text-lg text-stone-500 text-center mb-12 max-w-2xl mx-auto">
-          Because we've lived it. ReGenesis was built by coaches who know these struggles firsthand.
+          Because we live it. ReGenesis was built by coaches who love their craft and who honor the struggles, the dreams, the pain, and the possibilities of each precious human they get to work with.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 mb-16">
-          <div className="bg-white rounded-xl p-6 border border-stone-200">
-            <div className="text-2xl mb-3">🧠</div>
+          <div className="bg-white rounded-xl p-6 border-l-4 border-l-rose-300 border border-stone-200">
             <h3 className="font-semibold text-stone-800 mb-2">You're holding too many stories</h3>
-            <p className="text-stone-600 text-sm">Dozens of clients, each with complex histories, family dynamics, career challenges, and breakthrough moments. You try to remember it all — but something always slips.</p>
+            <p className="text-stone-600 text-sm">Dozens of clients, each with complex histories, family dynamics, career challenges, and breakthrough moments. Clients have dynamic and unpredictable lives with ever-changing circumstances. It's impossible to stay abreast of all of it.</p>
           </div>
-          <div className="bg-white rounded-xl p-6 border border-stone-200">
-            <div className="text-2xl mb-3">⏰</div>
+          <div className="bg-white rounded-xl p-6 border-l-4 border-l-amber-300 border border-stone-200">
             <h3 className="font-semibold text-stone-800 mb-2">Sessions end, work begins</h3>
-            <p className="text-stone-600 text-sm">You give everything in session, then spend your evenings writing notes, crafting follow-ups, and catching up on what you promised to send. The admin never ends.</p>
+            <p className="text-stone-600 text-sm">You give everything in each session and don't always have the time or energy to craft the notes you wish you could, give the follow-ups and resources that would be helpful, or prepare sufficiently for the next client.</p>
           </div>
-          <div className="bg-white rounded-xl p-6 border border-stone-200">
-            <div className="text-2xl mb-3">🔇</div>
+          <div className="bg-white rounded-xl p-6 border-l-4 border-l-sky-300 border border-stone-200">
             <h3 className="font-semibold text-stone-800 mb-2">Silence between sessions</h3>
-            <p className="text-stone-600 text-sm">Your clients face challenges every day, not just during your hour together. But you can't be there 24/7 — and momentum fades between sessions.</p>
+            <p className="text-stone-600 text-sm">Your clients face challenges every day, not just during your hour together. But you can't be there 24/7 — momentum fades, habits resist change, and breakthroughs are hard to translate into lasting psychological and behavioral change and goal attainment.</p>
           </div>
-          <div className="bg-white rounded-xl p-6 border border-stone-200">
-            <div className="text-2xl mb-3">📊</div>
+          <div className="bg-white rounded-xl p-6 border-l-4 border-l-violet-300 border border-stone-200">
             <h3 className="font-semibold text-stone-800 mb-2">Running a practice is a second job</h3>
-            <p className="text-stone-600 text-sm">Invoicing, scheduling, credential tracking, marketing — the business side of coaching takes as much energy as the coaching itself.</p>
+            <p className="text-stone-600 text-sm">The admin never ends — scheduling/rescheduling, client communications, invoicing, credential tracking, marketing and business development. The business side of coaching can take as much energy as the coaching itself.</p>
           </div>
         </div>
       </div>
@@ -7393,8 +7381,8 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
       <div className="bg-white border-y border-stone-200">
         <div className="max-w-5xl mx-auto px-8 py-20">
           <h2 className="text-3xl font-light text-stone-800 mb-4 text-center">How ReGenesis transforms your practice</h2>
-          <p className="text-lg text-stone-500 text-center mb-16 max-w-2xl mx-auto">
-            Every feature was designed for one purpose: let you focus on what only you can do — being fully present.
+          <p className="text-lg text-stone-500 text-center mb-16 max-w-3xl mx-auto">
+            Every feature was designed for one purpose: to let you focus on what matters most and what you do best — bringing your full presence, compassion, experience, and insight to every conversation. ReGenesis doesn't just free your hands. It works in tandem with you, combining its memory and pattern recognition with your wisdom and judgment — so you can see the whole picture and guide transformation like never before.
           </p>
 
           {/* Feature 1: T-15 Prep */}
@@ -7404,7 +7392,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">Before Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">T-15 Prep Briefs</h3>
                 <p className="text-stone-600 mb-6">
-                  Fifteen minutes before each session, Sasha delivers a comprehensive brief: where you left off, what's happened since, emotional patterns, commitments made, and suggested openers. You walk in prepared — as if you'd just finished the last session.
+                  Fifteen minutes before each session, "Sasha" — your always-on AI assistant — delivers a comprehensive snapshot: who your client is, what they want, what's getting in the way (patterns), where you left off, what has happened since, commitments and progress made, and potential openers. You walk in prepared — as if you'd just finished the last session.
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
@@ -7413,18 +7401,21 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Insights from their Sasha conversations (what they chose to share)</span>
+                    <span>Key takeaways from their conversations with Sasha, their 24/7 AI companion (what they chose to share)</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Pattern alerts: what's emerging, what's stuck, what needs attention</span>
+                    <span>Pattern and action alerts: what's emerging, what's stuck, what needs attention</span>
                   </li>
                 </ul>
               </div>
               <div className="flex-1">
-                <div className="bg-stone-100 rounded-2xl aspect-video flex items-center justify-center text-stone-400">
-                  [T-15 Prep Interface Screenshot]
-                </div>
+                <button className="w-full bg-stone-900 rounded-2xl aspect-video flex flex-col items-center justify-center text-stone-400 hover:bg-stone-800 transition-colors group cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/20 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <span className="text-white/60 text-sm">Watch Demo</span>
+                </button>
               </div>
             </div>
           </div>
@@ -7436,27 +7427,30 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">After Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">AI-Drafted Session Notes</h3>
                 <p className="text-stone-600 mb-6">
-                  Within minutes of ending a session, beautiful, structured notes appear — written in your voice. Recap, insights, inquiries for growth, action items, resources to share. Edit with natural language: "make the tone warmer" or "add the framework we discussed."
+                  Within minutes of ending a session, beautiful, structured notes appear — written in your voice, grounded in your values, philosophy, and frameworks. Session summaries, observations and insights, inquiries for growth, action items, and resources to share. Effortlessly modify to fit exactly your style: "make the tone warmer," "add the framework we discussed," or "condense to two pages."
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Six-section format designed for client impact</span>
+                    <span>Comprehensive and incisive, designed for maximum client impact</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Click any insight to hear the exact transcript moment</span>
+                    <span>Nested and traceable — chase any insight back to its source in the transcript or video</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Attach resources and send with one click</span>
+                    <span>Create and attach follow-up resources of any kind with one click</span>
                   </li>
                 </ul>
               </div>
               <div className="flex-1">
-                <div className="bg-stone-100 rounded-2xl aspect-video flex items-center justify-center text-stone-400">
-                  [Session Notes Interface Screenshot]
-                </div>
+                <button className="w-full bg-stone-900 rounded-2xl aspect-video flex flex-col items-center justify-center text-stone-400 hover:bg-stone-800 transition-colors group cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/20 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <span className="text-white/60 text-sm">Watch Demo</span>
+                </button>
               </div>
             </div>
           </div>
@@ -7468,7 +7462,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">Between Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">24/7 AI Companion (Sasha)</h3>
                 <p className="text-stone-600 mb-6">
-                  Your clients get Sasha at no extra cost — an AI companion that knows their journey, helps them process challenges, tracks commitments, and prepares them for sessions. They control what you see. You stay in the loop without extra work.
+                  Your clients get full access to the same AI intelligence that powers your entire practice — one that knows your coaching style and them inside and out. It's like putting an avatar of you in their pocket, with the convenience and privacy they need to unpack and explore things they might not even yet feel comfortable sharing with you. They continue their journey between sessions. You stay in the loop with summaries and key insights from these discussions — without the extra work.
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
@@ -7486,9 +7480,12 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 </ul>
               </div>
               <div className="flex-1">
-                <div className="bg-stone-100 rounded-2xl aspect-video flex items-center justify-center text-stone-400">
-                  [Sasha Client Interface Screenshot]
-                </div>
+                <button className="w-full bg-stone-900 rounded-2xl aspect-video flex flex-col items-center justify-center text-stone-400 hover:bg-stone-800 transition-colors group cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/20 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <span className="text-white/60 text-sm">Watch Demo</span>
+                </button>
               </div>
             </div>
           </div>
@@ -7500,7 +7497,10 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 <div className="text-sm font-semibold text-rose-600 uppercase tracking-wide mb-2">During Sessions</div>
                 <h3 className="text-2xl font-semibold text-stone-800 mb-4">In-Session Copilot</h3>
                 <p className="text-stone-600 mb-6">
-                  Real-time support exactly when and how you want it. Sasha listens (with permission) and can surface relevant history, suggest frameworks, or propose powerful questions — all below your camera line on Zoom. Adjust from "quiet support" to "active guidance."
+                  Real-time support during your video conference sessions — exactly when and how you want it. Sasha joins your call like other transcription services, but does much more than listen. It responds to your questions in the moment, surfaces relevant history, makes observations, and proposes powerful questions — all inconspicuously placed just below your camera view. One click to adjust from "quiet support" to "active guidance."
+                </p>
+                <p className="text-stone-500 text-sm italic mb-6">
+                  Try asking: "What's a powerful question to evoke awareness here?" • "What pattern am I missing?" • "Remind me of their North Star goals" • "What might they be avoiding?"
                 </p>
                 <ul className="space-y-3 text-stone-600">
                   <li className="flex items-start gap-3">
@@ -7509,7 +7509,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
-                    <span>Paste questions or resources directly to Zoom chat</span>
+                    <span>Paste questions or resources directly to your video chat</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-rose-500 mt-1">✓</span>
@@ -7518,9 +7518,12 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
                 </ul>
               </div>
               <div className="flex-1">
-                <div className="bg-stone-100 rounded-2xl aspect-video flex items-center justify-center text-stone-400">
-                  [In-Session Copilot Screenshot]
-                </div>
+                <button className="w-full bg-stone-900 rounded-2xl aspect-video flex flex-col items-center justify-center text-stone-400 hover:bg-stone-800 transition-colors group cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/20 transition-colors">
+                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <span className="text-white/60 text-sm">Watch Demo</span>
+                </button>
               </div>
             </div>
           </div>
@@ -7553,7 +7556,7 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
       <div className="bg-stone-100">
         <div className="max-w-3xl mx-auto px-8 py-20 text-center">
           <blockquote className="text-2xl font-light text-stone-700 italic mb-6">
-            "The first time I saw the notes Sasha drafted after a session, I cried. It captured insights I hadn't even articulated to myself. This is what I've been waiting for."
+            "The first time I saw the notes Sasha drafted after a session, I was in tears. It somehow captured and articulated the intuitions and insights I had felt but couldn't quite put words to yet myself. I was blown away — and so was my client."
           </blockquote>
           <div className="text-stone-500">
             <span className="font-medium text-stone-700">— Coach Testimonial</span>
@@ -7586,15 +7589,19 @@ function CoachExperiencePage({ onGetStarted, setCurrentPage, scrollY }) {
           <div className="space-y-8">
             <div>
               <h3 className="font-semibold text-stone-800 mb-2">Will AI replace the human element of coaching?</h3>
-              <p className="text-stone-600">Never. ReGenesis exists to amplify your presence, not replace it. The AI handles memory and admin so you can be more human — more present, more intuitive, more connected. Your discernment and compassion are irreplaceable.</p>
+              <p className="text-stone-600">We hope not. We think there's something sacred about human relationship — the space shared by coach and coachee willing to deeply listen and be seen. ReGenesis exists to amplify that relationship, not replace it. It also makes you a better coach: you receive feedback, pattern insights, and growth pointers that help you perfect your craft. Your discernment and compassion are irreplaceable — and now they're supercharged.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-stone-800 mb-2">What if my clients are hesitant about AI or privacy?</h3>
+              <p className="text-stone-600">We help you communicate in clear, down-to-earth language your clients can understand and trust — how it works, what the benefits are, and how their data is protected. Clients can try it out risk-free and immediately delete their data if they're uncomfortable at any time. But we're confident: once they experience it, they'll never want to go back. And neither will you.</p>
             </div>
             <div>
               <h3 className="font-semibold text-stone-800 mb-2">Is my clients' data private?</h3>
               <p className="text-stone-600">Absolutely. Your clients control what they share with you through privacy tiers. We use bank-level encryption, never sell data, and offer our "Evaporation Promise" — when data is deleted, it's truly gone. Forever.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-stone-800 mb-2">How long does it take to get started?</h3>
-              <p className="text-stone-600">About 15 minutes. Connect your calendar, import existing clients if you'd like, and you're ready. Sasha learns your style over time — the more you use it, the better it gets.</p>
+              <h3 className="font-semibold text-stone-800 mb-2">What if I don't want to learn a bunch of new tools?</h3>
+              <p className="text-stone-600">That's the point. ReGenesis was designed to be frictionless — it integrates seamlessly and invisibly with the apps, platforms, and workstations you already use, protecting all your client and organization data along the way. Many coaches find they don't need half their existing tools anymore, because ReGenesis handles them.</p>
             </div>
             <div>
               <h3 className="font-semibold text-stone-800 mb-2">What if I don't want AI during sessions?</h3>
