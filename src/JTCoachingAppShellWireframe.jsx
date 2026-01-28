@@ -137,7 +137,7 @@ export default function JTCoachingAppShellWireframe() {
 
   // COACH DASHBOARD (existing functionality)
   return (
-    <div className="flex flex-col h-screen bg-gray-100 text-gray-900">
+    <div className="flex flex-col h-screen bg-stone-100 text-stone-900">
 
       {/* V6 Command Bar Overlay - Opens with Cmd/Ctrl+K */}
       <CommandBarOverlay
@@ -173,94 +173,45 @@ export default function JTCoachingAppShellWireframe() {
 
       {/* TOP HORIZONTAL NAVIGATION */}
       <header className="bg-gray-900 text-white shadow-lg">
-        <div className="flex items-center justify-between px-8 py-3">
+        <div className="flex items-center justify-between px-6 py-2">
           {/* Logo and Brand */}
-          <div className="flex items-center gap-6">
-            <img src={logo} alt="Logo" className="h-10 rounded-lg" />
+          <div className="flex items-center gap-4">
+            {/* ReGenesis Logo - clicks to landing page */}
+            <button
+              onClick={() => { setUserType(null); setIsLoggedIn(false); }}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              title="Back to ReGenesis Home"
+            >
+              <img src={logo} alt="ReGenesis" className="h-8 rounded-lg" />
+            </button>
 
-            {/* Command Bar Hint - V6 addition */}
-            <CommandBarHint onClick={() => setShowCommandBar(true)} />
+            {/* Divider */}
+            <div className="h-6 w-px bg-gray-700"></div>
 
-            {/* Sasha - AI Intelligence Feature */}
-            <div className="relative">
-              <button
-                onClick={() => setShowCommandBar(true)}
-                onMouseEnter={() => setShowSashaTooltip(true)}
-                onMouseLeave={() => setShowSashaTooltip(false)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-lg hover:shadow-lg transition-all"
-              >
-                <span className="text-xl">🧙‍♂️</span>
-                <span className="font-semibold">{AGENT_NAME}</span>
-                <span className="text-xs bg-white/20 px-2 py-0.5 rounded">AI</span>
-              </button>
-
-              {/* Sasha Tooltip - Shows all capabilities on hover */}
-              {showSashaTooltip && (
-                <div className="absolute top-full left-0 mt-2 w-96 bg-white text-gray-900 rounded-xl shadow-2xl p-6 z-50 border border-gray-200">
-                  <div className="flex items-center gap-2 mb-4 pb-3 border-b">
-                    <span className="text-2xl">🧙‍♂️</span>
-                    <div>
-                      <h3 className="font-bold text-lg">Sasha AI Assistant</h3>
-                      <p className="text-xs text-gray-500">Your always-on coaching intelligence</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 mb-4">
-                    <div className="text-sm">
-                      <div className="font-semibold text-teal-600 mb-1">📋 Session & Client Support</div>
-                      <ul className="text-xs text-gray-600 space-y-1 ml-4">
-                        <li>• Prep Pre-Session Briefs with client context</li>
-                        <li>• Draft, edit, and send client notes automatically</li>
-                        <li>• Identify patterns and insights across sessions</li>
-                        <li>• Suggest powerful questions & frameworks</li>
-                        <li>• Optional co-pilot support during sessions</li>
-                      </ul>
-                    </div>
-
-                    <div className="text-sm">
-                      <div className="font-semibold text-blue-600 mb-1">📅 Scheduling & Admin</div>
-                      <ul className="text-xs text-gray-600 space-y-1 ml-4">
-                        <li>• Find optimal meeting times</li>
-                        <li>• Send calendar invites & reminders</li>
-                        <li>• Draft professional emails</li>
-                        <li>• Automate invoicing and tax filing</li>
-                      </ul>
-                    </div>
-
-                    <div className="text-sm">
-                      <div className="font-semibold text-purple-600 mb-1">💡 Insights & Growth</div>
-                      <ul className="text-xs text-gray-600 space-y-1 ml-4">
-                        <li>• Track & report metrics for ICF credentials and professional growth</li>
-                        <li>• Provide resource recommendations</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="bg-gradient-to-r from-teal-50 via-blue-50 to-purple-50 p-3 rounded-lg">
-                    <div className="text-xs font-semibold text-gray-700 mb-2">Try asking:</div>
-                    <div className="text-xs text-gray-600 space-y-1">
-                      <div className="italic">"Prepare me for tomorrow's session with Marcus"</div>
-                      <div className="italic">"Find time this week for a 1-hour session"</div>
-                      <div className="italic">"What patterns do you see in Sarah's progress?"</div>
-                      <div className="italic">"Find me the perfect gift for our anniversary"</div>
-                    </div>
-                  </div>
-                </div>
-              )}
+            {/* Coach/Company Branding - McKinsey example */}
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 bg-blue-600 rounded flex items-center justify-center text-xs font-bold text-white">M</div>
+              <div className="text-sm">
+                <div className="font-semibold text-white leading-tight">Terry Hackett</div>
+                <div className="text-xs text-gray-400">McKinsey & Company</div>
+              </div>
             </div>
+
+            {/* Command Bar Hint */}
+            <CommandBarHint onClick={() => setShowCommandBar(true)} />
           </div>
 
-          {/* Navigation with better spacing */}
-          <nav className="flex gap-3">
+          {/* Navigation - slightly smaller */}
+          <nav className="flex gap-2">
             {navItems.map((item) => (
               <button
                 key={item.key}
                 onClick={() => setActivePage(item.key)}
                 className={[
-                  "px-5 py-2 font-medium rounded-lg transition-all",
+                  "px-4 py-1.5 text-sm font-medium rounded-md transition-all",
                   activePage === item.key
-                    ? "bg-white text-gray-900 shadow-md"
-                    : "text-white hover:bg-gray-800"
+                    ? "bg-white text-gray-900 shadow"
+                    : "text-gray-300 hover:bg-gray-800 hover:text-white"
                 ].join(" ")}
               >
                 {item.label}
@@ -268,15 +219,68 @@ export default function JTCoachingAppShellWireframe() {
             ))}
           </nav>
 
-          {/* Alerts & Notifications */}
-          <div className="flex items-center gap-4">
-            <button className="relative p-2 text-white hover:bg-gray-800 rounded-lg transition-all">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-              {/* Notification badge */}
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">3</span>
-            </button>
+          {/* Alerts & Notifications with Dropdown */}
+          <div className="flex items-center gap-3">
+            <div className="relative group">
+              <button className="relative p-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded-md transition-all">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">4</span>
+              </button>
+              {/* Alerts Dropdown */}
+              <div className="absolute right-0 top-full mt-1 w-80 bg-white text-gray-900 rounded-lg shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                  <span className="font-semibold text-sm">Notifications</span>
+                  <button className="text-xs text-teal-600 hover:underline">Mark all read</button>
+                </div>
+                <div className="max-h-80 overflow-y-auto">
+                  <div className="p-3 border-b border-gray-50 hover:bg-gray-50 cursor-pointer">
+                    <div className="flex items-start gap-3">
+                      <span className="text-lg">🔴</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Client may need support</p>
+                        <p className="text-xs text-gray-500">Sarah Chen's recent Sasha messages suggest increased stress. Consider reaching out.</p>
+                        <p className="text-xs text-gray-400 mt-1">2 hours ago</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 border-b border-gray-50 hover:bg-gray-50 cursor-pointer">
+                    <div className="flex items-start gap-3">
+                      <span className="text-lg">📬</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">New message from Marcus Williams</p>
+                        <p className="text-xs text-gray-500">"Hey, quick question about tomorrow's session..."</p>
+                        <p className="text-xs text-gray-400 mt-1">4 hours ago</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 border-b border-gray-50 hover:bg-gray-50 cursor-pointer">
+                    <div className="flex items-start gap-3">
+                      <span className="text-lg">📅</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Session reminder</p>
+                        <p className="text-xs text-gray-500">Marcus Williams session in 30 minutes</p>
+                        <p className="text-xs text-gray-400 mt-1">Just now</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 hover:bg-gray-50 cursor-pointer">
+                    <div className="flex items-start gap-3">
+                      <span className="text-lg">✅</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Invoice paid</p>
+                        <p className="text-xs text-gray-500">Jennifer Martinez - $450 received</p>
+                        <p className="text-xs text-gray-400 mt-1">Yesterday</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="px-4 py-2 border-t border-gray-100 text-center">
+                  <button className="text-xs text-teal-600 hover:underline">View all notifications</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -445,6 +449,8 @@ function WaitingItem({ title, sent, onNudge }) {
 // "Command and Control Center" - GTD-inspired with North Star goals
 function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
   const [showAllActions, setShowAllActions] = React.useState(false);
+  const [activeHorizon, setActiveHorizon] = React.useState('today');
+  const [showInbox, setShowInbox] = React.useState(false);
 
   const marcusClient = mockClients.find(c => c.name === "Marcus Williams");
   const sarahClient = mockClients.find(c => c.name === "Sarah Chen");
@@ -453,577 +459,395 @@ function DashboardPage({ onOpenPreSessionBrief, onOpenSession }) {
     return <AllActionsAllDomainsPage onBack={() => setShowAllActions(false)} />;
   }
 
-  return (
-    <div className="p-8 overflow-auto h-full bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Page Header */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2">Dashboard</h2>
-        <p className="text-gray-600 font-medium">Capture · Clarify · Organize · Reflect · Engage</p>
+  // Action item with breadcrumb connection to goal
+  const ActionWithBreadcrumb = ({ title, subtitle, goalPath, category, categoryColor, urgent, onClick }) => (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center justify-between p-3 bg-white rounded-md border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all group text-left"
+    >
+      <div className="flex items-center gap-3">
+        <input type="checkbox" className="w-4 h-4 rounded border-stone-300 text-stone-600" onClick={(e) => e.stopPropagation()} />
+        <div>
+          <p className="text-sm font-medium text-gray-900">{title}</p>
+          <p className="text-xs text-gray-500">{subtitle}</p>
+          {goalPath && (
+            <p className="text-xs text-stone-400 mt-0.5">→ {goalPath}</p>
+          )}
+        </div>
       </div>
+      <div className="flex items-center gap-2">
+        {urgent && <span className="text-xs px-1.5 py-0.5 bg-red-100 text-red-700 rounded font-medium">Urgent</span>}
+        <span className={`text-xs px-1.5 py-0.5 bg-${categoryColor}-100 text-${categoryColor}-700 rounded`}>{category}</span>
+        <svg className="w-4 h-4 text-gray-400 group-hover:text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </button>
+  );
 
-      {/* Next Actions - GTD-style with context on why each is surfaced */}
-      <div className="mb-6 bg-gradient-to-r from-stone-50 to-stone-100 border border-stone-200 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-stone-200 rounded-xl flex items-center justify-center">
-              <svg className="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="font-semibold text-stone-900">Next Actions</h3>
-              <p className="text-sm text-stone-600">Highest-impact items across all your domains, surfaced by urgency and context</p>
-            </div>
-          </div>
+  return (
+    <div className="p-6 overflow-auto h-full bg-stone-50">
+      {/* Page Header - Smaller */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h2 className="text-xl font-semibold text-stone-900">Dashboard</h2>
+          <p className="text-xs text-stone-500">Capture · Clarify · Organize · Reflect · Engage</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowInbox(!showInbox)}
+            className="text-xs px-3 py-1.5 bg-white border border-stone-200 rounded-md hover:bg-stone-50 flex items-center gap-1"
+          >
+            <span>📥</span> Inbox <span className="bg-amber-100 text-amber-700 px-1 rounded text-xs">3</span>
+          </button>
           <button
             onClick={() => setShowAllActions(true)}
-            className="text-sm px-4 py-2 bg-stone-800 text-white rounded-lg hover:bg-stone-700 shadow"
+            className="text-xs px-3 py-1.5 bg-stone-800 text-white rounded-md hover:bg-stone-700"
           >
             All Actions →
           </button>
         </div>
-        <div className="space-y-3">
-          <button
-            onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
-            className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all group"
-          >
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" onClick={(e) => e.stopPropagation()} />
-              <div className="text-left">
-                <p className="font-medium text-gray-900">Prepare for Marcus Williams</p>
-                <p className="text-sm text-gray-500">Session in 30 minutes — Pre-Session Brief is ready</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full font-medium">Urgent</span>
-              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Coaching</span>
-              <svg className="w-5 h-5 text-gray-400 group-hover:text-stone-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </button>
-          <button
-            onClick={() => onOpenSession && onOpenSession(1, sarahClient)}
-            className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all group"
-          >
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" onClick={(e) => e.stopPropagation()} />
-              <div className="text-left">
-                <p className="font-medium text-gray-900">Review draft notes - Sarah Chen</p>
-                <p className="text-sm text-gray-500">Session from Jan 8 ready for your review</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full font-medium">Today</span>
-              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Coaching</span>
-              <svg className="w-5 h-5 text-gray-400 group-hover:text-stone-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </button>
-          <div className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all cursor-pointer">
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" />
-              <div className="text-left">
-                <p className="font-medium text-gray-900">Pick up birthday gift for Oana</p>
-                <p className="text-sm text-gray-500">Birthday is tomorrow!</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full font-medium">Today</span>
-              <span className="text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full">Family</span>
-            </div>
-          </div>
-          <div className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all cursor-pointer">
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" />
-              <div className="text-left">
-                <p className="font-medium text-gray-900">Invoice 3 clients (overdue)</p>
-                <p className="text-sm text-gray-500">Outstanding since last week</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full font-medium">Today</span>
-              <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Financial</span>
-            </div>
-          </div>
-          <div className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-stone-200 hover:shadow-md hover:border-stone-300 transition-all cursor-pointer">
-            <div className="flex items-center gap-4">
-              <input type="checkbox" className="w-5 h-5 rounded border-stone-300 text-stone-600" />
-              <div className="text-left">
-                <p className="font-medium text-gray-900">Book dermatology checkup</p>
-                <p className="text-sm text-gray-500">Been putting this off — time to do it</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-1 bg-stone-100 text-stone-700 rounded-full font-medium">This Week</span>
-              <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">Wellbeing</span>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Status Badges - Clarified what each count means */}
-      <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="flex items-center gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg">
-          <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-          <span className="text-sm text-amber-800 font-medium">2 Pre-Session Briefs ready</span>
-        </div>
-        <div className="flex items-center gap-2 px-4 py-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-          <span className="text-sm text-blue-800 font-medium">3 sessions this week</span>
-        </div>
-        <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-lg">
-          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-          <span className="text-sm text-green-800 font-medium">1 draft note to review</span>
-        </div>
-        <div className="flex items-center gap-2 px-4 py-3 bg-purple-50 border border-purple-200 rounded-lg">
-          <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-          <span className="text-sm text-purple-800 font-medium">12 active clients</span>
-        </div>
-      </div>
-
-      {/* TIME HORIZON SECTIONS - GTD-style organization */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-2xl font-bold">By Time Horizon</h3>
-          <div className="flex items-center gap-2 text-sm text-stone-500">
-            <span>Filter:</span>
-            <select className="px-3 py-1 border border-stone-200 rounded-lg text-sm bg-white">
-              <option>All Domains</option>
-              <option>Coaching Only</option>
-              <option>Life Only</option>
-            </select>
-          </div>
-        </div>
-
-        {/* TODAY - High urgency */}
-        <div className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 p-6 rounded-xl shadow-lg mb-4">
+      {/* Inbox Panel - Collapsible */}
+      {showInbox && (
+        <div className="mb-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <h4 className="font-bold text-red-900 text-lg">Today</h4>
-              <span className="text-sm text-red-600 ml-2">4 items</span>
-            </div>
+            <h4 className="text-sm font-semibold text-amber-900">📥 Inbox (Unprocessed)</h4>
+            <button onClick={() => setShowInbox(false)} className="text-xs text-amber-600 hover:underline">Hide</button>
           </div>
           <div className="space-y-2">
-            <ActionItem
+            <div className="flex items-center justify-between p-2 bg-white rounded border border-amber-100">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">🎤</span>
+                <span className="text-xs text-gray-700">"Look into meditation app recommendation"</span>
+                <span className="text-xs text-gray-400">· Voice capture, Jan 26</span>
+              </div>
+              <div className="flex gap-1">
+                <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">Schedule</button>
+                <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">Someday</button>
+              </div>
+            </div>
+            <div className="flex items-center justify-between p-2 bg-white rounded border border-amber-100">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">📧</span>
+                <span className="text-xs text-gray-700">"Follow up with Sarah about project"</span>
+                <span className="text-xs text-gray-400">· Email, Jan 25</span>
+              </div>
+              <div className="flex gap-1">
+                <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">Today</button>
+                <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">Week</button>
+              </div>
+            </div>
+            <div className="flex items-center justify-between p-2 bg-white rounded border border-amber-100">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">💡</span>
+                <span className="text-xs text-gray-700">"Research group coaching models"</span>
+                <span className="text-xs text-gray-400">· Quick add, Jan 24</span>
+              </div>
+              <div className="flex gap-1">
+                <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">Quarter</button>
+                <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">Someday</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TIME HORIZON TABS */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-stone-700 uppercase tracking-wide">By Time Horizon</h3>
+          <select className="text-xs px-2 py-1 border border-stone-200 rounded bg-white">
+            <option>All Domains</option>
+            <option>Coaching Only</option>
+            <option>Life Only</option>
+          </select>
+        </div>
+        <div className="flex gap-1 bg-stone-200 p-1 rounded-lg">
+          {['today', 'week', 'month', 'quarter', 'year', 'someday'].map(horizon => (
+            <button
+              key={horizon}
+              onClick={() => setActiveHorizon(horizon)}
+              className={`flex-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                activeHorizon === horizon
+                  ? 'bg-white text-stone-900 shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
+              }`}
+            >
+              {horizon === 'today' && '📍 Today'}
+              {horizon === 'week' && 'This Week'}
+              {horizon === 'month' && 'This Month'}
+              {horizon === 'quarter' && 'Quarter'}
+              {horizon === 'year' && 'Year'}
+              {horizon === 'someday' && 'Someday'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* TODAY TAB */}
+      {activeHorizon === 'today' && (
+        <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            <h4 className="text-sm font-semibold text-stone-900">Today · Monday, January 27</h4>
+            <span className="text-xs text-stone-500">4 actions</span>
+          </div>
+          <div className="space-y-2">
+            <ActionWithBreadcrumb
               title="Pre-Session Brief - Marcus Williams"
               subtitle="Session in 30 minutes at 10:00 AM"
+              goalPath="Clients > Marcus > Q1 Leadership Growth"
               category="Coaching"
               categoryColor="blue"
+              urgent
               onClick={() => onOpenPreSessionBrief && onOpenPreSessionBrief(marcusClient)}
             />
-            <ActionItem
+            <ActionWithBreadcrumb
               title="Review draft notes - Sarah Chen"
-              subtitle="Session from Jan 8 ready for your review"
+              subtitle="Session from Jan 8 ready for review"
+              goalPath="Clients > Sarah > Career Transition"
               category="Coaching"
               categoryColor="blue"
               onClick={() => onOpenSession && onOpenSession(1, sarahClient)}
             />
-            <ActionItem
+            <ActionWithBreadcrumb
               title="Pick up birthday gift for Oana"
               subtitle="Birthday is tomorrow!"
+              goalPath="Family > Relationships > Quality Time"
               category="Family"
               categoryColor="pink"
             />
-            <ActionItem
+            <ActionWithBreadcrumb
               title="Invoice 3 clients (overdue)"
               subtitle="Outstanding since last week"
+              goalPath="Business > Q1 > Financial Health"
               category="Financial"
-              categoryColor="green"
+              categoryColor="emerald"
             />
+          </div>
+          <div className="mt-3 pt-3 border-t border-stone-100 text-xs text-stone-500">
+            Progress: 1/4 complete today
           </div>
         </div>
+      )}
 
-        {/* THIS WEEK */}
-        <div className="bg-white border-2 border-blue-200 p-6 rounded-xl shadow-lg mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <h4 className="font-bold text-blue-900 text-lg">This Week</h4>
-              <span className="text-sm text-blue-600 ml-2">6 items</span>
-            </div>
+      {/* THIS WEEK TAB */}
+      {activeHorizon === 'week' && (
+        <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <h4 className="text-sm font-semibold text-stone-900">This Week · Jan 27-31</h4>
+            <span className="text-xs text-stone-500">6 deliverables</span>
           </div>
-          <div className="space-y-2">
-            <ActionItem
-              title="Follow up with Jennifer Martinez"
-              subtitle="Check in on career pivot decision"
-              category="Coaching"
-              categoryColor="blue"
-            />
-            <ActionItem
+          <div className="space-y-3">
+            {/* Deliverable with nested actions */}
+            <div className="border border-stone-100 rounded-md">
+              <div className="p-3 bg-stone-50 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-stone-900">Complete 3 coaching sessions</p>
+                  <p className="text-xs text-stone-500">{"→ Coaching Practice > Q1 Client Engagement"}</p>
+                </div>
+                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">1/3 done</span>
+              </div>
+              <div className="p-2 space-y-1 text-xs text-stone-600">
+                <div className="flex items-center gap-2 pl-4">
+                  <input type="checkbox" checked disabled className="w-3 h-3" />
+                  <span className="line-through">Mon: Marcus Williams</span>
+                </div>
+                <div className="flex items-center gap-2 pl-4">
+                  <input type="checkbox" className="w-3 h-3" />
+                  <span>Wed: Jennifer Martinez</span>
+                </div>
+                <div className="flex items-center gap-2 pl-4">
+                  <input type="checkbox" className="w-3 h-3" />
+                  <span>Fri: David Park</span>
+                </div>
+              </div>
+            </div>
+            <ActionWithBreadcrumb
               title="Send resources to Lisa Patel"
               subtitle="Executive team building frameworks"
+              goalPath="Clients > Lisa > Team Development"
               category="Coaching"
               categoryColor="blue"
             />
-            <ActionItem
-              title="Schedule next session - David Park"
-              subtitle="Last session was Jan 11"
-              category="Coaching"
-              categoryColor="blue"
-            />
-            <ActionItem
+            <ActionWithBreadcrumb
               title="Book dermatology checkup"
-              subtitle="Been putting this off — time to do it"
+              subtitle="Been putting this off"
+              goalPath="Wellbeing > Health > Preventive Care"
               category="Wellbeing"
-              categoryColor="purple"
+              categoryColor="violet"
             />
-            <ActionItem
+            <ActionWithBreadcrumb
               title="Date night Saturday"
               subtitle="Reservation at 7pm"
+              goalPath="Family > Marriage > Quality Time"
               category="Family"
               categoryColor="pink"
             />
-            <ActionItem
-              title="Gym 3x this week"
-              subtitle="Mon, Wed, Fri planned"
-              category="Wellbeing"
-              categoryColor="purple"
-            />
           </div>
         </div>
+      )}
 
-        {/* THIS QUARTER */}
-        <div className="bg-white border-2 border-stone-200 p-6 rounded-xl shadow mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-stone-400 rounded-full"></div>
-              <h4 className="font-bold text-stone-800 text-lg">This Quarter</h4>
-              <span className="text-sm text-stone-500 ml-2">8 items</span>
+      {/* THIS QUARTER TAB */}
+      {activeHorizon === 'quarter' && (
+        <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h4 className="text-sm font-semibold text-stone-900">Q1 2026 Goals</h4>
+            <span className="text-xs text-stone-500">8 objectives</span>
+          </div>
+          <div className="space-y-3">
+            <div className="p-3 border border-stone-100 rounded-md">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium text-stone-900">Grow coaching practice to 15 active clients</p>
+                <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">12/15</span>
+              </div>
+              <div className="h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                <div className="h-full bg-emerald-500 rounded-full" style={{width: '80%'}}></div>
+              </div>
             </div>
-            <button className="text-xs text-stone-500 hover:text-stone-700">Show all →</button>
+            <div className="p-3 border border-stone-100 rounded-md">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium text-stone-900">Draft book chapters 1-3</p>
+                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded">1/3</span>
+              </div>
+              <div className="h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                <div className="h-full bg-amber-500 rounded-full" style={{width: '33%'}}></div>
+              </div>
+            </div>
+            <div className="p-3 border border-stone-100 rounded-md">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium text-stone-900">Complete ICF certification renewal</p>
+                <span className="text-xs bg-stone-100 text-stone-600 px-2 py-0.5 rounded">Not started</span>
+              </div>
+              <div className="h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                <div className="h-full bg-stone-300 rounded-full" style={{width: '0%'}}></div>
+              </div>
+            </div>
           </div>
-          <div className="space-y-2">
-            <ActionItem
-              title="Review Q1 finances"
-              subtitle="Quarterly review due end of March"
-              category="Financial"
-              categoryColor="green"
-            />
-            <ActionItem
-              title="Update website testimonials"
-              subtitle="3 new client quotes to add"
-              category="Business"
-              categoryColor="blue"
-            />
-            <ActionItem
-              title="Draft book chapter 3"
-              subtitle="Deadline: March 15"
-              category="Legacy"
-              categoryColor="orange"
-            />
-          </div>
-          <div className="mt-3 text-sm text-stone-500 italic">+ 5 more items...</div>
         </div>
+      )}
 
-        {/* THIS YEAR */}
-        <div className="bg-stone-50 border border-stone-200 p-6 rounded-xl mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-stone-300 rounded-full"></div>
-              <h4 className="font-bold text-stone-700 text-lg">This Year</h4>
-              <span className="text-sm text-stone-500 ml-2">12 items</span>
+      {/* THIS YEAR TAB */}
+      {activeHorizon === 'year' && (
+        <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h4 className="text-sm font-semibold text-stone-900">2026 Themes & Major Goals</h4>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 border border-stone-100 rounded-md">
+              <p className="text-xs text-stone-500 uppercase tracking-wide mb-1">Coaching</p>
+              <p className="text-sm font-medium text-stone-900">Launch group coaching program</p>
+              <p className="text-xs text-stone-500 mt-1">Target: Q3</p>
             </div>
-            <button className="text-xs text-stone-500 hover:text-stone-700">Show all →</button>
+            <div className="p-3 border border-stone-100 rounded-md">
+              <p className="text-xs text-stone-500 uppercase tracking-wide mb-1">Legacy</p>
+              <p className="text-sm font-medium text-stone-900">Publish leadership book</p>
+              <p className="text-xs text-stone-500 mt-1">Target: Q4</p>
+            </div>
+            <div className="p-3 border border-stone-100 rounded-md">
+              <p className="text-xs text-stone-500 uppercase tracking-wide mb-1">Family</p>
+              <p className="text-sm font-medium text-stone-900">Summer trip to Portugal</p>
+              <p className="text-xs text-stone-500 mt-1">Target: July</p>
+            </div>
+            <div className="p-3 border border-stone-100 rounded-md">
+              <p className="text-xs text-stone-500 uppercase tracking-wide mb-1">Wellbeing</p>
+              <p className="text-sm font-medium text-stone-900">Run a half marathon</p>
+              <p className="text-xs text-stone-500 mt-1">Target: October</p>
+            </div>
           </div>
-          <div className="space-y-2">
-            <ActionItem
-              title="Launch group coaching program"
-              subtitle="Target: Q3 2026"
-              category="Business"
-              categoryColor="blue"
-              compact
-            />
-            <ActionItem
-              title="Complete certification renewal"
-              subtitle="Due: September"
-              category="Coaching"
-              categoryColor="blue"
-              compact
-            />
-            <ActionItem
-              title="Family vacation planning"
-              subtitle="Summer trip to Portugal"
-              category="Family"
-              categoryColor="pink"
-              compact
-            />
-          </div>
-          <div className="mt-3 text-sm text-stone-500 italic">+ 9 more items...</div>
         </div>
+      )}
 
-        {/* SOMEDAY/MAYBE */}
-        <div className="bg-stone-100 border border-stone-200 p-6 rounded-xl">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-stone-300 rounded-full"></div>
-              <h4 className="font-bold text-stone-600 text-lg">Someday / Maybe</h4>
-              <span className="text-sm text-stone-400 ml-2">23 items</span>
-            </div>
-            <button className="text-xs text-stone-500 hover:text-stone-700">Show all →</button>
+      {/* SOMEDAY TAB */}
+      {activeHorizon === 'someday' && (
+        <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h4 className="text-sm font-semibold text-stone-900">Someday / Maybe</h4>
+            <span className="text-xs text-stone-500">23 items</span>
           </div>
           <div className="flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Write a second book</span>
-            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Learn Spanish</span>
-            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Start a podcast</span>
-            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">Sabbatical planning</span>
-            <span className="px-3 py-1 bg-white border border-stone-200 rounded-full text-sm text-stone-600">+ 19 more</span>
+            {['Write a second book', 'Learn Spanish', 'Start a podcast', 'Sabbatical planning', 'Photography course', 'Volunteer abroad', 'Learn to sail'].map(item => (
+              <span key={item} className="px-2 py-1 bg-stone-100 border border-stone-200 rounded text-xs text-stone-600 hover:bg-stone-200 cursor-pointer">
+                {item}
+              </span>
+            ))}
+            <span className="px-2 py-1 bg-stone-50 border border-dashed border-stone-300 rounded text-xs text-stone-500 cursor-pointer">
+              + 16 more
+            </span>
           </div>
         </div>
+      )}
 
-        {/* Waiting On Section */}
-        <div className="mt-6 bg-white border border-stone-200 p-6 rounded-xl shadow">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h4 className="font-bold text-stone-700">Waiting On</h4>
-              <span className="text-sm text-stone-500 ml-2">3 items</span>
-            </div>
+      {/* Month tab placeholder */}
+      {activeHorizon === 'month' && (
+        <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <h4 className="text-sm font-semibold text-stone-900">January 2026 Milestones</h4>
           </div>
           <div className="space-y-2">
-            <WaitingItem
-              title="Client feedback from James Rodriguez"
-              sent="2 days ago"
-              onNudge={() => {}}
-            />
-            <WaitingItem
-              title="Contract renewal decision - Emily Thompson"
-              sent="1 week ago"
-              onNudge={() => {}}
-            />
-            <WaitingItem
-              title="Referral intro from Marcus Williams"
-              sent="4 days ago"
-              onNudge={() => {}}
-            />
+            <div className="p-3 border border-stone-100 rounded-md flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-stone-900">Complete 12 coaching sessions</p>
+                <p className="text-xs text-stone-500">→ Client Engagement</p>
+              </div>
+              <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">10/12</span>
+            </div>
+            <div className="p-3 border border-stone-100 rounded-md flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-stone-900">Finalize Q1 business plan</p>
+                <p className="text-xs text-stone-500">→ Business Strategy</p>
+              </div>
+              <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">Done</span>
+            </div>
+            <div className="p-3 border border-stone-100 rounded-md flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-stone-900">Book chapter 1 first draft</p>
+                <p className="text-xs text-stone-500">→ Book Project</p>
+              </div>
+              <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded">In progress</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Waiting On Section */}
+      <div className="bg-white border border-stone-200 rounded-lg p-4 mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-sm">⏳</span>
+          <h4 className="text-sm font-semibold text-stone-900">Waiting On</h4>
+          <span className="text-xs text-stone-500">3 items</span>
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between p-2 bg-stone-50 rounded text-sm">
+            <span className="text-stone-700">Client feedback from James Rodriguez</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-stone-500">2 days ago</span>
+              <button className="text-xs px-2 py-0.5 bg-stone-200 rounded hover:bg-stone-300">Nudge</button>
+            </div>
+          </div>
+          <div className="flex items-center justify-between p-2 bg-stone-50 rounded text-sm">
+            <span className="text-stone-700">Contract renewal - Emily Thompson</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-stone-500">1 week ago</span>
+              <button className="text-xs px-2 py-0.5 bg-stone-200 rounded hover:bg-stone-300">Nudge</button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* UF-12: WHOLE LIFE DASHBOARD - Non-coaching to-dos with equal prominence */}
-      <div className="border-t-2 border-gray-300 pt-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-2xl font-bold text-gray-800">Your Whole Life</h3>
-            <p className="text-gray-600 text-sm">ReGenesis supports ALL of you, not just your coaching practice</p>
-          </div>
-          <button className="text-sm px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 font-medium">
-            + Add Life Task
-          </button>
-        </div>
-
-        {/* Urgent Life Tasks - Same visual weight as coaching */}
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-300 p-6 rounded-xl shadow-lg mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-            <h4 className="font-bold text-purple-900">Urgent Life Actions - Today</h4>
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-purple-200 hover:shadow-md transition cursor-pointer">
-              <div className="flex items-center gap-3">
-                <input type="checkbox" className="w-5 h-5 rounded text-purple-600" />
-                <div>
-                  <div className="font-semibold text-gray-900">Pick up birthday gift for Oana</div>
-                  <div className="text-sm text-gray-600">Birthday is tomorrow!</div>
-                </div>
-              </div>
-              <span className="text-xs px-2 py-1 bg-pink-100 text-pink-800 rounded-full">Family</span>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-purple-200 hover:shadow-md transition cursor-pointer">
-              <div className="flex items-center gap-3">
-                <input type="checkbox" className="w-5 h-5 rounded text-purple-600" />
-                <div>
-                  <div className="font-semibold text-gray-900">Book dermatology checkup</div>
-                  <div className="text-sm text-gray-600">Been putting this off — time to do it</div>
-                </div>
-              </div>
-              <span className="text-xs px-2 py-1 bg-purple-100 text-purple-800 rounded-full">Wellbeing</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Life Areas Grid - More visual prominence */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {/* Personal Wellbeing */}
-          <div className="bg-white border-2 border-purple-200 p-5 rounded-xl shadow hover:shadow-md transition">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🧘</span>
-                <h4 className="font-bold text-purple-900">Personal Wellbeing</h4>
-              </div>
-              <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">3 tasks</span>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg">
-                <input type="checkbox" className="rounded text-purple-600" />
-                <span className="text-sm text-gray-700">Morning stillness routine</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg">
-                <input type="checkbox" className="rounded text-purple-600" />
-                <span className="text-sm text-gray-700">Gym 3x this week</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg">
-                <input type="checkbox" className="rounded text-purple-600" />
-                <span className="text-sm text-gray-700">Sleep by 10:30pm</span>
-              </div>
-            </div>
-            <button className="mt-3 text-xs text-purple-600 hover:underline">+ Add task</button>
-          </div>
-
-          {/* Family */}
-          <div className="bg-white border-2 border-pink-200 p-5 rounded-xl shadow hover:shadow-md transition">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">👨‍👩‍👧</span>
-                <h4 className="font-bold text-pink-900">Family</h4>
-              </div>
-              <span className="text-xs bg-pink-100 text-pink-700 px-2 py-1 rounded-full">4 tasks</span>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 p-2 bg-pink-50 rounded-lg">
-                <input type="checkbox" className="rounded text-pink-600" />
-                <span className="text-sm text-gray-700">Plan family weekend trip</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-pink-50 rounded-lg">
-                <input type="checkbox" className="rounded text-pink-600" />
-                <span className="text-sm text-gray-700">Date night Saturday</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-pink-50 rounded-lg">
-                <input type="checkbox" className="rounded text-pink-600" />
-                <span className="text-sm text-gray-700">Call mom Sunday</span>
-              </div>
-            </div>
-            <button className="mt-3 text-xs text-pink-600 hover:underline">+ Add task</button>
-          </div>
-
-          {/* Financial & Business */}
-          <div className="bg-white border-2 border-green-200 p-5 rounded-xl shadow hover:shadow-md transition">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">💰</span>
-                <h4 className="font-bold text-green-900">Financial & Business</h4>
-              </div>
-              <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">5 tasks</span>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <input type="checkbox" className="rounded text-green-600" />
-                <span className="text-sm text-gray-700">Invoice 3 clients (overdue)</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <input type="checkbox" className="rounded text-green-600" />
-                <span className="text-sm text-gray-700">Review Q1 finances</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <input type="checkbox" className="rounded text-green-600" />
-                <span className="text-sm text-gray-700">Update website testimonials</span>
-              </div>
-            </div>
-            <button className="mt-3 text-xs text-green-600 hover:underline">+ Add task</button>
-          </div>
-
-          {/* Community & Relationships */}
-          <div className="bg-white border-2 border-blue-200 p-5 rounded-xl shadow hover:shadow-md transition">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🤝</span>
-                <h4 className="font-bold text-blue-900">Community</h4>
-              </div>
-              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">3 tasks</span>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg">
-                <input type="checkbox" className="rounded text-blue-600" />
-                <span className="text-sm text-gray-700">Call old mentor</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg">
-                <input type="checkbox" className="rounded text-blue-600" />
-                <span className="text-sm text-gray-700">Volunteer event planning</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg">
-                <input type="checkbox" className="rounded text-blue-600" />
-                <span className="text-sm text-gray-700">Coffee with Dave</span>
-              </div>
-            </div>
-            <button className="mt-3 text-xs text-blue-600 hover:underline">+ Add task</button>
-          </div>
-
-          {/* Legacy & Impact */}
-          <div className="bg-white border-2 border-orange-200 p-5 rounded-xl shadow hover:shadow-md transition">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🌟</span>
-                <h4 className="font-bold text-orange-900">Legacy & Impact</h4>
-              </div>
-              <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">4 tasks</span>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
-                <input type="checkbox" className="rounded text-orange-600" />
-                <span className="text-sm text-gray-700">Draft book chapter 3</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
-                <input type="checkbox" className="rounded text-orange-600" />
-                <span className="text-sm text-gray-700">Update scholarship fund</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
-                <input type="checkbox" className="rounded text-orange-600" />
-                <span className="text-sm text-gray-700">Record podcast episode</span>
-              </div>
-            </div>
-            <button className="mt-3 text-xs text-orange-600 hover:underline">+ Add task</button>
-          </div>
-
-          {/* Creativity & Learning */}
-          <div className="bg-white border-2 border-indigo-200 p-5 rounded-xl shadow hover:shadow-md transition">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🎨</span>
-                <h4 className="font-bold text-indigo-900">Creativity & Learning</h4>
-              </div>
-              <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">2 tasks</span>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 p-2 bg-indigo-50 rounded-lg">
-                <input type="checkbox" className="rounded text-indigo-600" />
-                <span className="text-sm text-gray-700">Read 30 min daily</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-indigo-50 rounded-lg">
-                <input type="checkbox" className="rounded text-indigo-600" />
-                <span className="text-sm text-gray-700">Guitar practice</span>
-              </div>
-            </div>
-            <button className="mt-3 text-xs text-indigo-600 hover:underline">+ Add task</button>
-          </div>
-        </div>
-
-        {/* AI Quick Capture Bar */}
-        <div className="bg-white border-2 border-dashed border-gray-300 rounded-xl p-4 flex items-center gap-4 group relative">
-          <span className="text-2xl">💭</span>
-          <input
-            type="text"
-            placeholder="Just talk to me... tell me a task, when you want it done, where to put it—I'll figure it out"
-            className="flex-1 px-4 py-2 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-          <select className="px-3 py-2 border border-gray-200 rounded-lg text-sm" title="Optional: manually categorize">
-            <option value="">Auto-categorize</option>
-            <option>Coaching</option>
-            <option>Wellbeing</option>
-            <option>Family</option>
-            <option>Financial</option>
-            <option>Community</option>
-            <option>Legacy</option>
-            <option>Learning</option>
-          </select>
-          {/* Tooltip on hover */}
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            Speak naturally—I'll capture it and put it in the right place. For now or later, coaching or personal.
-          </div>
-        </div>
+      {/* Quick Capture Bar */}
+      <div className="bg-white border border-dashed border-stone-300 rounded-lg p-3 flex items-center gap-3">
+        <span className="text-lg">💭</span>
+        <input
+          type="text"
+          placeholder="Quick capture: type a task, when, and where to put it..."
+          className="flex-1 px-3 py-1.5 bg-stone-50 rounded border border-stone-200 text-sm focus:ring-1 focus:ring-stone-400"
+        />
+        <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">🎤 Voice</button>
+        <button className="text-xs px-2 py-1 bg-stone-100 rounded hover:bg-stone-200">📎 File</button>
       </div>
     </div>
   );
@@ -1487,10 +1311,11 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenPreSessionBrief,
   // V6: Overview is the default/first tab
   const [activeTab, setActiveTab] = React.useState("overview");
 
-  // V6 Client Tab Ordering (7 tabs - Part 5.1)
+  // V6 Client Tab Ordering (8 tabs - Updated with Assessments)
   const tabs = [
     { key: "overview", label: "Overview" },
     { key: "goals", label: "Goals & Progress" },
+    { key: "assessments", label: "Assessments" },
     { key: "notes", label: "Session Notes" },
     { key: "presession", label: "Pre-Session Brief" },
     { key: "copilot", label: "In-Session Copilot" },
@@ -1504,15 +1329,18 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenPreSessionBrief,
       <aside className="w-80 bg-white border-r overflow-auto">
         <div className="p-4 border-b">
           <h3 className="font-semibold mb-3">Clients</h3>
-          <div className="flex gap-2 text-sm">
-            <button className="px-3 py-1 bg-gray-900 text-white rounded">
+          <div className="flex flex-wrap gap-2 text-sm">
+            <button className="px-3 py-1 bg-stone-900 text-white rounded">
               All ({mockClients.length})
             </button>
-            <button className="px-3 py-1 bg-gray-100 rounded">
+            <button className="px-3 py-1 bg-stone-100 rounded hover:bg-stone-200">
               Active ({mockClients.filter(c => c.status === "active").length})
             </button>
-            <button className="px-3 py-1 bg-gray-100 rounded">
+            <button className="px-3 py-1 bg-stone-100 rounded hover:bg-stone-200">
               Paused ({mockClients.filter(c => c.status === "paused").length})
+            </button>
+            <button className="px-3 py-1 bg-stone-100 rounded hover:bg-stone-200">
+              Complete ({mockClients.filter(c => c.status === "complete").length || 0})
             </button>
           </div>
         </div>
@@ -1591,6 +1419,7 @@ function ClientsPage({ selectedClient, setSelectedClient, onOpenPreSessionBrief,
         <div className="flex-1 overflow-auto p-8">
           {activeTab === "overview" && <ClientOverviewTab client={selectedClient} onOpenPreSessionBrief={onOpenPreSessionBrief} setActiveTab={setActiveTab} />}
           {activeTab === "goals" && <ClientGoalsTab client={selectedClient} />}
+          {activeTab === "assessments" && <ClientAssessmentsTab client={selectedClient} />}
           {activeTab === "notes" && <ClientSessionNotesTab client={selectedClient} onOpenSession={onOpenSession} />}
           {activeTab === "presession" && <ClientPreSessionBriefTab client={selectedClient} onOpenPreSessionBrief={onOpenPreSessionBrief} />}
           {activeTab === "copilot" && <ClientInSessionCopilotTab client={selectedClient} />}
@@ -1648,23 +1477,38 @@ function ClientOverviewTab({ client, onOpenPreSessionBrief, setActiveTab }) {
         </div>
       </div>
 
-      {/* Pattern Emerging */}
+      {/* Patterns Emerging */}
       <div className="bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-200 rounded-xl p-6 mb-6">
         <h3 className="font-semibold text-violet-900 mb-3 flex items-center gap-2">
-          <span className="text-lg">🔮</span> Pattern Emerging
-          <span className="text-xs font-normal text-violet-600 bg-violet-100 px-2 py-0.5 rounded-full">Gentle observation</span>
+          <span className="text-lg">🔮</span> Patterns Emerging
+          <span className="text-xs font-normal text-violet-600 bg-violet-100 px-2 py-0.5 rounded-full">Gentle observations</span>
         </h3>
         <p className="text-gray-800 italic">
           "{client.pattern || "When facing high-stakes decisions, tends to seek external validation rather than trusting internal compass. This pattern has shown up in 4 of the last 6 sessions."}"
         </p>
       </div>
 
+      {/* Moving Toward */}
+      <div className="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-xl p-6 mb-6">
+        <h3 className="font-semibold text-sky-900 mb-3 flex items-center gap-2">
+          <span className="text-lg">🧭</span> Moving Toward
+        </h3>
+        <ul className="space-y-2">
+          {(client.goals || ["Build sustainable leadership presence", "Strengthen executive team relationships", "Create healthy work-life rhythm"]).slice(0, 3).map((goal, idx) => (
+            <li key={idx} className="flex items-start gap-2">
+              <span className="text-sky-500 mt-1">→</span>
+              <span className="text-gray-800">{goal}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {/* Momentum: Wins + Commitments */}
       <div className="grid md:grid-cols-2 gap-6 mb-6">
-        {/* Recent Wins */}
+        {/* Celebrations */}
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
           <h3 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
-            <span className="text-lg">🎉</span> Recent Wins
+            <span className="text-lg">🎉</span> Celebrations
           </h3>
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
@@ -3103,6 +2947,138 @@ function ClientGoalsTab({ client }) {
   );
 }
 
+// ============ CLIENT ASSESSMENTS TAB ============
+function ClientAssessmentsTab({ client }) {
+  const assessments = [
+    {
+      name: "Enneagram",
+      result: "Type 3w2 - The Achiever",
+      date: "Nov 15, 2025",
+      status: "completed",
+      insights: "Driven by success and recognition, with a helper wing that creates genuine care for others' growth."
+    },
+    {
+      name: "CliftonStrengths Top 5",
+      result: "Strategic, Achiever, Communication, Woo, Activator",
+      date: "Nov 10, 2025",
+      status: "completed",
+      insights: "Natural strategist who can rally others and quickly move from ideas to action."
+    },
+    {
+      name: "Core Values Index",
+      result: "Builder/Merchant",
+      date: "Nov 8, 2025",
+      status: "completed",
+      insights: "Values tangible results and wisdom; naturally balances action with reflection."
+    },
+    {
+      name: "Leadership 360 Review",
+      result: "Pending",
+      date: "Scheduled",
+      status: "pending",
+      insights: "3 of 8 reviewers have responded. Due: Feb 15, 2026"
+    },
+    {
+      name: "DISC Profile",
+      result: "Not taken",
+      date: "-",
+      status: "available",
+      insights: "Recommended for understanding communication and behavioral style."
+    }
+  ];
+
+  return (
+    <div className="max-w-4xl">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-stone-900">Assessments & Profiles</h2>
+          <p className="text-sm text-stone-500 mt-1">Personality assessments, strengths inventories, and 360 feedback</p>
+        </div>
+        <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm">
+          + Request Assessment
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        {assessments.map((assessment, idx) => (
+          <div
+            key={idx}
+            className={`bg-white rounded-xl border p-5 ${
+              assessment.status === 'completed' ? 'border-stone-200' :
+              assessment.status === 'pending' ? 'border-amber-200 bg-amber-50/50' :
+              'border-dashed border-stone-300'
+            }`}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="font-semibold text-stone-900">{assessment.name}</h3>
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                    assessment.status === 'completed' ? 'bg-green-100 text-green-700' :
+                    assessment.status === 'pending' ? 'bg-amber-100 text-amber-700' :
+                    'bg-stone-100 text-stone-600'
+                  }`}>
+                    {assessment.status === 'completed' ? '✓ Completed' :
+                     assessment.status === 'pending' ? '⏳ In Progress' :
+                     '○ Available'}
+                  </span>
+                </div>
+
+                {assessment.status === 'completed' && (
+                  <div className="mb-2">
+                    <span className="text-lg font-medium text-teal-700">{assessment.result}</span>
+                    <span className="text-sm text-stone-500 ml-3">Taken {assessment.date}</span>
+                  </div>
+                )}
+
+                <p className="text-sm text-stone-600">{assessment.insights}</p>
+              </div>
+
+              <div className="flex gap-2 ml-4">
+                {assessment.status === 'completed' && (
+                  <>
+                    <button className="px-3 py-1.5 text-sm border border-stone-300 rounded-lg hover:bg-stone-50">
+                      View Full Report
+                    </button>
+                    <button className="px-3 py-1.5 text-sm text-teal-600 hover:underline">
+                      Discuss with {AGENT_NAME}
+                    </button>
+                  </>
+                )}
+                {assessment.status === 'pending' && (
+                  <button className="px-3 py-1.5 text-sm bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200">
+                    Send Reminder
+                  </button>
+                )}
+                {assessment.status === 'available' && (
+                  <button className="px-3 py-1.5 text-sm bg-teal-100 text-teal-700 rounded-lg hover:bg-teal-200">
+                    Invite to Take
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Assessment Synthesis */}
+      <div className="mt-8 bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-200 rounded-xl p-6">
+        <h3 className="font-semibold text-violet-900 mb-3 flex items-center gap-2">
+          <span className="text-lg">🎯</span> Assessment Synthesis
+          <span className="text-xs font-normal text-violet-600 bg-violet-100 px-2 py-0.5 rounded-full">AI-generated</span>
+        </h3>
+        <p className="text-stone-700 leading-relaxed">
+          {client.name}'s assessments reveal a pattern of high achievement orientation balanced with genuine care for others.
+          Their strength in strategy combined with communication abilities makes them natural leaders, though
+          the Builder/Merchant values suggest they may sometimes struggle with patience when results aren't immediate.
+          Key development areas to explore: allowing space for process vs. outcome, and leveraging the Merchant's
+          wisdom to balance the Builder's drive for tangible results.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function ClientSessionNotesTab({ client, onOpenSession }) {
   const sessions = [
     { id: 8, status: "Draft ready", theme: "Navigating team conflict while maintaining authentic leadership", date: new Date(client.lastSession) },
@@ -3583,11 +3559,11 @@ function ClientSashaLogTab({ client }) {
 
   const [expandedSession, setExpandedSession] = React.useState(null);
 
-  // Privacy tier display helpers
+  // Privacy tier display helpers - Enhanced with stronger visual borders
   const tierConfig = {
-    tier1: { label: "Private", icon: "🔒", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-purple-200" },
-    tier2: { label: "Summary shared", icon: "👁️", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-teal-200" },
-    tier3: { label: "Shared with coach", icon: "🤝", bgColor: "bg-green-50", textColor: "text-green-700", borderColor: "border-green-200" }
+    tier1: { label: "Private", icon: "🔒", bgColor: "bg-purple-50", textColor: "text-purple-700", borderColor: "border-l-4 border-l-purple-400 border-t border-r border-b border-purple-200" },
+    tier2: { label: "Summary shared", icon: "👁️", bgColor: "bg-teal-50", textColor: "text-teal-700", borderColor: "border-l-4 border-l-teal-400 border-t border-r border-b border-teal-200" },
+    tier3: { label: "Shared with coach", icon: "🤝", bgColor: "bg-emerald-50", textColor: "text-emerald-700", borderColor: "border-l-4 border-l-emerald-400 border-t border-r border-b border-emerald-200" }
   };
 
   const tier1Count = companionSessions.filter(s => s.privacyTier === "tier1").length;
@@ -3632,7 +3608,7 @@ function ClientSashaLogTab({ client }) {
           return (
             <div
               key={i}
-              className={`bg-white rounded-xl border overflow-hidden ${isPrivate ? 'opacity-60' : ''} ${tier.borderColor}`}
+              className={`bg-white rounded-xl overflow-hidden ${isPrivate ? 'opacity-60' : ''} ${tier.borderColor}`}
             >
               <button
                 onClick={() => !isPrivate && setExpandedSession(expandedSession === i ? null : i)}
@@ -3685,21 +3661,32 @@ function ClientSashaLogTab({ client }) {
                 </div>
               </button>
 
-              {/* Expanded full conversation (only for tier3) */}
+              {/* Expanded full conversation (only for tier3) - Nested Thread View */}
               {expandedSession === i && isFullShare && session.messages.length > 0 && (
-                <div className="border-t bg-stone-50 p-4 space-y-3">
-                  {session.messages.map((msg, j) => (
-                    <div key={j} className={`flex ${msg.role === 'client' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[80%] p-3 rounded-xl text-sm ${
-                        msg.role === 'client'
-                          ? 'bg-blue-100 text-blue-900'
-                          : 'bg-white border border-stone-200 text-stone-700'
-                      }`}>
-                        {msg.text}
+                <div className="border-t bg-stone-50 p-4">
+                  {/* Thread container with visual nesting line */}
+                  <div className="relative pl-4 border-l-2 border-stone-200 space-y-4 ml-2">
+                    {session.messages.map((msg, j) => (
+                      <div key={j} className="relative">
+                        {/* Thread connector dot */}
+                        <div className={`absolute -left-[1.35rem] top-3 w-2 h-2 rounded-full ${
+                          msg.role === 'client' ? 'bg-blue-400' : 'bg-violet-400'
+                        }`}></div>
+
+                        <div className={`rounded-lg p-3 text-sm ${
+                          msg.role === 'client'
+                            ? 'bg-blue-50 border border-blue-200 text-blue-900'
+                            : 'bg-violet-50 border border-violet-200 text-violet-900'
+                        }`}>
+                          <div className="text-xs font-medium mb-1 opacity-70">
+                            {msg.role === 'client' ? client.name : AGENT_NAME}
+                          </div>
+                          {msg.text}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                  <p className="text-xs text-center text-stone-400 mt-4">
+                    ))}
+                  </div>
+                  <p className="text-xs text-center text-stone-400 mt-4 pt-2 border-t border-stone-200">
                     Showing excerpt · <button className="text-violet-600 hover:underline">View full conversation</button>
                   </p>
                 </div>
@@ -3777,16 +3764,17 @@ function SchedulePage() {
   });
 
   // Life Areas: Personal Wellbeing, Family, Financial/Business, Community, Legacy
+  // isSession: true = Coaching session with client (prominently displayed)
   const scheduleItems = [
     // Monday
     { area: 'Personal Wellbeing', title: 'Morning Stillness', day: 0, time: '6:00 AM', duration: '1h', color: 'purple' },
-    { area: 'Financial/Business', title: 'Content Creation (Coaching Business)', day: 0, time: '9:00 AM', duration: '2h', color: 'teal' },
-    { area: 'Financial/Business', title: 'Session: Sarah Chen', day: 0, time: '2:00 PM', duration: '1h', color: 'teal' },
+    { area: 'Financial/Business', title: 'Content Creation', day: 0, time: '9:00 AM', duration: '2h', color: 'teal' },
+    { area: 'Financial/Business', title: 'Sarah Chen', day: 0, time: '2:00 PM', duration: '1h', color: 'teal', isSession: true, clientId: 3 },
     { area: 'Family', title: 'Just Dance with Kids', day: 0, time: '6:00 PM', duration: '30m', color: 'pink' },
 
     // Tuesday
     { area: 'Personal Wellbeing', title: 'Morning Stillness', day: 1, time: '6:00 AM', duration: '1h', color: 'purple' },
-    { area: 'Financial/Business', title: 'Session: Marcus Williams', day: 1, time: '10:00 AM', duration: '1h', color: 'teal' },
+    { area: 'Financial/Business', title: 'Marcus Williams', day: 1, time: '10:00 AM', duration: '1h', color: 'teal', isSession: true, clientId: 1 },
     { area: 'Financial/Business', title: 'Invoice Clients', day: 1, time: '12:00 PM', duration: '30m', color: 'teal' },
     { area: 'Family', title: 'Swimming with Kids', day: 1, time: '4:00 PM', duration: '1h', color: 'pink' },
     { area: 'Personal Wellbeing', title: 'Couples Therapy', day: 1, time: '7:00 PM', duration: '1h', color: 'purple' },
@@ -3794,19 +3782,19 @@ function SchedulePage() {
     // Wednesday
     { area: 'Personal Wellbeing', title: 'Morning Stillness', day: 2, time: '6:00 AM', duration: '1h', color: 'purple' },
     { area: 'Legacy & Impact', title: 'Course Development', day: 2, time: '9:00 AM', duration: '3h', color: 'orange' },
-    { area: 'Financial/Business', title: 'Session: Jennifer Martinez', day: 2, time: '3:30 PM', duration: '1h', color: 'teal' },
+    { area: 'Financial/Business', title: 'Jennifer Martinez', day: 2, time: '3:30 PM', duration: '1h', color: 'teal', isSession: true, clientId: 4 },
     { area: 'Family', title: 'Music Practice', day: 2, time: '6:00 PM', duration: '30m', color: 'pink' },
 
     // Thursday
     { area: 'Personal Wellbeing', title: 'Morning Stillness', day: 3, time: '6:00 AM', duration: '1h', color: 'purple' },
-    { area: 'Financial/Business', title: 'Session: David Park', day: 3, time: '9:00 AM', duration: '1h', color: 'teal' },
-    { area: 'Financial/Business', title: 'Session: James Rodriguez', day: 3, time: '11:00 AM', duration: '1h', color: 'teal' },
+    { area: 'Financial/Business', title: 'David Park', day: 3, time: '9:00 AM', duration: '1h', color: 'teal', isSession: true, clientId: 5 },
+    { area: 'Financial/Business', title: 'James Rodriguez', day: 3, time: '11:00 AM', duration: '1h', color: 'teal', isSession: true, clientId: 6 },
     { area: 'Personal Wellbeing', title: 'Dermatology Checkup', day: 3, time: '2:00 PM', duration: '1h', color: 'purple' },
     { area: 'Family', title: 'Board Games Night', day: 3, time: '7:00 PM', duration: '1h', color: 'pink' },
 
     // Friday
     { area: 'Personal Wellbeing', title: 'Morning Stillness', day: 4, time: '6:00 AM', duration: '1h', color: 'purple' },
-    { area: 'Financial/Business', title: 'Session: Lisa Patel', day: 4, time: '2:30 PM', duration: '1h', color: 'teal' },
+    { area: 'Financial/Business', title: 'Lisa Patel', day: 4, time: '2:30 PM', duration: '1h', color: 'teal', isSession: true, clientId: 7 },
     { area: 'Financial/Business', title: 'Week Review & Planning', day: 4, time: '4:00 PM', duration: '1h', color: 'teal' },
     { area: 'Family', title: 'Family Movie Night', day: 4, time: '7:00 PM', duration: '2h', color: 'pink' },
 
@@ -3817,7 +3805,7 @@ function SchedulePage() {
 
     // Sunday
     { area: 'Family', title: 'Family Videos & Gratitude', day: 6, time: '10:00 AM', duration: '2h', color: 'pink' },
-    { area: 'Financial/Business', title: 'Session: Michael O\'Brien', day: 6, time: '10:30 AM', duration: '1h', color: 'teal' },
+    { area: 'Financial/Business', title: 'Michael O\'Brien', day: 6, time: '10:30 AM', duration: '1h', color: 'teal', isSession: true, clientId: 8 },
     { area: 'Legacy & Impact', title: 'Strategic Planning', day: 6, time: '2:00 PM', duration: '2h', color: 'orange' },
     { area: 'Community & Relationships', title: 'Call old mentor', day: 6, time: '4:00 PM', duration: '30m', color: 'blue' },
   ];
@@ -3905,17 +3893,43 @@ function SchedulePage() {
         </div>
       </div>
 
-      {/* Legend - Life Areas */}
+      {/* Calendar Integrations */}
+      <div className="mb-6 bg-white p-4 rounded-lg shadow border border-stone-200">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-stone-600">Calendar Sync:</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-green-50 border border-green-200 rounded text-sm text-green-700">
+                <span>✓</span> Google Calendar
+              </div>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-50 border border-stone-200 rounded text-sm text-stone-500">
+                <span>○</span> Outlook
+              </div>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-50 border border-stone-200 rounded text-sm text-stone-500">
+                <span>○</span> Apple Calendar
+              </div>
+            </div>
+          </div>
+          <button className="text-sm text-teal-600 hover:underline">Manage integrations →</button>
+        </div>
+      </div>
+
+      {/* Legend - Life Areas + Coaching Sessions */}
       <div className="mb-6 bg-white p-4 rounded-lg shadow">
         <div className="flex gap-4 flex-wrap items-center text-sm">
-          <div className="font-semibold text-gray-600">Life Areas:</div>
+          <div className="font-semibold text-gray-600">Legend:</div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-gradient-to-r from-teal-500 to-blue-500 rounded ring-2 ring-teal-300"></div>
+            <span className="font-semibold text-teal-700">Coaching Sessions</span>
+          </div>
+          <span className="text-stone-300">|</span>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-teal-100 border border-teal-400 rounded"></div>
-            <span>Financial/Business</span>
+            <span>Business</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-purple-100 border border-purple-400 rounded"></div>
-            <span>Personal Wellbeing</span>
+            <span>Wellbeing</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-pink-100 border border-pink-400 rounded"></div>
@@ -3923,11 +3937,11 @@ function SchedulePage() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-100 border border-blue-400 rounded"></div>
-            <span>Community & Relationships</span>
+            <span>Community</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-orange-100 border border-orange-400 rounded"></div>
-            <span>Legacy & Impact</span>
+            <span>Legacy</span>
           </div>
         </div>
       </div>
@@ -3959,19 +3973,41 @@ function SchedulePage() {
               <div key={date.toISOString()} className={`min-h-[400px] p-3 border-r last:border-r-0 ${isToday ? 'bg-blue-50/30' : ''}`}>
                 <div className="space-y-2">
                   {dayItems.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className={`${getColorClasses(item.color)} border-l-4 rounded p-2 text-xs hover:shadow-md transition cursor-pointer`}
-                    >
-                      <div className="flex items-start gap-1">
-                        <span>{getAreaIcon(item.area)}</span>
-                        <div className="flex-1">
-                          <div className="font-semibold leading-tight">{item.title}</div>
-                          <div className="text-xs opacity-75 mt-0.5">{item.time}</div>
-                          <div className="text-xs opacity-60">{item.duration}</div>
+                    item.isSession ? (
+                      /* Prominent Coaching Session Card */
+                      <div
+                        key={idx}
+                        className="bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg p-3 text-white shadow-lg hover:shadow-xl transition cursor-pointer ring-2 ring-teal-300 ring-offset-1"
+                      >
+                        <div className="flex items-start gap-2">
+                          <span className="text-lg">🎯</span>
+                          <div className="flex-1">
+                            <div className="text-[10px] font-medium text-teal-100 uppercase tracking-wide">Coaching Session</div>
+                            <div className="font-bold leading-tight">{item.title}</div>
+                            <div className="text-xs text-teal-100 mt-1">{item.time} · {item.duration}</div>
+                            <div className="mt-2 flex gap-1">
+                              <button className="text-[10px] px-1.5 py-0.5 bg-white/20 rounded hover:bg-white/30">T-15 Prep</button>
+                              <button className="text-[10px] px-1.5 py-0.5 bg-white/20 rounded hover:bg-white/30">Notes</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      /* Regular Event Card */
+                      <div
+                        key={idx}
+                        className={`${getColorClasses(item.color)} border-l-4 rounded p-2 text-xs hover:shadow-md transition cursor-pointer`}
+                      >
+                        <div className="flex items-start gap-1">
+                          <span>{getAreaIcon(item.area)}</span>
+                          <div className="flex-1">
+                            <div className="font-semibold leading-tight">{item.title}</div>
+                            <div className="text-xs opacity-75 mt-0.5">{item.time}</div>
+                            <div className="text-xs opacity-60">{item.duration}</div>
+                          </div>
+                        </div>
+                      </div>
+                    )
                   ))}
                 </div>
               </div>
@@ -4639,36 +4675,36 @@ function BusinessManagementPage({ selectedTab, setSelectedTab }) {
               className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold mb-2 text-gray-600">Engagement Metrics</h3>
+                <h3 className="font-semibold mb-2 text-gray-600">Active Clients</h3>
                 <span className="text-gray-400 group-hover:text-teal-600 transition">📊 →</span>
               </div>
-              <div className="text-3xl font-bold mb-1">{mockClients.filter(c => c.status === "active").length}</div>
-              <p className="text-sm text-gray-600">Active engagements</p>
-              <div className="mt-2 text-xs text-teal-600 opacity-0 group-hover:opacity-100 transition">Click for detailed analytics</div>
+              <div className="text-3xl font-bold mb-1 text-blue-600">{mockClients.filter(c => c.status === "active").length}</div>
+              <p className="text-sm text-gray-600">Current engagements</p>
+              <p className="text-xs text-green-600 mt-1">↑ 2 new this quarter</p>
             </button>
             <button
               onClick={() => setDrillDownView('engagement')}
               className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold mb-2 text-gray-600">Session Frequency</h3>
+                <h3 className="font-semibold mb-2 text-gray-600">Session Completion</h3>
                 <span className="text-gray-400 group-hover:text-teal-600 transition">📊 →</span>
               </div>
-              <div className="text-3xl font-bold mb-1">3.2</div>
-              <p className="text-sm text-gray-600">Sessions/client/month</p>
-              <div className="mt-2 text-xs text-teal-600 opacity-0 group-hover:opacity-100 transition">Click for detailed analytics</div>
+              <div className="text-3xl font-bold mb-1 text-emerald-600">97%</div>
+              <p className="text-sm text-gray-600">Sessions attended vs scheduled</p>
+              <p className="text-xs text-emerald-600 mt-1">↑ 3% vs last quarter</p>
             </button>
             <button
               onClick={() => setDrillDownView('retention')}
               className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold mb-2 text-gray-600">Retention</h3>
+                <h3 className="font-semibold mb-2 text-gray-600">Client Tenure</h3>
                 <span className="text-gray-400 group-hover:text-teal-600 transition">📊 →</span>
               </div>
-              <div className="text-3xl font-bold mb-1">94%</div>
-              <p className="text-sm text-gray-600">Client retention rate</p>
-              <div className="mt-2 text-xs text-teal-600 opacity-0 group-hover:opacity-100 transition">Click for detailed analytics</div>
+              <div className="text-3xl font-bold mb-1 text-violet-600">8.3</div>
+              <p className="text-sm text-gray-600">Avg months per client</p>
+              <p className="text-xs text-green-600 mt-1">94% retention rate</p>
             </button>
           </div>
 
@@ -4705,41 +4741,45 @@ function BusinessManagementPage({ selectedTab, setSelectedTab }) {
           <div className="grid grid-cols-4 gap-6">
             <button
               onClick={() => setDrillDownView('engagement')}
-              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group"
+              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group border-l-4 border-blue-400"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold mb-2 text-gray-600">This Month</h3>
+                <h3 className="font-semibold mb-2 text-gray-600">Sessions YTD</h3>
                 <span className="text-gray-400 group-hover:text-teal-600 transition">📊</span>
               </div>
-              <div className="text-3xl font-bold mb-1">32</div>
-              <p className="text-sm text-gray-600">Sessions delivered</p>
+              <div className="text-3xl font-bold mb-1 text-blue-600">128</div>
+              <p className="text-sm text-gray-600">Total this year</p>
+              <p className="text-xs text-gray-500 mt-1">32 this month</p>
             </button>
             <button
               onClick={() => setDrillDownView('revenue')}
-              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group"
+              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group border-l-4 border-green-400"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold mb-2 text-gray-600">Revenue</h3>
+                <h3 className="font-semibold mb-2 text-gray-600">Q1 Revenue</h3>
                 <span className="text-gray-400 group-hover:text-green-600 transition">💰</span>
               </div>
-              <div className="text-3xl font-bold mb-1">$12.8K</div>
-              <p className="text-sm text-gray-600">Monthly revenue</p>
+              <div className="text-3xl font-bold mb-1 text-green-600">$38.4K</div>
+              <p className="text-sm text-gray-600">Quarterly total</p>
+              <p className="text-xs text-green-600 mt-1">↑ 22% vs Q4</p>
             </button>
             <button
               onClick={() => setDrillDownView('revenue')}
-              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group"
+              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-left group border-l-4 border-amber-400"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold mb-2 text-gray-600">Avg Session Value</h3>
-                <span className="text-gray-400 group-hover:text-green-600 transition">💵</span>
+                <h3 className="font-semibold mb-2 text-gray-600">Client LTV</h3>
+                <span className="text-gray-400 group-hover:text-amber-600 transition">⭐</span>
               </div>
-              <div className="text-3xl font-bold mb-1">$400</div>
-              <p className="text-sm text-gray-600">Per session</p>
+              <div className="text-3xl font-bold mb-1 text-amber-600">$4.8K</div>
+              <p className="text-sm text-gray-600">Avg lifetime value</p>
+              <p className="text-xs text-gray-500 mt-1">~12 sessions avg</p>
             </button>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="font-semibold mb-2 text-gray-600">Growth</h3>
-              <div className="text-3xl font-bold mb-1 text-green-600">+18%</div>
-              <p className="text-sm text-gray-600">vs last month</p>
+            <div className="bg-white p-6 rounded-lg shadow border-l-4 border-violet-400">
+              <h3 className="font-semibold mb-2 text-gray-600">Utilization</h3>
+              <div className="text-3xl font-bold mb-1 text-violet-600">78%</div>
+              <p className="text-sm text-gray-600">Capacity used</p>
+              <p className="text-xs text-gray-500 mt-1">Target: 85%</p>
             </div>
           </div>
 
@@ -5684,7 +5724,7 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
           <div className="border-b border-stone-100">
             <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">1. Session Recap</h3>
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">1. Session Documentation</h3>
                 <StatusBadge status={sectionStatuses.recap} />
               </div>
               <div className="flex items-center gap-2">
@@ -5708,7 +5748,7 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
           <div className="border-b border-stone-100">
             <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">2. Key Insights</h3>
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">2. Observations, Insights & Analysis</h3>
                 <StatusBadge status={sectionStatuses.insights} />
               </div>
               <div className="flex items-center gap-2">
@@ -5732,7 +5772,7 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
           <div className="border-b border-stone-100">
             <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">3. Inquiries for Reflection</h3>
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">3. Inquiries for Growth</h3>
                 <span className="text-xs text-stone-400">(up to 5)</span>
                 <StatusBadge status={sectionStatuses.inquiries} />
               </div>
@@ -5781,7 +5821,7 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
           <div className="border-b border-stone-100">
             <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">5. Resources Shared</h3>
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">5. Resources / Tools / Follow-up</h3>
                 <StatusBadge status={sectionStatuses.resources} />
               </div>
               <div className="flex items-center gap-2">
@@ -5805,7 +5845,7 @@ function SessionNotesEditorPage({ sessionId, client, onClose }) {
           <div className="border-b border-stone-100">
             <div className="px-6 py-4 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">6. Next Steps</h3>
+                <h3 className="text-sm font-bold text-stone-600 uppercase tracking-wide">6. Next Meeting & Future Focus</h3>
                 <StatusBadge status={sectionStatuses.nextSteps} />
               </div>
               <div className="flex items-center gap-2">
@@ -6037,6 +6077,93 @@ function SettingsPage() {
             <button className="text-left p-3 bg-white rounded-lg hover:bg-teal-50 transition">
               <div className="font-medium text-stone-800">Wisdom Corpus</div>
               <div className="text-xs text-stone-500">Your uploaded knowledge</div>
+            </button>
+          </div>
+        </div>
+
+        {/* Language & Region */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
+            <span>🌐</span> Language & Region
+          </h3>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-stone-700 mb-2">Display Language</label>
+              <select className="w-full px-4 py-2.5 border border-stone-300 rounded-lg bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+                <option value="en-US">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="en-AU">English (Australia)</option>
+                <option value="es">Spanish (Español)</option>
+                <option value="fr">French (Français)</option>
+                <option value="de">German (Deutsch)</option>
+                <option value="pt-BR">Portuguese (Brasil)</option>
+                <option value="zh">Chinese (中文)</option>
+                <option value="ja">Japanese (日本語)</option>
+              </select>
+              <p className="text-xs text-stone-500 mt-1.5">Interface language and date formats</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-stone-700 mb-2">AI Writing Dialect</label>
+              <select className="w-full px-4 py-2.5 border border-stone-300 rounded-lg bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+                <option value="en-US">American English (favor, organize, color)</option>
+                <option value="en-GB">British English (favour, organise, colour)</option>
+                <option value="en-AU">Australian English</option>
+                <option value="es-MX">Spanish (Latin America)</option>
+                <option value="es-ES">Spanish (Spain)</option>
+                <option value="fr-FR">French (France)</option>
+                <option value="fr-CA">French (Canada)</option>
+                <option value="pt-BR">Portuguese (Brazil)</option>
+                <option value="pt-PT">Portuguese (Portugal)</option>
+              </select>
+              <p className="text-xs text-stone-500 mt-1.5">How Sasha writes notes and communications</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Public Profile Link */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
+            <span>🔗</span> Public Profile Link
+          </h3>
+          <div className="bg-stone-50 border border-stone-200 rounded-lg p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex-1 bg-white border border-stone-300 rounded-lg px-4 py-2.5 font-mono text-sm text-stone-700">
+                https://regenesis.coach/jesse-torrence
+              </div>
+              <button className="px-4 py-2.5 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Copy Link
+              </button>
+              <button className="px-4 py-2.5 border border-stone-300 text-stone-700 rounded-lg font-medium hover:bg-stone-100 transition-colors">
+                Preview
+              </button>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" defaultChecked className="rounded text-teal-600 focus:ring-teal-500" />
+                  <span className="text-sm text-stone-700">Profile is public</span>
+                </label>
+                <span className="text-xs text-stone-500">|</span>
+                <button className="text-sm text-teal-600 hover:underline">Edit profile slug</button>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-stone-500">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                Profile verified
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid grid-cols-3 gap-3 text-sm">
+            <button className="px-3 py-2 border border-stone-200 rounded-lg hover:bg-stone-50 flex items-center justify-center gap-2">
+              <span>📋</span> Add to LinkedIn
+            </button>
+            <button className="px-3 py-2 border border-stone-200 rounded-lg hover:bg-stone-50 flex items-center justify-center gap-2">
+              <span>📧</span> Add to Email Signature
+            </button>
+            <button className="px-3 py-2 border border-stone-200 rounded-lg hover:bg-stone-50 flex items-center justify-center gap-2">
+              <span>📱</span> QR Code
             </button>
           </div>
         </div>
@@ -15323,83 +15450,75 @@ function FloatingSashaButton({ onClick }) {
       <div className="fixed bottom-6 right-6 z-40">
         {/* Quick Actions Drawer */}
         {showQuickActions && (
-          <div className="absolute bottom-16 right-0 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden mb-2">
-            <div className="bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 px-4 py-3 text-white">
+          <div className="absolute bottom-16 right-0 w-72 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden mb-2">
+            <div className="bg-gradient-to-r from-stone-700 to-stone-800 px-4 py-3 text-white">
               <div className="flex items-center gap-2">
-                <span className="text-lg">🧙‍♂️</span>
+                <span className="text-lg">✨</span>
                 <span className="font-semibold">Sasha</span>
               </div>
-              <p className="text-xs text-white/80 mt-1">Quick actions</p>
+              <p className="text-xs text-white/70 mt-1">Your AI assistant</p>
             </div>
             <div className="p-2">
               <button
                 onClick={() => { setShowSashaLive(true); setShowQuickActions(false); }}
-                className="w-full text-left px-3 py-2 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors font-medium"
+                className="w-full text-left px-3 py-2 text-sm text-stone-700 bg-stone-50 hover:bg-stone-100 rounded-md transition-colors font-medium"
               >
                 🎙️ Sasha Live (Voice + Vision)
               </button>
               <button
                 onClick={() => { onClick(); setShowQuickActions(false); }}
-                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               >
                 📄 Summarize this page
               </button>
               <button
                 onClick={() => { onClick(); setShowQuickActions(false); }}
-                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               >
                 🎯 Find next actions
               </button>
               <button
                 onClick={() => { onClick(); setShowQuickActions(false); }}
-                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               >
                 ✉️ Draft message
               </button>
               <button
                 onClick={() => { onClick(); setShowQuickActions(false); }}
-                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              >
+                📎 Upload / attach file
+              </button>
+              <button
+                onClick={() => { onClick(); setShowQuickActions(false); }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               >
                 💬 Open full chat
               </button>
-              {/* V6 Part 2.5: Sasha can reformat this page */}
-              <div className="border-t mt-2 pt-2">
-                <button
-                  onClick={() => { onClick(); setShowQuickActions(false); }}
-                  className="w-full text-left px-3 py-2 text-sm text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <span>🔄</span>
-                    <span>Reformat / Rearrange this page</span>
-                  </div>
-                  <p className="text-xs text-teal-600 mt-1 ml-6">
-                    Drag modules or tell Sasha to reorganize
-                  </p>
-                </button>
-              </div>
             </div>
           </div>
         )}
 
-      {/* Floating Button */}
-      <button
-        onClick={() => setShowQuickActions(!showQuickActions)}
-        className="w-14 h-14 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center text-white text-2xl"
-        title="Ask Sasha"
-      >
-        🧙‍♂️
-      </button>
-    </div>
+        {/* Floating Button - Inclusive abstract icon */}
+        <button
+          onClick={() => setShowQuickActions(!showQuickActions)}
+          className="w-12 h-12 bg-gradient-to-br from-stone-700 to-stone-900 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center text-white"
+          title="Ask Sasha"
+        >
+          {/* Abstract sparkle/AI icon - inclusive and modern */}
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 2L12 6M12 18L12 22M2 12L6 12M18 12L22 12M5.64 5.64L8.47 8.47M15.54 15.54L18.36 18.36M5.64 18.36L8.47 15.54M15.54 8.47L18.36 5.64" strokeLinecap="round"/>
+            <circle cx="12" cy="12" r="3" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
     </>
   );
 }
 
 // ============ NORTH STAR STRIP ============
-// Part 4.1: Thin horizontal strip showing Values → Vision → Mission
+// Part 4.1: Always visible strip showing Values → Vision → Mission (no clicking needed)
 function NorthStarStrip() {
-  const [isExpanded, setIsExpanded] = React.useState(false);
-  const [isEditing, setIsEditing] = React.useState(null);
-
   // Sample data - in production would come from user profile
   const northStar = {
     values: "Courage · Truth · Integrity",
@@ -15408,83 +15527,24 @@ function NorthStarStrip() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-stone-800 via-stone-900 to-stone-800 border-b border-stone-700">
-      {/* Collapsed View - Larger, more readable */}
-      <div
-        className="flex items-center justify-between px-8 py-4 cursor-pointer hover:bg-stone-800/50 transition-colors"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div className="flex items-center gap-8">
-          <div className="flex items-center gap-3">
-            <span className="text-stone-400 text-sm uppercase tracking-wider font-medium">Values:</span>
-            <span className="text-white font-semibold text-lg">{northStar.values}</span>
-          </div>
-          <span className="text-stone-600 text-xl">|</span>
-          <div className="flex items-center gap-3">
-            <span className="text-stone-400 text-sm uppercase tracking-wider font-medium">Vision:</span>
-            <span className="text-stone-200 text-base truncate max-w-md">{northStar.vision}</span>
-          </div>
-          <span className="text-stone-600 text-xl">|</span>
-          <div className="flex items-center gap-3">
-            <span className="text-stone-400 text-sm uppercase tracking-wider font-medium">Mission:</span>
-            <span className="text-stone-200 text-base truncate max-w-md">{northStar.mission.substring(0, 40)}...</span>
-          </div>
+    <div className="bg-gradient-to-r from-stone-800 via-stone-900 to-stone-800 border-b border-stone-700 px-6 py-3">
+      {/* Always Visible - No clicking needed, wraps to second line if needed */}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-stone-500 text-xs uppercase tracking-wider font-medium">Values:</span>
+          <span className="text-white font-semibold">{northStar.values}</span>
         </div>
-        <button className="text-stone-400 hover:text-stone-200 transition-colors p-2">
-          <svg className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+        <span className="text-stone-600 hidden sm:inline">|</span>
+        <div className="flex items-center gap-2">
+          <span className="text-stone-500 text-xs uppercase tracking-wider font-medium">Vision:</span>
+          <span className="text-stone-300 text-sm">{northStar.vision}</span>
+        </div>
+        <span className="text-stone-600 hidden sm:inline">|</span>
+        <div className="flex items-center gap-2">
+          <span className="text-stone-500 text-xs uppercase tracking-wider font-medium">Mission:</span>
+          <span className="text-stone-300 text-sm italic">{northStar.mission}</span>
+        </div>
       </div>
-
-      {/* Expanded View - Full details */}
-      {isExpanded && (
-        <div className="px-6 pb-4 pt-2 border-t border-stone-700/50">
-          <div className="grid grid-cols-3 gap-6">
-            {/* Core Values */}
-            <div
-              className="group cursor-pointer"
-              onClick={() => setIsEditing('values')}
-            >
-              <h4 className="text-xs uppercase tracking-wider text-stone-500 mb-1 flex items-center gap-2">
-                Core Values
-                <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </h4>
-              <p className="text-white font-semibold text-lg">{northStar.values}</p>
-            </div>
-
-            {/* Vision */}
-            <div
-              className="group cursor-pointer"
-              onClick={() => setIsEditing('vision')}
-            >
-              <h4 className="text-xs uppercase tracking-wider text-stone-500 mb-1 flex items-center gap-2">
-                Vision
-                <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </h4>
-              <p className="text-stone-200">{northStar.vision}</p>
-            </div>
-
-            {/* Mission / I Am Statement */}
-            <div
-              className="group cursor-pointer"
-              onClick={() => setIsEditing('mission')}
-            >
-              <h4 className="text-xs uppercase tracking-wider text-stone-500 mb-1 flex items-center gap-2">
-                Mission / I Am
-                <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </h4>
-              <p className="text-stone-200">{northStar.mission}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
